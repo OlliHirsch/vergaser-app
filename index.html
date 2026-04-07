@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vergaser">
+<meta name="theme-color" content="#0f0f0f">
+<title>Vergaser-Abstimmung</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+:root{
+  --bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#252525;--bg4:#2e2e2e;
+  --line:rgba(255,255,255,0.07);--line2:rgba(255,255,255,0.13);
+  --text:#f0ede8;--text2:#999;--text3:#555;
+  --ac:#e8a020;--ac2:#c07810;
+  --ok:#4caf6e;--err:#e05050;--warn:#e8a020;--inf:#4a9ede;
+  --r:12px;--rs:8px;
+  --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#f2efe9;--bg2:#fff;--bg3:#eae7e0;--bg4:#ddd9d0;
+  --line:rgba(0,0,0,0.06);--line2:rgba(0,0,0,0.11);
+  --text:#1a1a18;--text2:#666;--text3:#999;
+  --ac:#bf6e10;--ac2:#9a5608;--ok:#2e7d4f;--err:#b03030;--inf:#1a6faa;
+}}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;overflow:hidden;}
+#app{display:flex;flex-direction:column;height:100%;max-width:680px;margin:0 auto;}
+/* HEADER */
+#hdr{padding:calc(var(--st) + 14px) 18px 12px;background:var(--bg);border-bottom:0.5px solid var(--line2);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
+.htitle{font-size:17px;font-weight:600;letter-spacing:-.3px;}
+.hsub{font-size:11px;color:var(--text3);margin-top:2px;}
+.hbadge{background:var(--ac);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;}
+/* TABS */
+#tabbar{display:flex;background:var(--bg);border-bottom:0.5px solid var(--line2);flex-shrink:0;}
+.tab{flex:1;padding:10px 2px 8px;text-align:center;cursor:pointer;font-size:10px;color:var(--text3);border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+.tab.active{color:var(--ac);border-bottom-color:var(--ac);}
+.ti{font-size:18px;display:block;margin-bottom:2px;}
+/* SCREENS */
+#screens{flex:1;overflow:hidden;position:relative;}
+.screen{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;padding-bottom:calc(var(--sb) + 28px);}
+.screen.active{display:block;}
+/* SECTION */
+.sec{padding:13px 16px;border-bottom:0.5px solid var(--line);}
+.sl{font-size:10px;font-weight:700;letter-spacing:.07em;color:var(--text3);text-transform:uppercase;margin-bottom:9px;}
+/* BUTTONS */
+.brow{display:flex;gap:7px;flex-wrap:wrap;}
+.bs{flex:1;min-width:60px;padding:10px 6px 8px;border:1px solid var(--line2);border-radius:var(--rs);background:var(--bg2);color:var(--text);font-size:14px;font-weight:500;cursor:pointer;text-align:center;transition:all .14s;}
+.bs:active{transform:scale(.96);}
+.bs.active{background:var(--ac);border-color:var(--ac);color:#fff;}
+.bs .sub{font-size:9px;display:block;margin-top:2px;opacity:.75;}
+/* SCROLL CARDS */
+.scards{display:flex;gap:8px;overflow-x:auto;padding-bottom:3px;-webkit-overflow-scrolling:touch;}
+.scards::-webkit-scrollbar{display:none;}
+.sc{flex-shrink:0;width:128px;border:1px solid var(--line2);border-radius:var(--rs);background:var(--bg2);padding:10px;cursor:pointer;transition:all .14s;}
+.sc:active{transform:scale(.96);}
+.sc.active{border-color:var(--ac);}
+.sc .sci{font-size:20px;margin-bottom:5px;}
+.sc .scn{font-size:13px;font-weight:500;color:var(--text);}
+.sc.active .scn{color:var(--ac);}
+.sc .scs{font-size:10px;color:var(--text3);margin-top:2px;line-height:1.35;}
+/* RESULT METRICS */
+.rg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.rg2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.rm{background:var(--bg2);border-radius:var(--rs);padding:11px 10px;border:0.5px solid var(--line);}
+.rm.hl{border-color:var(--ac);}
+.rml{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.rmv{font-size:23px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.5px;}
+.rm.hl .rmv{color:var(--ac);}
+.rmr{font-size:11px;color:var(--text3);margin-top:2px;font-variant-numeric:tabular-nums;}
+.rmu{font-size:10px;color:var(--text3);margin-top:1px;}
+/* CLIPS */
+.clips{display:flex;gap:5px;}
+.clip{flex:1;height:36px;border:1px solid var(--line2);border-radius:var(--rs);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--text3);}
+.clip.active{background:var(--ac);border-color:var(--ac);color:#fff;}
+/* AIR VIZ */
+.at{height:6px;background:var(--bg3);border-radius:3px;margin:7px 0 3px;overflow:hidden;}
+.af{height:100%;background:var(--ac);border-radius:3px;transition:width .4s;}
+/* KERZE */
+.kzg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px;}
+.kz{background:var(--bg2);border:0.5px solid var(--line);border-radius:var(--rs);padding:8px;text-align:center;}
+.kzd{width:30px;height:30px;border-radius:50%;margin:0 auto 5px;}
+.kzt{font-size:10px;color:var(--text2);line-height:1.3;}
+.kzs{font-size:10px;font-weight:700;margin-top:2px;}
+/* BOXES */
+.wbox{background:rgba(232,160,32,.09);border:0.5px solid rgba(232,160,32,.25);border-radius:var(--rs);padding:11px 12px;font-size:13px;color:var(--warn);line-height:1.55;margin-bottom:8px;}
+.ibox{background:var(--bg2);border:0.5px solid var(--line);border-radius:var(--rs);padding:11px 12px;font-size:13px;color:var(--text2);line-height:1.6;}
+.ibox b,.ibox strong{color:var(--text);font-weight:500;}
+.sml{font-size:12px;color:var(--text2);line-height:1.55;margin-top:6px;}
+/* PILLS */
+.pill{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;}
+.p-ok{background:rgba(76,175,110,.12);color:var(--ok);}
+.p-mg{background:rgba(74,158,222,.12);color:var(--inf);}
+.p-ft{background:rgba(224,80,80,.12);color:var(--err);}
+.p-wn{background:rgba(232,160,32,.12);color:var(--warn);}
+/* ACCORDION */
+.aci{border-bottom:0.5px solid var(--line);}
+.ach{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;gap:8px;}
+.acl{display:flex;align-items:center;gap:10px;}
+.acd{width:30px;height:30px;border-radius:7px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.act{font-size:15px;font-weight:500;}
+.acc{font-size:16px;color:var(--text3);transition:transform .22s;flex-shrink:0;}
+.acb{display:none;padding:0 16px 15px;}
+.acb.open{display:block;}
+.acb p{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:8px;}
+.acb p:last-child{margin-bottom:0;}
+.acb strong{color:var(--text);font-weight:500;}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:7px;}
+.tbl th{text-align:left;font-size:9px;color:var(--text3);padding:5px 7px;border-bottom:0.5px solid var(--line2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.tbl td{padding:7px 7px;border-bottom:0.5px solid var(--line);color:var(--text2);}
+.tbl td:first-child{color:var(--text);font-weight:500;}
+/* NEEDLE TABLE */
+.nr{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--line);}
+.nr:last-child{border-bottom:none;}
+.nrc{font-family:ui-monospace,monospace;font-size:16px;font-weight:700;color:var(--ac);min-width:44px;padding-top:1px;}
+.nri strong{font-size:13px;display:block;color:var(--text);}
+.nri span{font-size:11px;color:var(--text3);line-height:1.4;}
+.nrb{font-size:9px;padding:2px 7px;border-radius:20px;font-weight:700;background:rgba(232,160,32,.12);color:var(--ac);flex-shrink:0;margin-top:2px;}
+/* AUSPUFF CARDS */
+.atc{background:var(--bg2);border:0.5px solid var(--line);border-radius:var(--rs);padding:11px 12px;margin-bottom:7px;}
+.ath{display:flex;align-items:center;gap:9px;margin-bottom:5px;}
+.ati{width:30px;height:30px;border-radius:7px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.att{font-size:14px;font-weight:600;color:var(--text);}
+.atb{font-size:12px;color:var(--text2);line-height:1.6;}
+/* MISCH TABLE */
+.mt{width:100%;border-collapse:collapse;font-size:12px;margin-top:7px;}
+.mt th{text-align:left;font-size:9px;color:var(--text3);padding:5px 7px;border-bottom:0.5px solid var(--line2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.mt td{padding:8px 7px;border-bottom:0.5px solid var(--line);color:var(--text2);vertical-align:top;}
+.mt td:first-child{color:var(--text);font-weight:500;}
+/* INSTALL */
+.ih{padding:22px 16px 16px;text-align:center;border-bottom:0.5px solid var(--line);}
+.iico{width:68px;height:68px;background:var(--ac);border-radius:16px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+.iico svg{width:36px;height:36px;fill:white;}
+.dtr{display:flex;gap:7px;padding:12px 16px 0;}
+.dtb{flex:1;padding:9px;border:1px solid var(--line2);border-radius:var(--rs);text-align:center;font-size:12px;color:var(--text2);cursor:pointer;background:var(--bg2);}
+.dtb.active{border-color:var(--ac);color:var(--ac);font-weight:600;}
+.ds{display:none;padding-top:6px;}
+.ds.active{display:block;}
+.scard{background:var(--bg2);border-radius:var(--r);border:0.5px solid var(--line);margin:0 16px 8px;padding:13px;display:flex;gap:11px;align-items:flex-start;}
+.sn{width:25px;height:25px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st strong{font-size:14px;font-weight:500;display:block;margin-bottom:3px;}
+.st p{font-size:12px;color:var(--text2);line-height:1.5;}
+.st code{font-family:ui-monospace,monospace;font-size:11px;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text);}
+.offl{display:inline-flex;align-items:center;gap:5px;background:rgba(76,175,110,.1);border:0.5px solid rgba(76,175,110,.25);border-radius:20px;padding:5px 11px;font-size:12px;color:var(--ok);font-weight:600;margin-top:8px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="hdr">
+  <div><div class="htitle">Vergaser-Abstimmung</div><div class="hsub">Dellorto · Piaggio 2-Takt</div></div>
+  <div class="hbadge">v2.0</div>
+</div>
+<div id="tabbar">
+  <div class="tab active" onclick="swTab('rechner',this)"><span class="ti">⚙️</span>Rechner</div>
+  <div class="tab" onclick="swTab('erklaerung',this)"><span class="ti">📖</span>Technik</div>
+  <div class="tab" onclick="swTab('install',this)"><span class="ti">📲</span>Installieren</div>
+</div>
+<div id="screens">
+
+<!-- ══════════ TAB 1: RECHNER ══════════ -->
+<div class="screen active" id="s-rechner">
+
+<div class="sec">
+  <div class="sl">Zylindervolumen</div>
+  <div class="brow" id="ccG">
+    <button class="bs active" data-v="50" onclick="setBs('ccG',this)">50 ccm<span class="sub">Original</span></button>
+    <button class="bs" data-v="70" onclick="setBs('ccG',this)">70 ccm<span class="sub">Zylinder-Kit</span></button>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sl">Vergaser Dellorto</div>
+  <div class="brow" id="carbG">
+    <button class="bs active" data-v="12" onclick="setBs('carbG',this)">12 mm<span class="sub">SHA 12/12</span></button>
+    <button class="bs" data-v="14" onclick="setBs('carbG',this)">14 mm<span class="sub">SHA 14/12</span></button>
+    <button class="bs" data-v="17.5" onclick="setBs('carbG',this)">17,5 mm<span class="sub">PHBG</span></button>
+    <button class="bs" data-v="21.5" onclick="setBs('carbG',this)">21,5 mm<span class="sub">PHBG</span></button>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sl">Luftfilter</div>
+  <div class="scards" id="filtG">
+    <div class="sc active" data-v="serie" onclick="setSc('filtG',this)"><div class="sci">🗂️</div><div class="scn">Serien­filter</div><div class="scs">Kastenfilter, gedämpft</div></div>
+    <div class="sc" data-v="tuning" onclick="setSc('filtG',this)"><div class="sci">🧽</div><div class="scn">Tuning­filter</div><div class="scs">Schaumstoff, Stage6, Polini</div></div>
+    <div class="sc" data-v="offen" onclick="setSc('filtG',this)"><div class="sci">🌀</div><div class="scn">Rennfilter / offen</div><div class="scs">Trichter oder kein Filter</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sl">Auspuff</div>
+  <div class="scards" id="auspG">
+    <div class="sc active" data-v="serie" onclick="setSc('auspG',this)"><div class="sci">🔇</div><div class="scn">Serien­auspuff</div><div class="scs">Standard, gedämpft</div></div>
+    <div class="sc" data-v="sport" onclick="setSc('auspG',this)"><div class="sci">🔈</div><div class="scn">Sport­auspuff</div><div class="scs">Sito Plus, kein Reso</div></div>
+    <div class="sc" data-v="reso" onclick="setSc('auspG',this)"><div class="sci">🔊</div><div class="scn">Reso­rohr</div><div class="scs">Expansionskammer, Polini, Malossi</div></div>
+    <div class="sc" data-v="race" onclick="setSc('auspG',this)"><div class="sci">🏁</div><div class="scn">Race­auspuff</div><div class="scs">Vollrenn, kein dB-Killer</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sl">Auspuffkrümmer</div>
+  <div class="brow" id="krG">
+    <button class="bs active" data-v="blind" onclick="setBs('krG',this)">Serien­krümmer<span class="sub">mit Blindrohr</span></button>
+    <button class="bs" data-v="offen" onclick="setBs('krG',this)">Tuning­krümmer<span class="sub">offen, ohne Blindrohr</span></button>
+  </div>
+  <div class="sml" id="krHint" style="margin-top:7px;"></div>
+</div>
+
+<div class="sec">
+  <div class="sl">Lage / Umgebung</div>
+  <div class="brow" id="hoG">
+    <button class="bs active" data-v="tal" onclick="setBs('hoG',this)">Flachland<span class="sub">unter 1000 m</span></button>
+    <button class="bs" data-v="berg" onclick="setBs('hoG',this)">Höhenlage<span class="sub">über 1000 m</span></button>
+  </div>
+</div>
+
+<div id="wSec" style="display:none" class="sec"><div class="wbox" id="wBox"></div></div>
+
+<div class="sec">
+  <div class="sl">Vergaser-Abstimmung</div>
+  <div class="rg3" style="margin-bottom:10px;">
+    <div class="rm hl"><div class="rml">Hauptdüse</div><div class="rmv" id="rMain">—</div><div class="rmr" id="rMainR"></div><div class="rmu">Richtwert</div></div>
+    <div class="rm"><div class="rml">Leerlauf­düse</div><div class="rmv" id="rPilot">—</div><div class="rmr" id="rPilotR"></div><div class="rmu">Richtwert</div></div>
+    <div class="rm"><div class="rml">Luft­schraube</div><div class="rmv" style="font-size:20px;" id="rAir">—</div><div class="rmr" id="rAirR"></div><div class="rmu">Umdr. heraus</div></div>
+  </div>
+  <div class="sl" style="margin-bottom:7px;">Düsennadel</div>
+  <div id="needleA"></div>
+  <div style="margin-top:10px;">
+    <div class="sl" style="margin-bottom:3px;">Luftschraube</div>
+    <div class="at"><div class="af" id="airF" style="width:50%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);"><span>0 (zu)</span><span>herausdrehen →</span><span>3,5</span></div>
+    <div class="sml" id="airHint"></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sl">Motorabstimmung</div>
+  <div class="rg2" style="margin-bottom:10px;">
+    <div class="rm hl">
+      <div class="rml">Zündkerze NGK</div>
+      <div class="rmv" id="rKerze" style="font-size:20px;font-family:ui-monospace,monospace;">—</div>
+      <div class="rmr" id="rKerze2"></div>
+      <div class="rmu" id="rKerze3"></div>
+    </div>
+    <div class="rm">
+      <div class="rml">Misch­verhältnis</div>
+      <div class="rmv" id="rMisch" style="font-size:19px;">—</div>
+      <div class="rmr" id="rMischR"></div>
+      <div class="rmu">Öl : Kraftstoff</div>
+    </div>
+  </div>
+  <div class="ibox" id="mischInfo" style="margin-bottom:8px;"></div>
+  <div class="ibox" id="kerzenInfo"></div>
+</div>
+
+<div class="sec">
+  <div class="sl">Kerzenbildkontrolle</div>
+  <div class="kzg">
+    <div class="kz"><div class="kzd" style="background:#c9a882;border:2px solid #a07850;"></div><div class="kzt">Hellbraun · beige</div><div class="kzs" style="color:var(--ok)">✓ Optimal</div></div>
+    <div class="kz"><div class="kzd" style="background:#f0f0f0;border:2px solid #ccc;"></div><div class="kzt">Weiß / hell­grau</div><div class="kzs" style="color:var(--err)">⚠ Zu mager!</div></div>
+    <div class="kz"><div class="kzd" style="background:#1c1c1c;border:2px solid #333;"></div><div class="kzt">Schwarz / ölig</div><div class="kzs" style="color:var(--warn)">Zu fett</div></div>
+  </div>
+  <div class="sml" style="margin-top:7px;">Vollgas fahren (mind. 300 m) → Motor sofort abwürgen → Kerze ausbauen und prüfen. Weiße Elektrode = Kolben-Brandgefahr!</div>
+</div>
+
+<div class="sec"><div class="ibox" id="gesamtI"></div></div>
+
+</div><!-- /rechner -->
+
+
+<!-- ══════════ TAB 2: TECHNIK ══════════ -->
+<div class="screen" id="s-erklaerung">
+
+<div class="sec" style="padding:16px;">
+  <div style="font-size:18px;font-weight:700;letter-spacing:-.3px;margin-bottom:3px;">Technik-Grundlagen</div>
+  <div style="font-size:13px;color:var(--text2);line-height:1.55;">Vergasertypen, Düsennadeln, Zündkerzen, Mischverhältnis und Auspufftypen ausführlich erklärt.</div>
+</div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">🔧</div><div class="act">Vergasertypen SHA vs. PHBG</div></div><div class="acc">›</div></div>
+<div class="acb"><p><strong>SHA 12/12 und SHA 14/12</strong> sind flache Schiebervergaser (Schalenvergaser) mit Rechteckschieber. Die Düsennadel ist <strong>fest eingebaut</strong> und nicht verstellbar — kein Clip, kein Teillast-Eingriff möglich. Nur die Hauptdüse und die Lufteinstellschraube können angepasst werden. Typisch ab Werk in Piaggio Ciao, Si, Bravo, Vespa PK 50.</p>
+<p><strong>PHBG 17,5 mm und 21,5 mm</strong> sind Rundschiebervergaser mit erheblich mehr Einstellmöglichkeiten: wechselbare Hauptdüse, wechselbare Leerlaufdüse (Pilotjet), Düsennadel mit 5 Clip-Positionen und Lufteinstellschraube. Standard für 70-ccm-Kits und Sport-Aufbauten.</p>
+<table class="tbl"><thead><tr><th>Typ</th><th>Bauform</th><th>Nadelclip</th><th>Pilotjet</th></tr></thead><tbody>
+<tr><td>SHA 12 mm</td><td>Flachschieber</td><td>—</td><td>—</td></tr>
+<tr><td>SHA 14 mm</td><td>Flachschieber</td><td>—</td><td>—</td></tr>
+<tr><td>PHBG 17,5</td><td>Rundschieber</td><td>5 Pos.</td><td>ja</td></tr>
+<tr><td>PHBG 21,5</td><td>Rundschieber</td><td>5 Pos.</td><td>ja</td></tr>
+</tbody></table></div></div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">🪡</div><div class="act">Düsennadeln — Codes &amp; Wahl (PHBG)</div></div><div class="acc">›</div></div>
+<div class="acb"><p>Dellorto codiert Nadeln mit Buchstaben-Ziffern-Kombinationen. Der Code beschreibt <strong>Durchmesser, Konusverlauf und Anstichpunkt</strong>. Unterschiedliche Nadeln verändern das Gemischprofil im Teillastbereich (ca. 1/4 bis 3/4 Gas).</p>
+<p>Gängige Nadeln für Piaggio 2-Takt-Tuning:</p>
+<div class="nr"><div class="nrc">W2</div><div class="nri"><strong>PHBG 17,5 – 50 ccm Standard</strong><span>Mittleres Profil, universell. Guter Startpunkt für leichtes Tuning mit Sportauspuff.</span></div><div class="nrb">50 ccm</div></div>
+<div class="nr"><div class="nrc">W7</div><div class="nri"><strong>PHBG 17,5 – 50 ccm Sport</strong><span>Leicht magerer als W2 im Teillast. Für offenere Ansaugung oder leichtes Reso.</span></div><div class="nrb">50 ccm</div></div>
+<div class="nr"><div class="nrc">K24</div><div class="nri"><strong>PHBG 17,5 – 50 ccm Reso/Race</strong><span>Für schnell ansprechende 50-ccm-Renntriebwerke mit Expansionskammer.</span></div><div class="nrb">Race</div></div>
+<div class="nr"><div class="nrc">A2</div><div class="nri"><strong>PHBG 17,5/19 – 70 ccm Standard</strong><span>Häufigste Wahl für 70-ccm-Kits. Passt zu Sportauspuff und offenerem Ansaugweg.</span></div><div class="nrb">70 ccm</div></div>
+<div class="nr"><div class="nrc">A7</div><div class="nri"><strong>PHBG 17,5/19 – 70 ccm offener</strong><span>Leicht magerer als A2 im Teillast. Bei Rennfilter oder leichtem Reso.</span></div><div class="nrb">70 ccm</div></div>
+<div class="nr"><div class="nrc">SA2</div><div class="nri"><strong>PHBG 17,5 – 70 ccm Reso/Race</strong><span>Sport-Nadel. Breiteres Gemischfenster im Teillast. Ideal mit Expansionskammer und 70-ccm-Kit.</span></div><div class="nrb">Reso</div></div>
+<div class="nr"><div class="nrc">A22</div><div class="nri"><strong>PHBG 21,5 – 70 ccm Standard/Reso</strong><span>Standardnadel für den 21,5-mm-Vergaser bei 70-ccm-Kits aller Art.</span></div><div class="nrb">21,5 mm</div></div>
+<p style="margin-top:10px;"><strong>Clip-Positionen:</strong> Position 1 = Clip oben = Nadel hängt tiefer = magerer Teillast. Position 5 = Clip unten = Nadel hängt höher = fetterer Teillast. Start immer auf Position 3 (Mitte). Erst Hauptdüse korrekt wählen, dann Clip feinjustieren.</p>
+</div></div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">💨</div><div class="act">Auspufftypen — Unterschiede</div></div><div class="acc">›</div></div>
+<div class="acb">
+<div class="atc"><div class="ath"><div class="ati">🔇</div><div class="att">Serienauspuff</div></div><div class="atb">Original-Endschalldämpfer, starke Bedämpfung, enger Strömungsquerschnitt. Keine Anpassung der Vergaserabstimmung nötig — Serien-Düse passt.</div></div>
+<div class="atc"><div class="ath"><div class="ati">🔈</div><div class="att">Sportauspuff (kein Reso)</div></div><div class="atb">Größerer Endtopf, freiere Strömung, mehr Sound. Beispiele: <strong>Sito Plus, Yasuni C5</strong> (ohne Resonanzkammer). Leichter Leistungsgewinn oben. Hauptdüse +2 bis +4.</div></div>
+<div class="atc"><div class="ath"><div class="ati">🔊</div><div class="att">Rennauspuff mit Expansionskammer (Reso)</div></div><div class="atb">Das Herzstück des 2-Takt-Tunings. Die bauchige <strong>Resonanzkammer</strong> erzeugt eine Druckwelle, die zurück in den Zylinder läuft und mehr Frischgemisch einschiebt → deutlicher Leistungsgewinn (+30–60%), aber in einem engen Drehzahlband. Beispiele: <strong>Polini For Race, Malossi MHR Team, Leo Vince TT</strong>. Hauptdüse +4 bis +7.</div></div>
+<div class="atc"><div class="ath"><div class="ati">🏁</div><div class="att">Raceauspuff (Vollrenn)</div></div><div class="atb">Maximierter Resonanzeffekt, kein dB-Killer, kein Kat. Nur für Rennbetrieb geeignet. Motor läuft sehr unrund im Leerlauf und Teillast. Hauptdüse +6 bis +10, Nadel komplett neu abstimmen.</div></div>
+</div></div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">🔩</div><div class="act">Krümmer &amp; Blindrohr</div></div><div class="acc">›</div></div>
+<div class="acb"><p>Der <strong>Serienkrümmer</strong> hat meist einen verschlossenen Zweigstutzen — das sog. <strong>Blindrohr</strong>. Es sitzt am Y-Stück und dient als Resonanzabsorber: Er dämpft Druckwellen und optimiert den Abgasfluss im Serienbetrieb.</p>
+<p>Beim Umbau auf einen <strong>Renn-Auspuff mit Expansionskammer</strong> wird ein <strong>offener Tuningkrümmer</strong> verwendet — kein Blindrohr, größerer Durchmesser für ungedrosselten Abgasfluss. Er ist auf den Resonanzeffekt des Rennrohrs abgestimmt.</p>
+<p><strong>Falsche Kombination vermeiden:</strong> Serienkrümmer + Rennauspuff = erheblicher Leistungsverlust durch Strömungswiderstand. Offener Krümmer + Serienauspuff = unrunder Leerlauf. Krümmer und Auspuff immer aufeinander abstimmen.</p></div></div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">⚡</div><div class="act">Zündkerzen — Wärmewert-Tabelle</div></div><div class="acc">›</div></div>
+<div class="acb"><p>Der <strong>Wärmewert</strong> beschreibt die Wärmeableitung der Kerze. Bei <strong>NGK gilt: höhere Zahl = kältere Kerze</strong> = mehr Wärmeabfuhr. Bei Bosch ist es umgekehrt (höhere Zahl = heißer). Ein getunter Motor braucht eine kältere Kerze, damit die Elektrode nicht überhitzt.</p>
+<table class="tbl"><thead><tr><th>NGK</th><th>Bosch</th><th>Champion</th><th>Einsatz</th></tr></thead><tbody>
+<tr><td>B6HS</td><td>W20T2</td><td>L78C</td><td>50 ccm gedrosselt / sehr kalt</td></tr>
+<tr><td>B7HS</td><td>W22T2</td><td>L82C</td><td>50 ccm Serie — Standardkerze</td></tr>
+<tr><td>B8HS</td><td>W24T2</td><td>L86C</td><td>Sportauspuff / leichtes Tuning</td></tr>
+<tr><td>B9HS</td><td>W27FS</td><td>L90C</td><td>70 ccm + Reso-Auspuff</td></tr>
+<tr><td>B10HS</td><td>W31FS</td><td>L94C</td><td>Race / Volltuning</td></tr>
+</tbody></table>
+<p style="margin-top:9px;"><strong>Elektrodenabstand Piaggio 2-Takt: 0,5 mm</strong>. Nicht vergrößern bei CDI-Zündung — der Funken bricht bei zu großem Abstand zusammen. Kerze prüfen und ggf. neu einstellen.</p></div></div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">🛢️</div><div class="act">Mischverhältnis 2-Takt-Öl</div></div><div class="acc">›</div></div>
+<div class="acb"><p>Beim 2-Takt-Motor wird Öl direkt dem Kraftstoff beigemischt. Das Verhältnis gibt Kraftstoff : Öl an. Zu wenig Öl → Kolbenfresser. Zu viel Öl → Rußbildung, Ölkohle, Leistungsverlust.</p>
+<table class="mt"><thead><tr><th>Verhältnis</th><th>ml/Liter</th><th>Einsatz</th></tr></thead><tbody>
+<tr><td>1:25</td><td>40 ml/l</td><td>Einfahrphase (neue Teile) / Rennbetrieb</td></tr>
+<tr><td>1:33</td><td>30 ml/l</td><td>70 ccm Kit, Reso-Auspuff, Dauerbetrieb</td></tr>
+<tr><td>1:40</td><td>25 ml/l</td><td>Leichtes Tuning, Sportauspuff</td></tr>
+<tr><td>1:50</td><td>20 ml/l</td><td>Serienmotor mit gutem Markenöl</td></tr>
+</tbody></table>
+<p style="margin-top:9px;"><strong>Ölqualität:</strong> Nur zertifizierte 2-Takt-Öle (JASO FD, ISO-L-EGD). Hochwertigere Öle erlauben magerereres Mischverhältnis. Günstige Öle lieber fetter mischen. Immer Öl zuerst in den Kanister, dann Kraftstoff dazu — so mischt es sich besser.</p></div></div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">🌬️</div><div class="act">Luftfilter — Einfluss auf Abstimmung</div></div><div class="acc">›</div></div>
+<div class="acb"><p><strong>Serienluftfilter</strong> (Kastenfilter): drosselt die Ansaugluft bewusst, dämpft Ansauggeräusche. Vergaser-Grundabstimmung darauf ausgelegt — keine Anpassung nötig.</p>
+<p><strong>Tuning-Schaumstofffilter</strong> (Stage6, Polini, Twin Air): lässt mehr Luft durch als der Serienfilter → Gemisch wird etwas magerer. Hauptdüse +2 bis +3. Gute Wahl als erster Tuningschritt.</p>
+<p><strong>Offener Ansaugstutzen / Rennfilter</strong> (Trichter): maximaler Luftdurchsatz, Gemisch deutlich magerer. Hauptdüse +4 bis +6. Keine Staubfilterwirkung — Motor verschmutzt schneller. Nur sinnvoll, wenn auch der Auspuffweg frei ist.</p></div></div>
+
+<div class="aci"><div class="ach" onclick="togAcc(this)"><div class="acl"><div class="acd">⚠️</div><div class="act">Rechtliches &amp; Sicherheit</div></div><div class="acc">›</div></div>
+<div class="acb"><p><strong>Alle Werte sind Richtwerte</strong> ohne Gewähr. Motorentoleranz, Kraftstoffqualität, Temperatur und Fahrzeugzustand beeinflussen das Ergebnis. Immer per Kerzenbildkontrolle prüfen.</p>
+<p><strong>Rechtliches:</strong> Tuning-Maßnahmen (70-ccm-Zylinder, Sportauspuff, anderer Vergaser) können die allgemeine Betriebserlaubnis erlöschen lassen. Kein Versicherungsschutz auf öffentlichen Straßen. Informiere dich vor dem Umbau.</p>
+<p><strong>Einfahrphase:</strong> Nach Einbau neuer Teile mind. 500 km einfahren: 1:25 Mischverhältnis, keine Vollgas-Dauerfahrten, verschiedene Drehzahlen wechseln. Kolben und Zylinder müssen erst aufeinander einlaufen.</p></div></div>
+
+</div><!-- /erklaerung -->
+
+
+<!-- ══════════ TAB 3: INSTALLIEREN ══════════ -->
+<div class="screen" id="s-install">
+<div class="ih">
+  <div class="iico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+  <div style="font-size:19px;font-weight:700;margin-bottom:5px;">Als App installieren</div>
+  <div style="font-size:13px;color:var(--text2);line-height:1.55;">Kein App Store nötig — direkt auf den Home-Bildschirm. Läuft danach auch offline.</div>
+  <div class="offl">✓ Offline-fähig — perfekt für die Werkstatt</div>
+</div>
+<div class="dtr">
+  <div class="dtb active" onclick="swDev('iphone',this)">📱 iPhone</div>
+  <div class="dtb" onclick="swDev('ipad',this)">📋 iPad</div>
+  <div class="dtb" onclick="swDev('android',this)">🤖 Android</div>
+</div>
+<div>
+  <div class="ds active" id="d-iphone">
+    <div class="scard"><div class="sn">1</div><div class="st"><strong>Safari öffnen</strong><p>Nur <strong>Safari</strong> unterstützt die Installation auf iOS. Chrome und Firefox scheiden aus.</p></div></div>
+    <div class="scard"><div class="sn">2</div><div class="st"><strong>Teilen-Symbol tippen</strong><p>Das Symbol mit Pfeil nach oben ↑ unten mittig (bei neueren iPhones unten rechts).</p></div></div>
+    <div class="scard"><div class="sn">3</div><div class="st"><strong>„Zum Home-Bildschirm"</strong><p>Im Teilen-Menü nach unten scrollen → <code>Zum Home-Bildschirm</code> antippen.</p></div></div>
+    <div class="scard"><div class="sn">4</div><div class="st"><strong>Namen bestätigen → Hinzufügen</strong><p>Name „Vergaser" belassen, dann <code>Hinzufügen</code> oben rechts antippen.</p></div></div>
+    <div class="scard"><div class="sn">5</div><div class="st"><strong>Fertig</strong><p>App öffnet sich ohne Browserleiste wie eine native App. Funktioniert <strong>offline</strong>.</p></div></div>
+  </div>
+  <div class="ds" id="d-ipad">
+    <div class="scard"><div class="sn">1</div><div class="st"><strong>Safari verwenden</strong><p>Nur Safari unterstützt die Installation auf iPadOS.</p></div></div>
+    <div class="scard"><div class="sn">2</div><div class="st"><strong>Teilen-Symbol in der Adressleiste</strong><p>Beim iPad befindet sich das Teilen-Symbol ↑ oben rechts <strong>in der Adressleiste</strong>.</p></div></div>
+    <div class="scard"><div class="sn">3</div><div class="st"><strong>„Zum Home-Bildschirm"</strong><p>Im Popover-Menü <code>Zum Home-Bildschirm</code> antippen.</p></div></div>
+    <div class="scard"><div class="sn">4</div><div class="st"><strong>Bestätigen</strong><p>Namen prüfen, <code>Hinzufügen</code> tippen. App erscheint im Dock oder Home-Screen.</p></div></div>
+  </div>
+  <div class="ds" id="d-android">
+    <div class="scard"><div class="sn">1</div><div class="st"><strong>Chrome öffnen</strong><p>Auf Android über <strong>Google Chrome</strong> oder Samsung Internet.</p></div></div>
+    <div class="scard"><div class="sn">2</div><div class="st"><strong>Menü öffnen</strong><p>Die drei Punkte ⋮ oben rechts antippen.</p></div></div>
+    <div class="scard"><div class="sn">3</div><div class="st"><strong>„App installieren"</strong><p>Option <code>App installieren</code> oder <code>Zum Startbildschirm</code> wählen.</p></div></div>
+    <div class="scard"><div class="sn">4</div><div class="st"><strong>Bestätigen</strong><p>Im Dialog <code>Installieren</code> tippen. App erscheint im App-Drawer.</p></div></div>
+  </div>
+</div>
+<div class="sec" style="margin-top:4px;">
+  <div class="ibox" style="margin-bottom:8px;"><strong>Was ist eine PWA?</strong><br>Progressive Web App — läuft direkt im Browser, kein App-Store, kein Update-Zwang. Beim ersten Öffnen werden alle Daten lokal gespeichert → danach offline nutzbar.</div>
+  <div class="ibox"><strong>Datenschutz:</strong> Die App sendet keine Daten. Alle Berechnungen laufen lokal auf dem Gerät. Keine Analytics, keine Nutzerdaten.</div>
+</div>
+</div><!-- /install -->
+
+</div><!-- /screens -->
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════
+//  DATENBANK
+// ══════════════════════════
+var DB={
+  50:{
+    12:  {main:[54,58],mR:56,pilot:null,pR:null,air:[1.5,2.0],aR:1.75,clip:null,nCode:null},
+    14:  {main:[58,63],mR:60,pilot:null,pR:null,air:[1.5,2.0],aR:1.75,clip:null,nCode:null},
+    17.5:{main:[60,68],mR:64,pilot:[35,40],pR:38,air:[1.5,2.0],aR:1.75,clip:3,nCode:'W2'},
+    21.5:{main:[65,74],mR:70,pilot:[38,42],pR:40,air:[1.5,2.0],aR:1.75,clip:3,nCode:'A22'}
+  },
+  70:{
+    12:  {main:[60,66],mR:63,pilot:null,pR:null,air:[1.25,1.75],aR:1.5,clip:null,nCode:null},
+    14:  {main:[65,72],mR:68,pilot:null,pR:null,air:[1.25,1.75],aR:1.5,clip:null,nCode:null},
+    17.5:{main:[76,84],mR:80,pilot:[38,42],pR:40,air:[1.25,1.75],aR:1.5,clip:3,nCode:'A2'},
+    21.5:{main:[86,96],mR:92,pilot:[40,45],pR:42,air:[1.25,1.75],aR:1.5,clip:4,nCode:'A22'}
+  }
+};
+
+// Nadel je Kombi
+var NADELN={
+  '50-17.5-serie':'W2','50-17.5-sport':'W2','50-17.5-reso':'W7','50-17.5-race':'K24',
+  '50-21.5-serie':'A22','50-21.5-sport':'A22','50-21.5-reso':'A22','50-21.5-race':'A22',
+  '70-17.5-serie':'A2','70-17.5-sport':'A2','70-17.5-reso':'SA2','70-17.5-race':'SA2',
+  '70-21.5-serie':'A22','70-21.5-sport':'A22','70-21.5-reso':'A22','70-21.5-race':'A22'
+};
+
+// Zündkerzen
+var KERZEN=[
+  {ngk:'B7HS',bosch:'W22T2',champ:'L82C',hint:'50 ccm Serie'},
+  {ngk:'B8HS',bosch:'W24T2',champ:'L86C',hint:'Sportauspuff / leichtes Tuning'},
+  {ngk:'B9HS',bosch:'W27FS',champ:'L90C',hint:'70 ccm Kit / Reso-Auspuff'},
+  {ngk:'B10HS',bosch:'W31FS',champ:'L94C',hint:'Race / Volltuning'}
+];
+
+// Mischverhältnis
+var MISCH=[
+  {ratio:'1:50',ml:'20',text:'Serienmotor mit gutem Markenöl (JASO FD). Bewährtes Standardverhältnis.'},
+  {ratio:'1:40',ml:'25',text:'Leichtes Tuning oder Sportauspuff. Etwas mehr Schmierung als Serie.'},
+  {ratio:'1:33',ml:'30',text:'70-ccm-Kit oder Reso-Auspuff. Mehr Schmierung bei erhöhter thermischer Belastung.'},
+  {ratio:'1:25',ml:'40',text:'Rennbetrieb oder Einfahrphase neuer Teile. Maximale Schmierung, höherer Ölverbrauch.'}
+];
+
+// Warnungen
+var WARNS={
+  '50-21.5':'21,5 mm Vergaser ist für 50 ccm stark überdimensioniert. Nur für Renn-Aufbauten mit stark modifiziertem Motor sinnvoll.',
+  '70-12':'SHA 12 mm ist für einen 70-ccm-Kit zu klein — erheblicher Durchsatzverlust. Empfehlung: mindestens PHBG 17,5 mm verwenden.',
+  '70-14':'SHA 14 mm ist für 70 ccm knapp. Für leichtes Tuning ausreichend, aber PHBG 17,5 mm bietet deutlich mehr Reserven.',
+  'blindreso':'Serienkrümmer mit Blindrohr + Reso/Raceauspuff: nicht optimal. Offener Tuningkrümmer empfohlen für maximale Wirkung des Resonanzrohrs.',
+  '50race':'50 ccm + Raceauspuff: Motor ist dafür meist zu schwach ausgelegt. 70-ccm-Kit sinnvoll als Basis.'
+};
+
+var cc=50,carb=12,filt='serie',ausp='serie',kr='blind',ho='tal';
+
+function setBs(g,el){
+  document.querySelectorAll('#'+g+' .bs').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  var v=el.dataset.v;
+  if(g==='ccG')cc=parseFloat(v);
+  if(g==='carbG')carb=parseFloat(v);
+  if(g==='krG')kr=v;
+  if(g==='hoG')ho=v;
+  calc();
+}
+function setSc(g,el){
+  document.querySelectorAll('#'+g+' .sc').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  var v=el.dataset.v;
+  if(g==='filtG')filt=v;
+  if(g==='auspG')ausp=v;
+  calc();
+}
+
+function g(id){return document.getElementById(id);}
+
+function calc(){
+  var d=DB[cc][carb];
+  var mD=0,aD=0,nD=0,score=0;
+
+  if(filt==='tuning'){mD+=2;score=Math.max(score,1);}
+  if(filt==='offen'){mD+=4;aD-=0.25;score=Math.max(score,1);}
+  if(ausp==='sport'){mD+=3;score=Math.max(score,1);}
+  if(ausp==='reso'){mD+=5;score=Math.max(score,2);}
+  if(ausp==='race'){mD+=8;score=Math.max(score,3);}
+  if(ho==='berg'){mD-=4;aD+=0.25;nD-=1;}
+  if(cc===70)score=Math.max(score,2);
+
+  var mR=Math.round(d.mR+mD),mL=Math.round(d.main[0]+mD),mH=Math.round(d.main[1]+mD);
+  var aV=Math.round((d.aR+aD)*4)/4;
+  var cR=d.clip!==null?Math.min(5,Math.max(1,d.clip+nD)):null;
+  var nKey=cc+'-'+carb+'-'+ausp;
+  var nCode=NADELN[nKey]||(d.nCode||null);
+  var kz=KERZEN[Math.min(3,score)];
+  var mi=MISCH[Math.min(3,score)];
+
+  // Vergaser outputs
+  g('rMain').textContent=mR;
+  g('rMainR').textContent=mL+' – '+mH;
+  if(d.pR){g('rPilot').textContent=d.pR;g('rPilotR').textContent=d.pilot[0]+' – '+d.pilot[1];}
+  else{g('rPilot').textContent='—';g('rPilotR').textContent='SHA: keine';}
+  g('rAir').textContent=aV.toFixed(2).replace('.',',');
+  g('rAirR').textContent=d.air[0].toFixed(2).replace('.',',')+'–'+d.air[1].toFixed(2).replace('.',',');
+
+  // Air viz
+  g('airF').style.width=Math.min(100,(aV/3.5)*100)+'%';
+  g('airHint').textContent='Ganz eindrehen (sanft), dann '+aV.toFixed(2).replace('.',',')+'  Umdrehungen herausdrehen. Leerlauf danach mit Leerlaufstellschraube einstellen.';
+
+  // Needle
+  var na=g('needleA');
+  if(d.clip!==null){
+    var p='<div class="clips">';
+    for(var i=1;i<=5;i++)p+='<div class="clip'+(i===cR?' active':'')+'">'+i+'</div>';
+    p+='</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:3px;"><span>← mager</span><span>fett →</span></div>';
+    var ci=nCode?'<div style="margin-top:7px;font-size:13px;color:var(--text2);">Empfohlene Nadel: <span style="font-family:ui-monospace,monospace;font-weight:700;font-size:15px;color:var(--ac);">'+nCode+'</span> · Clip-Position <strong>'+cR+'</strong>'+(ho==='berg'?' (Höhe: 1 Pos. magerer)':'')+'</div>':'';
+    na.innerHTML=p+ci;
+  } else {
+    na.innerHTML='<div class="ibox">SHA '+String(carb).replace('.',',')+'&thinsp;mm — Nadel <strong>nicht verstellbar</strong> (fixe Einbaunadel, kein Clip). Teillastgemisch nicht einstellbar.</div>';
+  }
+
+  // Kerze
+  g('rKerze').textContent=kz.ngk;
+  g('rKerze2').textContent='Bosch: '+kz.bosch;
+  g('rKerze3').textContent='Champion: '+kz.champ;
+  g('kerzenInfo').innerHTML='<strong>'+kz.ngk+'</strong> — '+kz.hint+'<br>Bosch: <strong>'+kz.bosch+'</strong> · Champion: <strong>'+kz.champ+'</strong><br>Elektrodenabstand: <strong>0,5 mm</strong>';
+
+  // Misch
+  g('rMisch').textContent=mi.ratio;
+  g('rMischR').textContent=mi.ml+' ml / Liter';
+  g('mischInfo').innerHTML='<strong>'+mi.ratio+'</strong> → <strong>'+mi.ml+' ml</strong> 2-Takt-Öl je Liter Kraftstoff.<br>'+mi.text;
+
+  // Krümmer hint
+  var kh='';
+  if(kr==='blind'&&(ausp==='reso'||ausp==='race'))kh='⚠ Nicht optimal — offener Tuningkrümmer für Reso/Raceauspuff empfohlen.';
+  else if(kr==='offen'&&(ausp==='serie'||ausp==='sport'))kh='ℹ Offener Krümmer + Serien-/Sportauspuff: Leerlauf ggf. unruhiger. Passt besser zu Reso/Race.';
+  else if(kr==='blind')kh='✓ Serienkrümmer mit Blindrohr passt zum gewählten Auspuff.';
+  else kh='✓ Offener Tuningkrümmer passt gut zu Reso/Raceauspuff.';
+  g('krHint').textContent=kh;
+
+  // Warnings
+  var ws=[];
+  var wk=cc+'-'+carb; if(WARNS[wk])ws.push(WARNS[wk]);
+  if(kr==='blind'&&(ausp==='reso'||ausp==='race'))ws.push(WARNS['blindreso']);
+  if(cc===50&&ausp==='race')ws.push(WARNS['50race']);
+  var wSec=g('wSec'),wBox=g('wBox');
+  if(ws.length){wBox.innerHTML=ws.map(function(w){return '⚠ '+w;}).join('<br><br>');wSec.style.display='block';}
+  else wSec.style.display='none';
+
+  // Gesamt
+  var cN=carb<=14?'SHA '+String(carb).replace('.',','):'PHBG '+String(carb).replace('.',',');
+  var aN={serie:'Serienauspuff',sport:'Sportauspuff',reso:'Reso-Rohr',race:'Raceauspuff'}[ausp];
+  var fN={serie:'Serienfilter',tuning:'Tuningfilter',offen:'Rennfilter/offen'}[filt];
+  g('gesamtI').innerHTML='<strong>Setup:</strong> '+cc+'&thinsp;ccm · '+cN+' · '+aN+' · '+fN+(kr==='blind'?' · Serienkrümmer':' · Tuningkrümmer')+(ho==='berg'?' · Höhenlage':'')+'<br><br>Alle Angaben sind <strong>Richtwerte</strong> — Feinabstimmung immer per Kerzenbildkontrolle. Im Zweifel eine Stufe fetter wählen: ein magerer 2-Takter kann festgehen.';
+}
+
+function swTab(id,el){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  g('s-'+id).classList.add('active');
+  el.classList.add('active');
+}
+function togAcc(h){
+  var b=h.nextElementSibling,c=h.querySelector('.acc'),o=b.classList.contains('open');
+  b.classList.toggle('open',!o);
+  c.style.transform=!o?'rotate(90deg)':'';
+}
+function swDev(id,el){
+  document.querySelectorAll('.ds').forEach(function(d){d.classList.remove('active');});
+  document.querySelectorAll('.dtb').forEach(function(t){t.classList.remove('active');});
+  g('d-'+id).classList.add('active');
+  el.classList.add('active');
+}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(function(){});
+calc();
+</script>
+</body>
+</html>
