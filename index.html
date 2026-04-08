@@ -58,6 +58,25 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .bs.incompat{opacity:.45;}
 .bs.incompat::before{content:'✕';position:absolute;top:3px;left:4px;font-size:9px;color:#ff6060;}
 .cc-badge{display:inline-block;background:var(--ac);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:8px;margin-left:5px;vertical-align:middle;}
+/* VERGASER ORIGINAL + ERSATZ */
+.carb-orig-box{padding:10px 13px;background:var(--bg2);border-radius:9px;border-left:3px solid var(--ac);margin-bottom:10px;}
+.carb-orig-name{font-size:15px;font-weight:700;color:var(--text);}
+.carb-orig-type{font-size:11px;color:var(--text3);margin-top:1px;}
+.carb-orig-note{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.4;}
+.carb-rep-card{padding:10px 12px;background:var(--bg2);border:1px solid var(--line2);border-radius:9px;margin-bottom:6px;cursor:pointer;transition:border-color .14s;}
+.carb-rep-card:last-child{margin-bottom:0;}
+.carb-rep-card.active{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 6%,var(--bg2));}
+.carb-rep-card.rec-card{border-color:color-mix(in srgb,#f5c800 40%,var(--line2));}
+.crep-row{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;}
+.crep-name{font-size:14px;font-weight:700;color:var(--text);}
+.crep-rel{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap;}
+.crep-rel-upgrade{background:color-mix(in srgb,var(--ok) 15%,var(--bg2));color:var(--ok);}
+.crep-rel-orig{background:color-mix(in srgb,#888 15%,var(--bg2));color:#aaa;}
+.crep-rel-race{background:color-mix(in srgb,#ff5500 15%,var(--bg2));color:#ff8c00;}
+.crep-umbau{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.4;}
+.crep-price{font-size:11px;color:var(--ok);font-weight:600;margin-top:3px;}
+.adapter-box{padding:9px 11px;background:var(--bg2);border:1px dashed var(--line2);border-radius:8px;margin-top:8px;}
+.adapter-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
 /* VARIOMATIK TAB NEU */
 .vsec{padding:14px 16px;border-bottom:0.5px solid var(--line);}
 .vsec-hdr{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
@@ -398,7 +417,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="hsub">Vergaser-Abstimmung · Dellorto</div>
     </div>
   </div>
-  <div class="hbadge">v3.1</div>
+  <div class="hbadge">v4.1</div>
 </div>
 <div id="tabbar">
   <div class="tab active" onclick="swTab('rechner',this)"><span class="ti">⚙️</span>Rechner</div>
@@ -450,6 +469,28 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <option>3</option><option>4</option><option>5</option><option selected>6</option>
       </select>
     </div>
+  </div>
+</div>
+
+<!-- ── ORIGINAL-VERGASER & ERSATZ (erscheint nach Fahrzeugwahl) ── -->
+<div class="sec" id="carbOrigSec" style="display:none;">
+  <div class="sl" style="display:flex;align-items:center;justify-content:space-between;">
+    <span>Original-Vergaser</span>
+    <span id="carbOrigBadge" style="font-size:10px;font-weight:700;padding:2px 8px;background:var(--ac);color:#fff;border-radius:10px;"></span>
+  </div>
+  <!-- Original Vergaser Info -->
+  <div id="carbOrigBox"></div>
+  <!-- Toggle Original / Ersatz / Tuning -->
+  <div class="vtoggle" id="carbReplToggle" style="margin-top:10px;">
+    <div class="vtog-btn active" data-v="orig" onclick="carbReplToggle('orig',this)">✓ Original</div>
+    <div class="vtog-btn" data-v="repl" onclick="carbReplToggle('repl',this)">🔄 Ersatz / Umbau</div>
+  </div>
+  <!-- Ersatzvergaser-Liste -->
+  <div id="carbReplArea" style="display:none;margin-top:8px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Vergleichbare Vergaser &amp; Umbau</div>
+    <div id="carbReplCards"></div>
+    <!-- Adapter-Info -->
+    <div id="carbAdapterBox"></div>
   </div>
 </div>
 
@@ -998,6 +1039,165 @@ var VDATA={
     'dio50':{name:'Dio 50',yr:[1988,2010],eng:'Honda AF28',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'23100-GBJ-601',wStd:8.0,vk:'honda',vmax:50},
     'lead50':{name:'Lead 50',yr:[2002,2013],eng:'Honda AF47',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'23100-GET-010',wStd:8.0,vk:'honda',vmax:50},
     'sh50':{name:'SH 50',yr:[1993,2000],eng:'Honda',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'23100-GW5-010',wStd:8.0,vk:'honda',vmax:50},
+  }},
+
+  italjet:{name:'Italjet',models:{
+    /* ── Dragster ── */
+    'dragster-50-lc':{
+      name:'Dragster 50 LC',yr:[1997,2004],
+      eng:'Minarelli AM6 LC (wassergekühlt)',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:52
+    },
+    'dragster-50-ac':{
+      name:'Dragster 50 AC',yr:[1997,2001],
+      eng:'Minarelli AM6 AC (luftgekühlt)',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
+    'dragster-125':{
+      name:'Dragster 125',yr:[1998,2003],
+      eng:'Minarelli AM6 125 LC',
+      cc:125,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:8.0,
+      vk:'minarelli-h',vmax:100
+    },
+    /* ── Formula ── */
+    'formula-50-lc':{
+      name:'Formula 50 LC',yr:[1992,1999],
+      eng:'Minarelli AM6 LC (wassergekühlt)',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:52
+    },
+    'formula-50-ac':{
+      name:'Formula 50 AC',yr:[1992,1999],
+      eng:'Minarelli AM6 AC (luftgekühlt)',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
+    'formula-125':{
+      name:'Formula 125',yr:[1993,2000],
+      eng:'Minarelli AM6 125',
+      cc:125,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:8.0,
+      vk:'minarelli-h',vmax:95
+    },
+    /* ── Torpedo ── */
+    'torpedo-50':{
+      name:'Torpedo 50',yr:[1993,1997],
+      eng:'Minarelli AM6 AC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
+    /* ── Fenomeno ── */
+    'fenomeno-50':{
+      name:'Fenomeno 50',yr:[1996,2000],
+      eng:'Minarelli AM6 LC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:52
+    },
+    /* ── Velocifero ── */
+    'velocifero-50':{
+      name:'Velocifero 50',yr:[1990,2000],
+      eng:'Minarelli AM6 AC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
+    /* ── Millennium ── */
+    'millennium-50':{
+      name:'Millennium 50',yr:[1999,2002],
+      eng:'Minarelli AM6 LC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:52
+    },
+    /* ── Matrix ── */
+    'matrix-50':{
+      name:'Matrix 50',yr:[2000,2004],
+      eng:'Piaggio C9A',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'729x17.7x28',wStd:5.5,
+      vk:'piaggio-c9a',vmax:52
+    },
+    /* ── Pista / Jet Set ── */
+    'jet-set-50':{
+      name:'Jet Set 50',yr:[1990,1997],
+      eng:'Minarelli AM6 AC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'120/80-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
+    'pista-50':{
+      name:'Pista 50',yr:[1996,2000],
+      eng:'Minarelli AM6 AC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
+    /* ── Grifon ── */
+    'grifon-125':{
+      name:'Grifon 125',yr:[1992,1998],
+      eng:'Minarelli AM6 125',
+      cc:125,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:8.0,
+      vk:'minarelli-h',vmax:95
+    },
+    /* ── Marco Polo ── */
+    'marcopolo-50':{
+      name:'Marco Polo 50',yr:[1993,2000],
+      eng:'Minarelli AM6 AC',
+      cc:50,trans:'auto',inch:12,
+      wf:'100/80-12',wr:'120/70-12',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
+    'marcopolo-125':{
+      name:'Marco Polo 125',yr:[1993,2000],
+      eng:'Minarelli AM6 125',
+      cc:125,trans:'auto',inch:12,
+      wf:'100/80-12',wr:'120/70-12',
+      belt:'743x17.7x28',wStd:8.0,
+      vk:'minarelli-h',vmax:95
+    },
+    /* ── Ice Blade ── */
+    'ice-blade-50':{
+      name:'Ice Blade 50',yr:[2002,2007],
+      eng:'Minarelli AM6 LC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'130/70-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:52
+    },
+    /* ── Scoop ── */
+    'scoop-50':{
+      name:'Scoop 50',yr:[1993,1999],
+      eng:'Minarelli AM6 AC',
+      cc:50,trans:'auto',inch:10,
+      wf:'100/90-10',wr:'120/80-10',
+      belt:'743x17.7x28',wStd:6.0,
+      vk:'minarelli-h',vmax:50
+    },
   }},
 };
 
@@ -1810,6 +2010,263 @@ function weightForSpeed(targetKmh,vmaxStd,wStd,varioTuned){
 // ══════════════════════════
 //  DATENBANK
 // ══════════════════════════
+// ═══════════════════════════════════════════════════════════════
+//  ORIGINAL-VERGASER & ERSATZ-DATENBANK
+// ═══════════════════════════════════════════════════════════════
+var CARBDB = {
+
+  // ── Vergaser-Typen ───────────────────────────────────────────
+  types: {
+    'sha-1212': {
+      name:'Dell\'Orto SHA 12/12', short:'SHA 12/12',
+      bore:12, type:'Flachschieber', brand:'Dell\'Orto',
+      needle:'fest (nicht verstellbar)', pilot:false,
+      code:'SHA 12-12', preis:'~40–60€ (NOS)',
+      note:'Einfachster Einkanal-Schiebervergaser. Kein Pilotjet, fixe Düsennadel. Typisch für gedrosselte Piaggio-Modelle und Basis-Scooter. Keine Teillastanpassung möglich.',
+      avail:'★ noch gut verfügbar (NOS-Bestand)',
+    },
+    'sha-1412': {
+      name:'Dell\'Orto SHA 14/12', short:'SHA 14/12',
+      bore:14, type:'Flachschieber', brand:'Dell\'Orto',
+      needle:'fest', pilot:false,
+      code:'SHA 14-12', preis:'~45–65€',
+      note:'Größere SHA-Variante. Mehr Durchfluss als SHA 12, aber weiterhin fixe Nadel. Verbreitet in der späteren Piaggio-Serie.',
+      avail:'★ noch verfügbar',
+    },
+    'phbg-15': {
+      name:'Dell\'Orto PHBG 15', short:'PHBG 15',
+      bore:15, type:'Rundschieber', brand:'Dell\'Orto',
+      needle:'verstellbar (5 Clips)', pilot:true,
+      code:'PHBG 15 BS/BD', preis:'~70–100€',
+      note:'Einstiegs-Rundschieber. Pilotjet und Düsennadel einstellbar. Typisch in frühen Piaggio NRG, Sfera und manchen Malaguti. Guter Einstieg für leichtes Tuning.',
+      avail:'◎ eingeschränkt verfügbar',
+    },
+    'phbg-175': {
+      name:'Dell\'Orto PHBG 17,5', short:'PHBG 17,5',
+      bore:17.5, type:'Rundschieber', brand:'Dell\'Orto',
+      needle:'verstellbar (5 Clips)', pilot:true,
+      code:'PHBG 17.5 BS', preis:'~85–120€',
+      note:'Meistverbreiteter Tuning-Vergaser für 50/70ccm. Voll einstellbar, hervorragende Teillastcharakteristik. Passt auf alle Piaggio C9A / Minarelli AM6-Motoren mit Luftfilter-Umbau.',
+      avail:'★★ problemlos verfügbar',
+    },
+    'phbg-215': {
+      name:'Dell\'Orto PHBG 21,5', short:'PHBG 21,5',
+      bore:21.5, type:'Rundschieber', brand:'Dell\'Orto',
+      needle:'verstellbar (5 Clips)', pilot:true,
+      code:'PHBG 21.5 BS', preis:'~95–130€',
+      note:'Großer Rundschieber für Kits und Race. Für 50ccm zu groß (Leerlaufprobleme). Optimal für 70ccm+ mit Resonanzauspuff.',
+      avail:'★ gut verfügbar',
+    },
+    'mikuni-vm18': {
+      name:'Mikuni VM18', short:'VM18',
+      bore:18, type:'Rundschieber', brand:'Mikuni',
+      needle:'verstellbar', pilot:true,
+      code:'VM18-144', preis:'~90–140€',
+      note:'Japanischer Schiebervergaser, ab Werk in manchen Yamaha/MBK-Modellen (Aerox frühe Serie). Sehr robust, gute Abstimmbarkeit. Pilotjet-System unterscheidet sich von Dell\'Orto.',
+      avail:'◎ eingeschränkt, Neuteile Japan-Import',
+    },
+    'keihin-pb18': {
+      name:'Keihin PB 18', short:'Keihin PB18',
+      bore:18, type:'Flachschieber', brand:'Keihin',
+      needle:'verstellbar', pilot:true,
+      code:'PB18 / PB-18', preis:'~80–120€',
+      note:'Keihin-Vergaser in Honda Dio, SH 50, Lead 50. Typisch japanische Bauweise. Kompakter als Dell\'Orto, gute Leerlaufcharakteristik. Ersatz von Honda-Händlern.',
+      avail:'◎ über Honda-Händler',
+    },
+    'keihin-pe20': {
+      name:'Keihin PE 20', short:'Keihin PE20',
+      bore:20, type:'Rundschieber', brand:'Keihin',
+      needle:'verstellbar', pilot:true,
+      code:'PE20', preis:'~100–150€',
+      note:'Größerer Keihin für Honda-Tuning. Passend auf Honda-Motoren mit Vergaserumbau. In der Motocross-Szene verbreitet.',
+      avail:'★ verfügbar (Motocross)',
+    },
+    'kymco-oem': {
+      name:'Kymco OEM Vergaser', short:'Kymco OEM',
+      bore:15, type:'Flachschieber', brand:'Kymco/Keihin',
+      needle:'verstellbar', pilot:true,
+      code:'OEM Kymco', preis:'~50–80€',
+      note:'Kymco-eigener Vergaser (Keihin-Bauart). Spezifisch für Kymco-Motoren. Ersatz direkt über Kymco-Händler.',
+      avail:'◎ über Kymco-Händler',
+    },
+    'sym-oem': {
+      name:'SYM OEM Vergaser', short:'SYM OEM',
+      bore:15, type:'Flachschieber', brand:'SYM/Keihin',
+      needle:'verstellbar', pilot:true,
+      code:'OEM SYM', preis:'~45–70€',
+      note:'SYM-Serienvergaser, Keihin-kompatibel. Ersatz über SYM-Händler.',
+      avail:'◎ über SYM-Händler',
+    },
+    'bing-85': {
+      name:'Bing 85 (Vespa)', short:'Bing 85',
+      bore:15, type:'Schieber', brand:'Bing',
+      needle:'verstellbar', pilot:true,
+      code:'Bing 85/15/101', preis:'~60–90€',
+      note:'Original in Vespa PK50/PX50 (Rotax-Motor). Deutsches Fabrikat, sehr langlebig. Ersatzteile noch erhältlich.',
+      avail:'◎ Veteranen-Teilehandel',
+    },
+  },
+
+  // ── Original-Vergaser je Motor/vk-Key ────────────────────────
+  origCarb: {
+    'piaggio-c9a': {
+      // Piaggio C9A hat je nach Modell und BJ unterschiedliche Vergaser
+      byModel: {
+        'nrg-mc3':    {carb:'phbg-15',   note:'NRG MC3 ab Werk mit PHBG 15 (ab 1996 teilweise SHA 14)'},
+        'nrg-power':  {carb:'phbg-15',   note:'NRG Power mit PHBG 15 BS'},
+        'nrg-mc2':    {carb:'sha-1412',  note:'NRG MC2 ältere Bj. mit SHA 14/12'},
+        'sfera-nsl':  {carb:'sha-1212',  note:'Sfera NSL mit SHA 12/12 (gedrosselt)'},
+        'sfera-rst':  {carb:'sha-1212',  note:'Sfera RST mit SHA 12/12'},
+        'zip-50':     {carb:'sha-1412',  note:'ZIP 50 ab Werk SHA 14/12'},
+        'typhoon':    {carb:'phbg-15',   note:'Typhoon mit PHBG 15 BS'},
+        'liberty-50': {carb:'sha-1412',  note:'Liberty 50 mit SHA 14/12'},
+        'fly-50':     {carb:'sha-1412',  note:'Fly 50 mit SHA 14/12'},
+        'skipper-125':{carb:'phbg-175',  note:'Skipper 125 mit PHBG 17,5'},
+      },
+      default: {carb:'sha-1412', note:'Standard Piaggio C9A'},
+    },
+    'minarelli-h': {
+      byModel: {
+        'sr50-lc':     {carb:'phbg-175',  note:'SR50 LC mit PHBG 17,5 (wassergekühlt)'},
+        'sr50-ac':     {carb:'sha-1412',  note:'SR50 AC mit SHA 14/12 (luftgekühlt)'},
+        'rally-50':    {carb:'sha-1412',  note:'Rally 50 mit SHA 14/12'},
+        'sonic-50':    {carb:'sha-1412',  note:'Sonic 50 mit SHA 14/12'},
+        'rx50':        {carb:'phbg-175',  note:'RX50 mit PHBG 17,5'},
+        'nitro':       {carb:'phbg-175',  note:'Nitro 50 mit PHBG 17,5 (MBK/Yamaha-Serienvergaser)'},
+        'aerox':       {carb:'mikuni-vm18',note:'Aerox frühe Serie mit Mikuni VM18; ab ~2002 Dell\'Orto PHBG 17,5'},
+        'bws':         {carb:'sha-1412',  note:'BW\'S 50 mit SHA 14/12'},
+        'jog':         {carb:'sha-1412',  note:'Jog 50 mit SHA 14/12'},
+        'speedfight2': {carb:'phbg-175',  note:'Speedfight 2 mit PHBG 17,5'},
+        'trekker':     {carb:'sha-1412',  note:'Trekker 50 mit SHA 14/12'},
+        'vivacity':    {carb:'sha-1412',  note:'Vivacity 50 mit SHA 14/12'},
+        'looxor':      {carb:'sha-1412',  note:'Looxor 50 mit SHA 14/12'},
+        'stunt':       {carb:'sha-1412',  note:'Stunt 50 mit SHA 14/12'},
+        'ovetto':      {carb:'sha-1412',  note:'Ovetto 50 mit SHA 14/12'},
+        'atlantis':    {carb:'phbg-175',  note:'Atlantis 50 mit PHBG 17,5'},
+        'predator':    {carb:'phbg-175',  note:'Predator 50 mit PHBG 17,5'},
+        'gpr50':       {carb:'phbg-175',  note:'GPR 50 mit PHBG 17,5 (Schaltgetriebe)'},
+        'hussar':      {carb:'sha-1412',  note:'Hussar 50 mit SHA 14/12'},
+        'oliver':      {carb:'sha-1412',  note:'Oliver 50 mit SHA 14/12'},
+      },
+      default: {carb:'sha-1412', note:'Standard Minarelli AM6'},
+    },
+    'minarelli-v': {
+      byModel: {
+        'booster':  {carb:'sha-1412',  note:'Booster 50 mit SHA 14/12 (vertikal)'},
+        'ovetto':   {carb:'sha-1412',  note:'Ovetto vertikal mit SHA 14/12'},
+        'jog':      {carb:'mikuni-vm18',note:'Jog (vertikal) ältere BJ mit Mikuni VM18'},
+      },
+      default: {carb:'sha-1412', note:'Standard Minarelli AM8 vertikal'},
+    },
+    'piaggio-big': {
+      byModel: {
+        'skipper-125': {carb:'phbg-175',  note:'Skipper 125 mit PHBG 17,5'},
+        'hexagon-125': {carb:'phbg-215',  note:'Hexagon 125 mit PHBG 21,5'},
+      },
+      default: {carb:'phbg-175', note:'Piaggio 125cc'},
+    },
+    'kymco':  {default:{carb:'kymco-oem',  note:'Kymco OEM Vergaser'}},
+    'honda':  {default:{carb:'keihin-pb18', note:'Keihin PB18 (Honda 50cc)'}},
+    'sym':    {default:{carb:'sym-oem',     note:'SYM OEM Vergaser'}},
+
+    'italjet': {
+      byModel: {
+        'dragster-50-lc':  {carb:'phbg-175',  note:'Dragster 50 LC mit Dell'Orto PHBG 17,5 (Serien-Hochleistungsvergaser)'},
+        'dragster-50-ac':  {carb:'sha-1412',   note:'Dragster 50 AC mit SHA 14/12 (luftgekühlt)'},
+        'dragster-125':    {carb:'phbg-175',   note:'Dragster 125 mit PHBG 17,5'},
+        'formula-50-lc':   {carb:'phbg-175',   note:'Formula 50 LC mit PHBG 17,5'},
+        'formula-50-ac':   {carb:'sha-1412',   note:'Formula 50 AC mit SHA 14/12'},
+        'formula-125':     {carb:'phbg-175',   note:'Formula 125 mit PHBG 17,5'},
+        'torpedo-50':      {carb:'sha-1412',   note:'Torpedo 50 mit SHA 14/12'},
+        'fenomeno-50':     {carb:'phbg-175',   note:'Fenomeno 50 LC mit PHBG 17,5'},
+        'velocifero-50':   {carb:'sha-1412',   note:'Velocifero 50 mit SHA 14/12 (älteres Modell)'},
+        'millennium-50':   {carb:'phbg-175',   note:'Millennium 50 mit PHBG 17,5'},
+        'matrix-50':       {carb:'sha-1412',   note:'Matrix 50 (Piaggio C9A) mit SHA 14/12'},
+        'jet-set-50':      {carb:'sha-1212',   note:'Jet Set 50 älter mit SHA 12/12'},
+        'pista-50':        {carb:'sha-1412',   note:'Pista 50 mit SHA 14/12'},
+        'grifon-125':      {carb:'phbg-175',   note:'Grifon 125 mit PHBG 17,5'},
+        'marcopolo-50':    {carb:'sha-1412',   note:'Marco Polo 50 mit SHA 14/12'},
+        'marcopolo-125':   {carb:'phbg-175',   note:'Marco Polo 125 mit PHBG 17,5'},
+        'ice-blade-50':    {carb:'phbg-175',   note:'Ice Blade 50 LC mit PHBG 17,5'},
+        'scoop-50':        {carb:'sha-1412',   note:'Scoop 50 mit SHA 14/12'},
+      },
+      default: {carb:'sha-1412', note:'Italjet Standard AM6-Motor'},
+    },
+  },
+
+  // ── Ersatz- & Tuningvergaser je Original-Vergaser ────────────
+  replacements: {
+    'sha-1212': [
+      {carb:'sha-1412',    rel:'direkter Ersatz',  diff:'',            umbau:'Kein Umbau — identischer Flansch. Nur Düsengröße anpassen.',       rec:false},
+      {carb:'phbg-15',     rel:'Upgrade',           diff:'+3 mm',       umbau:'Ansaugstutzen-Adapter nötig (Polini 215.0100 oder ähnlich). Luftfilterkasten anpassen.',  rec:true},
+      {carb:'phbg-175',    rel:'Sport-Upgrade',     diff:'+5,5 mm',     umbau:'Ansaugstutzen-Adapter + Tuning-Luftfilter (z.B. Stage6) oder Powerfilter. Deutlich bessere Abstimmbarkeit.',  rec:false},
+    ],
+    'sha-1412': [
+      {carb:'sha-1212',    rel:'kleinere Variante', diff:'−2 mm',       umbau:'Direkttausch ohne Umbau.',                                         rec:false},
+      {carb:'phbg-15',     rel:'direktes Upgrade',  diff:'+1 mm',       umbau:'Ansaugstutzen-Adapter (Polini/Malossi). Empfohlen für leichtes Tuning.',  rec:true},
+      {carb:'phbg-175',    rel:'Tuning-Upgrade',    diff:'+3,5 mm',     umbau:'Adapter + Powerfilter oder Airbox-Umbau. Optimale Basis für 70ccm-Kit.',  rec:false},
+    ],
+    'phbg-15': [
+      {carb:'sha-1412',    rel:'Rückbau Original',  diff:'−1 mm',       umbau:'Direkttausch, kein Adapter nötig.',                               rec:false},
+      {carb:'phbg-175',    rel:'Sport-Upgrade',     diff:'+2,5 mm',     umbau:'Gleicher Flansch (beide PHBG) — oft direkter Tausch oder leichter Adapter. Beste Tuning-Option.',  rec:true},
+      {carb:'phbg-215',    rel:'Race-Upgrade',      diff:'+6,5 mm',     umbau:'Flansch-Adapter + offener Rennfilter. Nur für Race-Aufbau mit Kit sinnvoll.',  rec:false},
+    ],
+    'phbg-175': [
+      {carb:'sha-1412',    rel:'Rückbau Original',  diff:'−3,5 mm',     umbau:'Adapter-Reduktion oder direkter Tausch je nach Modell.',          rec:false},
+      {carb:'phbg-215',    rel:'Race-Upgrade',      diff:'+4 mm',       umbau:'Gleiche PHBG-Familie, ggf. Flansch-Adapter. Nur für 70cc+ Race.',  rec:false},
+      {carb:'phbg-175',    rel:'Gleichwertiger Ersatz','diff':'',        umbau:'Direkter Tausch. Beim Umbau auf Neugerät Düsen neu abstimmen.',    rec:true},
+    ],
+    'mikuni-vm18': [
+      {carb:'phbg-175',    rel:'Dell\'Orto Ersatz',  diff:'−0,5 mm',    umbau:'Ansaugstutzen-Adapter (Mikuni→Dell\'Orto). Einfacherer Ersatzteilbezug, gute Alternative.',  rec:true},
+      {carb:'phbg-215',    rel:'Tuning-Alternative', diff:'+3,5 mm',    umbau:'Adapter + Powerfilter. Für Tuning-Aufbau.',                       rec:false},
+    ],
+    'keihin-pb18': [
+      {carb:'keihin-pe20', rel:'Honda Tuning-Upgrade','diff':'+2 mm',   umbau:'Honda-spezifischer Adapter. Mehr Leistung für Honda-Motoren.',    rec:true},
+      {carb:'phbg-175',    rel:'Universal-Upgrade',  diff:'−0,5 mm',    umbau:'Universaladapter (diverse Hersteller). Besser verfügbar als Keihin-Teile.',  rec:false},
+    ],
+    'kymco-oem': [
+      {carb:'phbg-175',    rel:'Universeller Ersatz', diff:'',           umbau:'Kymco-spezifischer Ansaugadapter nötig. Gute Ersatz- und Tuning-Option.',  rec:true},
+    ],
+    'sym-oem': [
+      {carb:'phbg-175',    rel:'Universeller Ersatz', diff:'',           umbau:'SYM-spezifischer Adapter nötig.',                               rec:true},
+    ],
+  },
+
+  // ── Adapter/Zubehör ──────────────────────────────────────────
+  adapters: {
+    'sha-to-phbg': {
+      name:'SHA → PHBG Ansaugstutzen-Adapter',
+      variants:[
+        {name:'Polini Adapter SHA→PHBG',    code:'215.0100', pass:'SHA 12+14 auf PHBG 15–17,5', preis:'~15€'},
+        {name:'Malossi Flansch-Adapter',    code:'0113820',  pass:'Universal Piaggio/Minarelli',  preis:'~18€'},
+        {name:'Stage6 Ansaugstutzen',        code:'S6-7219049',pass:'Piaggio C9A auf PHBG 17,5', preis:'~12€'},
+      ],
+    },
+    'mikuni-to-phbg': {
+      name:'Mikuni → Dell\'Orto PHBG Adapter',
+      variants:[
+        {name:'Universal Adapter Mikuni VM→PHBG', code:'div.',    pass:'AM6 Minarelli',          preis:'~20–30€'},
+        {name:'Direktstutzen AM6 für PHBG 17,5',  code:'Naraku',  pass:'Minarelli AM6 horizontal', preis:'~12€'},
+      ],
+    },
+  },
+};
+
+// Hilfsfunktion: Original-Vergaser für aktuelles Fahrzeug+Modell ermitteln
+function getOrigCarb(vk, modelKey) {
+  // Zuerst herstellerspezifisch suchen (z.B. 'italjet')
+  var maker = selMaker || '';
+  var ocMaker = CARBDB.origCarb[maker];
+  if (ocMaker && ocMaker.byModel && ocMaker.byModel[modelKey]) return ocMaker.byModel[modelKey];
+  if (ocMaker && !ocMaker.byModel) return ocMaker.default || null;
+  // Dann nach Motor-Key (vk)
+  var oc = CARBDB.origCarb[vk];
+  if (!oc) return null;
+  if (oc.byModel && oc.byModel[modelKey]) return oc.byModel[modelKey];
+  return oc.default || null;
+}
+
+
 var DB={
   /* ── 50 ccm ─────────────────────────── */
   50:{
@@ -2092,6 +2549,7 @@ function applyVehicle(){
   g('radGetrSec').style.display='block';
   fillWheelRow(v); fillTransRow(v);
   fillVarioTab(v);
+  renderCarbOrig(v.vk, selModel);
   calc();
 }
 function fillWheelRow(v){
@@ -2890,6 +3348,181 @@ function renderSummary(){
 
   el.innerHTML=html;
 }
+
+// ═══════════════════════════════════════════════════════════════
+//  ORIGINAL-VERGASER & ERSATZ LOGIK
+// ═══════════════════════════════════════════════════════════════
+
+function renderCarbOrig(vk, modelKey) {
+  var sec = g('carbOrigSec');
+  if (!sec) return;
+  var oc = getOrigCarb(vk, modelKey);
+  if (!oc) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+
+  var ct = CARBDB.types[oc.carb];
+  if (!ct) return;
+
+  // Badge
+  var badge = g('carbOrigBadge');
+  if (badge) badge.textContent = ct.short;
+
+  // Original-Info-Box
+  var box = g('carbOrigBox');
+  if (box) {
+    var needleCol = ct.needle.indexOf('fest') >= 0 ? '#ff8c00' : 'var(--ok)';
+    var pilotStr  = ct.pilot ? '✓ Pilotjet vorhanden' : '✗ kein Pilotjet';
+    box.innerHTML =
+      '<div class="carb-orig-box">' +
+        '<div class="crep-row">' +
+          '<div>' +
+            '<div class="carb-orig-name">' + ct.name + '</div>' +
+            '<div class="carb-orig-type">' + ct.type + ' · ' + ct.bore + ' mm Schieber · ' + ct.brand + '</div>' +
+          '</div>' +
+          '<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:color-mix(in srgb,var(--ok) 12%,var(--bg2));color:var(--ok);">Original</span>' +
+        '</div>' +
+        '<div style="display:flex;gap:12px;margin-top:6px;flex-wrap:wrap;">' +
+          '<span style="font-size:12px;color:var(--text2);">Düsennadel: <strong style="color:' + needleCol + ';">' + ct.needle + '</strong></span>' +
+          '<span style="font-size:12px;color:var(--text2);">' + pilotStr + '</span>' +
+        '</div>' +
+        '<div class="carb-orig-note">' + oc.note + '</div>' +
+        '<div style="font-size:11px;margin-top:4px;color:var(--text3);">Verfügbarkeit: ' + ct.avail + '</div>' +
+        '<div style="font-size:11px;margin-top:2px;font-family:ui-monospace,monospace;color:var(--text3);">Art.-Nr.: ' + ct.code + ' · NP: ' + ct.preis + '</div>' +
+      '</div>';
+  }
+
+  // Ersatzvergaser-Karten rendern
+  renderCarbReplacements(oc.carb);
+}
+
+function renderCarbReplacements(carbKey) {
+  var cards = g('carbReplCards');
+  var adapterBox = g('carbAdapterBox');
+  if (!cards) return;
+
+  var repls = CARBDB.replacements[carbKey] || [];
+  if (!repls.length) {
+    cards.innerHTML = '<div class="vinfo-box">Keine Ersatzdaten verfügbar.</div>';
+    return;
+  }
+
+  var html = '';
+  var needAdapters = [];
+
+  repls.forEach(function(r, i) {
+    var ct = CARBDB.types[r.carb];
+    if (!ct) return;
+
+    var relClass = r.rel.indexOf('Upgrade') >= 0 ? 'crep-rel-upgrade' :
+                   r.rel.indexOf('Race')    >= 0 ? 'crep-rel-race' : 'crep-rel-orig';
+    var badge = r.rec ?
+      '<span class="vc-badge badge-rec" style="position:absolute;top:8px;right:10px;font-size:10px;">★ Empfehlung</span>' : '';
+    var diffStr = r.diff ? ' <span style="font-size:11px;color:var(--text3);">(' + r.diff + ')</span>' : '';
+
+    html += '<div class="carb-rep-card' + (r.rec ? ' rec-card' : '') + '" style="position:relative;" onclick="selectReplCarb(\'' + r.carb + '\',' + i + ',this)">';
+    html += badge;
+    html += '<div class="crep-row">' +
+              '<div>' +
+                '<div class="crep-name">' + ct.name + diffStr + '</div>' +
+                '<div style="font-size:11px;color:var(--text3);margin-top:1px;">' + ct.type + ' · ' + ct.bore + ' mm · ' + ct.brand + '</div>' +
+              '</div>' +
+              '<span class="crep-rel ' + relClass + '">' + r.rel + '</span>' +
+            '</div>';
+    html += '<div class="crep-umbau">🔧 ' + r.umbau + '</div>';
+    html += '<div style="display:flex;justify-content:space-between;margin-top:4px;">' +
+              '<div class="crep-price">NP: ' + ct.preis + '</div>' +
+              '<div style="font-size:10px;color:var(--text3);">' + ct.avail + '</div>' +
+            '</div>';
+    html += '</div>';
+
+    // Adapter-Bedarf erkennen
+    if (r.umbau.toLowerCase().indexOf('adapter') >= 0 && r.rec) {
+      needAdapters.push(r);
+    }
+  });
+  cards.innerHTML = html;
+
+  // Adapter-Hinweise
+  if (adapterBox) {
+    var ahtml = '';
+    // SHA → PHBG?
+    var carbType = CARBDB.types[carbKey];
+    if (carbType && carbType.bore <= 14) {
+      var adapters = CARBDB.adapters['sha-to-phbg'];
+      if (adapters) {
+        ahtml += '<div class="adapter-box"><div class="adapter-title">📦 Benötigte Adapter (SHA → PHBG)</div>';
+        adapters.variants.forEach(function(a) {
+          ahtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--line);">';
+          ahtml += '<div><div style="font-size:12px;font-weight:600;">' + a.name + '</div>';
+          ahtml += '<div style="font-size:10px;color:var(--text3);font-family:ui-monospace,monospace;">' + a.code + ' · ' + a.pass + '</div></div>';
+          ahtml += '<div style="font-size:11px;color:var(--ok);font-weight:600;">' + a.preis + '</div></div>';
+        });
+        ahtml += '</div>';
+      }
+    }
+    // Mikuni → Dell'Orto?
+    if (carbType && carbKey === 'mikuni-vm18') {
+      var adapters2 = CARBDB.adapters['mikuni-to-phbg'];
+      if (adapters2) {
+        ahtml += '<div class="adapter-box" style="margin-top:6px;"><div class="adapter-title">📦 Adapter Mikuni → Dell\'Orto</div>';
+        adapters2.variants.forEach(function(a) {
+          ahtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--line);">';
+          ahtml += '<div><div style="font-size:12px;font-weight:600;">' + a.name + '</div>';
+          ahtml += '<div style="font-size:10px;color:var(--text3);font-family:ui-monospace,monospace;">' + a.code + ' · ' + a.pass + '</div></div>';
+          ahtml += '<div style="font-size:11px;color:var(--ok);font-weight:600;">' + a.preis + '</div></div>';
+        });
+        ahtml += '</div>';
+      }
+    }
+    adapterBox.innerHTML = ahtml;
+  }
+}
+
+function carbReplToggle(mode, el) {
+  document.querySelectorAll('#carbReplToggle .vtog-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.v === mode);
+  });
+  var area = g('carbReplArea');
+  if (area) area.style.display = mode === 'repl' ? 'block' : 'none';
+}
+
+function selectReplCarb(carbKey, idx, el) {
+  document.querySelectorAll('#carbReplCards .carb-rep-card').forEach(function(c) {
+    c.classList.remove('active');
+  });
+  el.classList.add('active');
+  // Passende Bohrung im Rechner-Tab setzen
+  var ct = CARBDB.types[carbKey];
+  if (ct) {
+    var bore = ct.bore;
+    // Nächste verfügbare Vergasergröße im carbG finden
+    var bestBtn = null, bestDiff = 999;
+    document.querySelectorAll('#carbG .bs').forEach(function(b) {
+      var v = parseFloat(b.dataset.v);
+      if (!isNaN(v) && b.style.display !== 'none') {
+        var diff = Math.abs(v - bore);
+        if (diff < bestDiff) { bestDiff = diff; bestBtn = b; }
+      }
+    });
+    if (bestBtn) {
+      document.querySelectorAll('#carbG .bs').forEach(function(b) { b.classList.remove('active'); });
+      bestBtn.classList.add('active');
+      carb = parseFloat(bestBtn.dataset.v);
+      calc();
+    }
+    // Info-Toast
+    showCarbToast(ct.short + ' gewählt — Rechner auf ' + bestBtn.textContent.split('\n')[0] + ' gesetzt');
+  }
+}
+
+function showCarbToast(msg) {
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ac);color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;z-index:9999;opacity:1;transition:opacity .5s;pointer-events:none;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() { t.style.opacity = '0'; setTimeout(function() { t.remove(); }, 500); }, 2000);
+}
+
 function calc(){
   // Guard: check if combination is in DB
   if(!DB[cc]||!DB[cc][carb]){
