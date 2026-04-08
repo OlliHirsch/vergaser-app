@@ -2171,7 +2171,7 @@ var CARBDB = {
 
     'italjet': {
       byModel: {
-        'dragster-50-lc':  {carb:'phbg-175',  note:'Dragster 50 LC mit Dell'Orto PHBG 17,5 (Serien-Hochleistungsvergaser)'},
+        'dragster-50-lc':  {carb:'phbg-175',  note:'Dragster 50 LC mit Dellorto PHBG 17,5 (Serienleistungsvergaser)'},
         'dragster-50-ac':  {carb:'sha-1412',   note:'Dragster 50 AC mit SHA 14/12 (luftgekühlt)'},
         'dragster-125':    {carb:'phbg-175',   note:'Dragster 125 mit PHBG 17,5'},
         'formula-50-lc':   {carb:'phbg-175',   note:'Formula 50 LC mit PHBG 17,5'},
@@ -3460,7 +3460,7 @@ function renderCarbReplacements(carbKey) {
         ahtml += '</div>';
       }
     }
-    // Mikuni → Dell'Orto?
+    // Mikuni → Dellorto?
     if (carbType && carbKey === 'mikuni-vm18') {
       var adapters2 = CARBDB.adapters['mikuni-to-phbg'];
       if (adapters2) {
@@ -3676,7 +3676,7 @@ function checkPin() {
     ls.classList.add('unlocking');
     setTimeout(function() { ls.style.display = 'none'; }, 400);
     // Session merken (bleibt bis Browser-Tab geschlossen)
-    try { sessionStorage.setItem('sg_auth', '1'); } catch(e) {}
+    try { sessionStorage.setItem('sg_auth_v41', '1'); } catch(e) {}
   } else {
     // Falsch — shake + reset
     shakeDots();
@@ -3713,10 +3713,14 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Backspace') pinDel();
 });
 
-// Session prüfen: schon eingeloggt?
+// Session prüfen: schon eingeloggt? (versioniert: v41)
 (function() {
   try {
-    if (sessionStorage.getItem('sg_auth') === '1') {
+    // Alte Keys löschen (Version-Wechsel)
+    sessionStorage.removeItem('sg_auth');
+    sessionStorage.removeItem('sg_auth_v31');
+    // Nur neuen Key prüfen
+    if (sessionStorage.getItem('sg_auth_v41') === '1') {
       document.getElementById('lockScreen').style.display = 'none';
     }
   } catch(e) {}
