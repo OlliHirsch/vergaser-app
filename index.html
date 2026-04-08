@@ -58,6 +58,101 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .bs.incompat{opacity:.45;}
 .bs.incompat::before{content:'✕';position:absolute;top:3px;left:4px;font-size:9px;color:#ff6060;}
 .cc-badge{display:inline-block;background:var(--ac);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:8px;margin-left:5px;vertical-align:middle;}
+/* VARIOMATIK TAB NEU */
+.vsec{padding:14px 16px;border-bottom:0.5px solid var(--line);}
+.vsec-hdr{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.vsec-num{width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.vsec-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.1;}
+.vsec-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+.vtoggle{display:flex;gap:0;background:var(--bg2);border-radius:var(--rs);overflow:hidden;border:1px solid var(--line2);}
+.vtog-btn{flex:1;padding:9px 6px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;transition:all .14s;color:var(--text2);}
+.vtog-btn.active{background:var(--ac);color:#fff;}
+.vinfo-box{padding:9px 12px;background:var(--bg2);border-radius:8px;border-left:3px solid var(--ac);font-size:13px;color:var(--text2);line-height:1.5;}
+.vinfo-box strong{color:var(--text);}
+.vcard{padding:11px 13px;background:var(--bg2);border:1px solid var(--line2);border-radius:9px;margin-bottom:6px;cursor:pointer;position:relative;transition:border-color .14s;}
+.vcard:last-child{margin-bottom:0;}
+.vcard.active{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 6%,var(--bg2));}
+.vcard.orig-card{border-color:rgba(255,255,255,.15);}
+.vcard .vc-row{display:flex;justify-content:space-between;align-items:flex-start;}
+.vcard .vc-name{font-size:14px;font-weight:600;color:var(--text);}
+.vcard .vc-code{font-size:11px;font-family:ui-monospace,monospace;color:var(--text3);margin-top:1px;}
+.vcard .vc-note{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.4;}
+.vcard .vc-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;}
+.badge-orig{background:rgba(100,200,100,.15);color:var(--ok);}
+.badge-rec{background:rgba(245,200,0,.15);color:#c8a200;}
+.badge-race{background:rgba(255,80,80,.15);color:#e05;}
+.badge-price{color:var(--ok);font-size:11px;font-weight:600;}
+.spring-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.spring-btn{padding:9px 10px;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;cursor:pointer;font-size:13px;transition:border-color .14s;}
+.spring-btn.active{border-color:var(--ac);}
+.spring-dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:middle;margin-right:5px;}
+.goal-card{padding:12px 8px;background:var(--bg2);border:1px solid var(--line2);border-radius:10px;text-align:center;cursor:pointer;transition:all .14s;}
+.goal-card.active{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--bg2));}
+.gc-icon{font-size:22px;margin-bottom:4px;}
+.gc-lbl{font-size:13px;font-weight:600;color:var(--text);}
+.gc-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+.spd-card{padding:12px 6px;background:var(--bg2);border:1px solid var(--line2);border-radius:10px;text-align:center;cursor:pointer;transition:all .14s;}
+.spd-card.active{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--bg2));}
+.sc-kmh{font-size:22px;font-weight:800;color:var(--ac);}
+.sc-unit{font-size:10px;color:var(--text3);}
+.sc-lbl{font-size:11px;font-weight:600;color:var(--text);margin-top:2px;}
+.sum-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--line);gap:8px;}
+.sum-row:last-child{border-bottom:none;}
+.sum-lbl{font-size:12px;color:var(--text3);flex-shrink:0;width:105px;}
+.sum-val{font-size:13px;font-weight:600;color:var(--text);text-align:right;line-height:1.4;}
+.sum-spd{font-size:18px;font-weight:700;color:var(--ac);}
+/* FAHRZEUGAUSWAHL */
+.veh-sel{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--rs);color:var(--text);font-size:14px;-webkit-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.veh-sel:focus{outline:none;border-color:var(--ac);}
+.veh-row{display:flex;gap:8px;margin-bottom:8px;}
+.veh-row .veh-sel{flex:1;}
+.vh-info{font-size:11px;color:var(--text3);margin-top:6px;padding:6px 10px;background:var(--bg2);border-radius:6px;border-left:2px solid var(--ac);}
+.vh-info strong{color:var(--text);}
+/* WHEEL INPUT */
+.wheel-inp{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.wheel-inp input{width:70px;padding:9px 10px;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--rs);color:var(--text);font-size:14px;text-align:center;}
+.wheel-inp input:focus{outline:none;border-color:var(--ac);}
+/* VARIO TAB */
+.vario-block{padding:13px 16px;border-bottom:0.5px solid var(--line);}
+.vb-title{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.vopt{display:flex;flex-direction:column;gap:6px;}
+.vocard{padding:10px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--line2);cursor:pointer;position:relative;transition:border-color .14s;}
+.vocard.active{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--bg2));}
+.vocard.rec-card::after{content:'★ Empfehlung';position:absolute;top:8px;right:10px;font-size:10px;font-weight:700;color:#f5c800;}
+.voc-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.voc-code{font-size:11px;color:var(--text3);font-family:ui-monospace,monospace;}
+.voc-note{font-size:12px;color:var(--text2);margin-top:3px;}
+.voc-price{font-size:11px;color:var(--ok);font-weight:600;}
+/* GEWICHTE */
+.wslider{width:100%;margin:8px 0;accent-color:var(--ac);}
+.wval-row{display:flex;justify-content:space-between;align-items:center;margin-top:4px;}
+.wval-big{font-size:22px;font-weight:700;color:var(--ac);}
+.wval-lbl{font-size:11px;color:var(--text3);}
+.wmixed-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
+.wmix-card{padding:8px 10px;background:var(--bg2);border-radius:7px;border:1px solid var(--line2);cursor:pointer;font-size:12px;}
+.wmix-card.active{border-color:var(--ac);}
+.wmix-combo{font-weight:700;color:var(--text);font-size:13px;}
+.wmix-eff{color:var(--text2);margin-top:2px;font-size:11px;}
+/* SPEED TARGET */
+.spd-btns{display:flex;gap:6px;margin-bottom:10px;}
+.spd-btn{flex:1;padding:10px 6px;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--rs);color:var(--text);font-size:15px;font-weight:700;cursor:pointer;text-align:center;transition:all .14s;}
+.spd-btn.active{background:var(--ac);border-color:var(--ac);color:#fff;}
+.spd-custom{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.spd-custom input{flex:1;padding:10px 12px;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--rs);color:var(--text);font-size:16px;font-weight:700;}
+.spd-custom input:focus{outline:none;border-color:var(--ac);}
+.spd-custom .unit{font-size:13px;color:var(--text3);}
+.spd-result{margin-top:10px;padding:12px 14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--ac);}
+.spd-res-km{font-size:28px;font-weight:700;color:var(--ac);}
+.spd-res-sub{font-size:12px;color:var(--text2);margin-top:2px;}
+.spring-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.spring-card{padding:8px 10px;background:var(--bg2);border-radius:7px;border:1px solid var(--line2);font-size:12px;cursor:pointer;}
+.spring-card.active{border-color:var(--ac);}
+.spring-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle;}
+.vario-result-box{margin:12px 16px;padding:12px 14px;background:var(--bg2);border-radius:10px;border:1px solid var(--line2);}
+.vrb-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--line);font-size:13px;}
+.vrb-row:last-child{border-bottom:none;}
+.vrb-lbl{color:var(--text3);}
+.vrb-val{font-weight:600;color:var(--text);}
 /* SCROLL CARDS */
 .scards{display:flex;gap:8px;overflow-x:auto;padding-bottom:3px;-webkit-overflow-scrolling:touch;}
 .scards::-webkit-scrollbar{display:none;}
@@ -303,10 +398,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="hsub">Vergaser-Abstimmung · Dellorto</div>
     </div>
   </div>
-  <div class="hbadge">v2.0</div>
+  <div class="hbadge">v3.1</div>
 </div>
 <div id="tabbar">
   <div class="tab active" onclick="swTab('rechner',this)"><span class="ti">⚙️</span>Rechner</div>
+  <div class="tab" onclick="swTab('vario',this)"><span class="ti">🔧</span>Vario</div>
   <div class="tab" onclick="swTab('erklaerung',this)"><span class="ti">📖</span>Technik</div>
   <div class="tab" onclick="swTab('install',this)"><span class="ti">📲</span>Installieren</div>
 </div>
@@ -314,6 +410,48 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
 <!-- ══════════ TAB 1: RECHNER ══════════ -->
 <div class="screen active" id="s-rechner">
+
+<!-- ── FAHRZEUGAUSWAHL ── -->
+<div class="sec">
+  <div class="sl">Fahrzeug</div>
+  <div class="veh-row">
+    <select class="veh-sel" id="selMakerEl" onchange="onMakerChange()">
+      <option value="">— Hersteller wählen —</option>
+    </select>
+    <select class="veh-sel" id="selModelEl" onchange="onModelChange()" disabled>
+      <option value="">— Modell —</option>
+    </select>
+  </div>
+  <div class="veh-row">
+    <select class="veh-sel" id="selYearEl" onchange="onYearChange()" disabled style="max-width:110px;">
+      <option value="">— Bj. —</option>
+    </select>
+    <div id="vehInfoBox" class="vh-info" style="flex:1;display:none;"></div>
+  </div>
+</div>
+
+<!-- ── RAD & GETRIEBE ── -->
+<div class="sec" id="radGetrSec" style="display:none;">
+  <div class="sl">Rad & Antrieb</div>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Reifengröße</div>
+    <div class="wheel-inp" id="wheelRow">
+      <!-- filled by JS -->
+    </div>
+  </div>
+  <div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Antrieb</div>
+    <div class="brow" id="transG">
+      <button class="bs active" data-v="auto" onclick="setTrans('auto',this)">Automatik<span class="sub">CVT Variomatik</span></button>
+      <button class="bs" data-v="manual" onclick="setTrans('manual',this)">Schaltung<span class="sub">Handschaltung</span></button>
+    </div>
+    <div id="gearRow" style="display:none;margin-top:8px;align-items:center;gap:10px;font-size:13px;color:var(--text2);">
+      Anzahl Gänge: <select class="veh-sel" id="gearCount" style="width:80px;display:inline-block;padding:7px 8px;">
+        <option>3</option><option>4</option><option>5</option><option selected>6</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 <div class="sec">
   <div class="sl">Zylindervolumen</div>
@@ -538,6 +676,209 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
 
 <!-- ══════════ TAB 3: INSTALLIEREN ══════════ -->
+<!-- ══════════ TAB 2: VARIOMATIK ══════════ -->
+<div class="screen" id="s-vario">
+
+<!-- Kein Fahrzeug -->
+<div id="vNoVeh" style="padding:32px 20px;text-align:center;">
+  <div style="font-size:40px;margin-bottom:12px;">🔧</div>
+  <div style="font-weight:700;font-size:16px;margin-bottom:6px;">Fahrzeug wählen</div>
+  <div style="font-size:13px;color:var(--text2);line-height:1.5;">Bitte zuerst im <strong>Rechner-Tab</strong> Hersteller, Modell und Baujahr auswählen.</div>
+</div>
+
+<!-- Vario-Inhalt (nur wenn Fahrzeug gewählt) -->
+<div id="vContent" style="display:none;">
+
+<!-- Fahrzeug-Banner -->
+<div style="padding:10px 16px;background:var(--ac);color:#fff;display:flex;align-items:center;gap:10px;">
+  <span style="font-size:18px;">🛵</span>
+  <div>
+    <div style="font-weight:700;font-size:14px;" id="vVehName">—</div>
+    <div style="font-size:11px;opacity:.85;" id="vVehSub">—</div>
+  </div>
+</div>
+
+<!-- ══ 1. ANTRIEBSRIEMEN ══ -->
+<div class="vsec">
+  <div class="vsec-hdr">
+    <span class="vsec-num">1</span>
+    <div>
+      <div class="vsec-title">Antriebsriemen</div>
+      <div class="vsec-sub">Originalbemaßung &amp; Alternativen</div>
+    </div>
+  </div>
+  <div id="beltContent"></div>
+</div>
+
+<!-- ══ 2. VARIOMATIK ══ -->
+<div class="vsec">
+  <div class="vsec-hdr">
+    <span class="vsec-num">2</span>
+    <div>
+      <div class="vsec-title">Variomatik</div>
+      <div class="vsec-sub">Original oder Tuning-Variomatik</div>
+    </div>
+  </div>
+  <div class="vtoggle" id="varioToggle">
+    <div class="vtog-btn active" data-v="orig" onclick="varioToggle('orig',this)">✓ Original beibehalten</div>
+    <div class="vtog-btn" data-v="tuning" onclick="varioToggle('tuning',this)">⚡ Tuning-Variomatik</div>
+  </div>
+  <div id="varioOrigInfo" class="vinfo-box"></div>
+  <div id="varioTuningList" style="display:none;margin-top:8px;">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;">Verfügbare Tuning-Variomatiken</div>
+    <div id="varioCards"></div>
+  </div>
+</div>
+
+<!-- ══ 3. VARIOGEWICHTE ══ -->
+<div class="vsec">
+  <div class="vsec-hdr">
+    <span class="vsec-num">3</span>
+    <div>
+      <div class="vsec-title">Variogewichte</div>
+      <div class="vsec-sub">Anzug vs. Geschwindigkeit</div>
+    </div>
+  </div>
+  <div class="vtoggle" id="wModeToggle">
+    <div class="vtog-btn active" data-v="orig" onclick="wModeToggle('orig',this)">✓ Original beibehalten</div>
+    <div class="vtog-btn" data-v="single" onclick="wModeToggle('single',this)">Einheitlich</div>
+    <div class="vtog-btn" data-v="mixed" onclick="wModeToggle('mixed',this)">Gemischt</div>
+  </div>
+  <div id="wOrigInfo" class="vinfo-box"></div>
+  <div id="wSingleArea" style="display:none;">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;">6 gleiche Gewichte wählen</div>
+    <div id="wSingleCards"></div>
+    <div id="wSingleEffect" class="vinfo-box" style="margin-top:8px;border-left-color:var(--ok);"></div>
+  </div>
+  <div id="wMixedArea" style="display:none;">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;">Kombination wählen (je 3 Stück)</div>
+    <div id="wMixedCards"></div>
+    <div class="vinfo-box" style="margin-top:8px;font-size:12px;"><strong>Wichtig:</strong> Immer gegenüberliegend verbauen — Paar 1+4, 2+5, 3+6. Maximal 2 verschiedene Gewichtsklassen.</div>
+  </div>
+</div>
+
+<!-- ══ 4. WANDLER & KUPPLUNG ══ -->
+<div class="vsec">
+  <div class="vsec-hdr">
+    <span class="vsec-num">4</span>
+    <div>
+      <div class="vsec-title">Getriebe, Wandler &amp; Kupplung</div>
+      <div class="vsec-sub">Original-Getriebe · Kupplungsgröße · Alternativen</div>
+    </div>
+  </div>
+
+  <!-- Getriebe-Info -->
+  <div id="gearboxOrigInfo" class="vinfo-box" style="margin-bottom:10px;"></div>
+
+  <!-- Kompatible Getriebe -->
+  <div id="gearCompatSec" style="display:none;margin-bottom:10px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Kompatible Getriebe anderer Modelle</div>
+    <div id="gearCompatCards"></div>
+  </div>
+
+  <!-- Getriebe-Übersetzung Tuning -->
+  <div id="gearRatioSec" style="display:none;margin-bottom:10px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Tuning-Übersetzungen</div>
+    <div id="gearRatioCards"></div>
+  </div>
+
+  <!-- 114→107 mm Umbau -->
+  <div id="clutch114Sec" style="display:none;margin-bottom:10px;"></div>
+
+  <!-- Distanzringe (nur wenn Ziel < vmax) -->
+  <div id="spacerSec" style="display:none;margin-bottom:10px;"></div>
+
+  <!-- Original Kupplungsinfo -->
+  <div id="wandlerOrigInfo" class="vinfo-box"></div>
+  <div class="vtoggle" id="cModeToggle" style="margin-top:8px;">
+    <div class="vtog-btn active" data-v="orig" onclick="cModeToggle('orig',this)">✓ Original beibehalten</div>
+    <div class="vtog-btn" data-v="tuning" onclick="cModeToggle('tuning',this)">⚡ Tuning-Kupplung</div>
+  </div>
+  <div id="cTuningArea" style="display:none;margin-top:8px;">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;">Tuning-Kupplungen</div>
+    <div id="clutchCards"></div>
+    <div style="margin-top:12px;">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;">Kupplungsfedern (Eingreif-Drehzahl)</div>
+      <div id="springCards"></div>
+    </div>
+    <div style="margin-top:10px;">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;">Gegendruckfeder (Wandlereinheit)</div>
+      <div id="gegenCards"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 5. GESCHWINDIGKEITSZIEL ══ -->
+<div class="vsec">
+  <div class="vsec-hdr">
+    <span class="vsec-num">5</span>
+    <div>
+      <div class="vsec-title">Optimierungsziel</div>
+      <div class="vsec-sub">Zielgeschwindigkeit → Mindest-Komponenten werden ermittelt</div>
+    </div>
+  </div>
+
+  <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Was möchtest du erreichen?</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;">
+    <div class="goal-card active" data-g="anzug" onclick="setGoalCard('anzug',this)">
+      <div class="gc-icon">🚀</div>
+      <div class="gc-lbl">Mehr Anzug</div>
+      <div class="gc-sub">Stadtverkehr</div>
+    </div>
+    <div class="goal-card" data-g="balanced" onclick="setGoalCard('balanced',this)">
+      <div class="gc-icon">⚖️</div>
+      <div class="gc-lbl">Ausgewogen</div>
+      <div class="gc-sub">Allround</div>
+    </div>
+    <div class="goal-card" data-g="speed" onclick="setGoalCard('speed',this)">
+      <div class="gc-icon">🏁</div>
+      <div class="gc-lbl">Mehr Speed</div>
+      <div class="gc-sub">Überlandfahrt</div>
+    </div>
+  </div>
+
+  <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Oder: <strong>exakte Zielgeschwindigkeit</strong> eingeben — App wählt Mindest-Komponenten:</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+    <div class="spd-card" data-s="25" onclick="setSpdCard(25,this)">
+      <div class="sc-kmh">25</div>
+      <div class="sc-unit">km/h</div>
+      <div class="sc-lbl">Mofa</div>
+    </div>
+    <div class="spd-card" data-s="45" onclick="setSpdCard(45,this)">
+      <div class="sc-kmh">45</div>
+      <div class="sc-unit">km/h</div>
+      <div class="sc-lbl">Moped EU</div>
+    </div>
+    <div class="spd-card" data-s="50" onclick="setSpdCard(50,this)">
+      <div class="sc-kmh">50</div>
+      <div class="sc-unit">km/h</div>
+      <div class="sc-lbl">Entsperrt</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <input type="number" id="spdInput" min="20" max="150" placeholder="km/h" style="width:90px;padding:10px;background:var(--bg2);border:1.5px solid var(--ac);border-radius:var(--rs);color:var(--text);font-size:18px;font-weight:700;text-align:center;" oninput="onSpdInput()">
+    <span style="font-size:14px;color:var(--text2);">km/h</span>
+    <span id="spdMaxLabel" style="font-size:11px;color:var(--text3);line-height:1.4;"></span>
+  </div>
+  <!-- Mindest-Komponenten Analyse -->
+  <div id="spdAnalysis" style="display:none;margin-top:12px;"></div>
+</div>
+
+<!-- ══ ZUSAMMENFASSUNG ══ -->
+<div class="vsec" id="vSummary">
+  <div class="vsec-hdr">
+    <span class="vsec-num">✓</span>
+    <div>
+      <div class="vsec-title">Empfehlung</div>
+      <div class="vsec-sub">Zusammenfassung aller Einstellungen</div>
+    </div>
+  </div>
+  <div id="summaryBox"></div>
+</div>
+
+</div><!-- end vContent -->
+</div><!-- end s-vario -->
+
 <div class="screen" id="s-install">
 <div class="ih">
   <div class="iico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
@@ -581,6 +922,891 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 </div><!-- /app -->
 
 <script>
+
+// ═══════════════════════════════════════════════════
+//  FAHRZEUG-DATENBANK
+// ═══════════════════════════════════════════════════
+var VDATA={
+  piaggio:{name:'Piaggio',models:{
+    'nrg-mc3':{name:'NRG MC3',yr:[1994,2001],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'nrg-power':{name:'NRG Power',yr:[2000,2010],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'nrg-mc2':{name:'NRG MC2',yr:[1996,2001],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'sfera-nsl':{name:'Sfera NSL50',yr:[1991,2000],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
+    'sfera-rst':{name:'Sfera RST 50',yr:[1994,1997],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
+    'zip-50':{name:'Zip 50',yr:[1992,2023],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'typhoon':{name:'Typhoon XR/XRG',yr:[1992,2023],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'liberty-50':{name:'Liberty 50',yr:[1997,2023],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'fly-50':{name:'Fly 50',yr:[2005,2023],eng:'C9A',cc:50,trans:'auto',inch:12,wf:'110/70-12',wr:'120/70-12',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'skipper-125':{name:'Skipper 125',yr:[1993,2001],eng:'C9A-125',cc:125,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:7.0,vk:'piaggio-c9a',vmax:90},
+    'hexagon-125':{name:'Hexagon 125',yr:[1994,2003],eng:'Piaggio-125',cc:125,trans:'auto',inch:12,wf:'120/70-12',wr:'130/70-12',belt:'965x22x27',wStd:9.0,vk:'piaggio-big',vmax:100},
+  }},
+  aprilia:{name:'Aprilia',models:{
+    'sr50-lc':{name:'SR50 LC',yr:[1992,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'sr50-ac':{name:'SR50 AC',yr:[1992,2001],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'rally-50':{name:'Rally 50',yr:[1995,2003],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'sonic-50':{name:'Sonic 50',yr:[1998,2005],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'rx50':{name:'RX 50',yr:[2002,2014],eng:'Minarelli AM6',cc:50,trans:'manual',gears:6,inch:17,wf:'2.50-17',wr:'2.75-17',belt:null,wStd:null,vk:null,vmax:50},
+  }},
+  gilera:{name:'Gilera',models:{
+    'runner-50':{name:'Runner 50 SP',yr:[1997,2012],eng:'Piaggio C9A',cc:50,trans:'auto',inch:12,wf:'110/70-12',wr:'130/70-12',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'stalker':{name:'Stalker 50',yr:[1997,2006],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'ice':{name:'Ice 50',yr:[2003,2007],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'dna-50':{name:'DNA 50',yr:[2000,2005],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+  }},
+  mbk:{name:'MBK',models:{
+    'nitro':{name:'Nitro 50',yr:[1996,2023],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'booster':{name:'Booster 50',yr:[1994,2023],eng:'Minarelli AM8v',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/70-10',belt:'669x17.8x26',wStd:6.0,vk:'minarelli-v',vmax:50},
+    'stunt':{name:'Stunt 50',yr:[2000,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'ovetto':{name:'Ovetto 50',yr:[1997,2012],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+  }},
+  yamaha:{name:'Yamaha',models:{
+    'aerox':{name:'Aerox 50',yr:[1997,2023],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'bws':{name:"BW'S 50",yr:[1996,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'jog':{name:'Jog 50',yr:[1990,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+  }},
+  peugeot:{name:'Peugeot',models:{
+    'speedfight2':{name:'Speedfight 2',yr:[2000,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'trekker':{name:'Trekker 50',yr:[1996,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'vivacity':{name:'Vivacity 50',yr:[1999,2012],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'looxor':{name:'Looxor 50',yr:[2001,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+  }},
+  vespa:{name:'Vespa',models:{
+    'et2':{name:'ET2 50',yr:[1996,2004],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
+    'lx50':{name:'LX 50',yr:[2004,2023],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
+    'pk50':{name:'PK 50',yr:[1981,1990],eng:'Vespa Rotax',cc:50,trans:'manual',gears:3,inch:10,wf:'3.00-10',wr:'3.50-10',belt:null,wStd:null,vk:null,vmax:40},
+    'px50':{name:'PX 50',yr:[1978,1984],eng:'Vespa',cc:50,trans:'manual',gears:4,inch:10,wf:'3.00-10',wr:'3.50-10',belt:null,wStd:null,vk:null,vmax:40},
+  }},
+  derbi:{name:'Derbi',models:{
+    'atlantis':{name:'Atlantis 50',yr:[1999,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'predator':{name:'Predator 50',yr:[2002,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'gpr50':{name:'GPR 50',yr:[2004,2015],eng:'Derbi D50B0',cc:50,trans:'manual',gears:6,inch:17,wf:'2.50-17',wr:'2.75-17',belt:null,wStd:null,vk:null,vmax:50},
+  }},
+  cpi:{name:'CPI',models:{
+    'hussar':{name:'Hussar 50',yr:[2003,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'oliver':{name:'Oliver 50',yr:[2000,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+  }},
+  kymco:{name:'Kymco',models:{
+    'agility50':{name:'Agility 50',yr:[2004,2023],eng:'Kymco',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'787x16x26',wStd:6.0,vk:'kymco',vmax:50},
+    'super850':{name:'Super 8 50',yr:[2008,2023],eng:'Kymco',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'787x16x26',wStd:6.0,vk:'kymco',vmax:50},
+    'filly50':{name:'Filly LX 50',yr:[2006,2015],eng:'Kymco',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'787x16x26',wStd:6.0,vk:'kymco',vmax:50},
+  }},
+  sym:{name:'SYM',models:{
+    'fiddle50':{name:'Fiddle II 50',yr:[2006,2015],eng:'SYM',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'787x17x26',wStd:6.0,vk:'sym',vmax:50},
+    'jet450':{name:'Jet4 50',yr:[2010,2023],eng:'SYM',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'787x17x26',wStd:6.0,vk:'sym',vmax:50},
+  }},
+  honda:{name:'Honda',models:{
+    'dio50':{name:'Dio 50',yr:[1988,2010],eng:'Honda AF28',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'23100-GBJ-601',wStd:8.0,vk:'honda',vmax:50},
+    'lead50':{name:'Lead 50',yr:[2002,2013],eng:'Honda AF47',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'23100-GET-010',wStd:8.0,vk:'honda',vmax:50},
+    'sh50':{name:'SH 50',yr:[1993,2000],eng:'Honda',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'23100-GW5-010',wStd:8.0,vk:'honda',vmax:50},
+  }},
+};
+
+// ═══════════════════════════════════════════════════════
+//  GETRIEBE & KUPPLUNGS-DATENBANK
+// ═══════════════════════════════════════════════════════
+var GEARDB = {
+
+  // ── GETRIEBE-EINHEITEN ──────────────────────────────
+  gearboxes: {
+    'piaggio-c9a': {
+      name:    'Piaggio C9A Getriebe',
+      code:    '8438735 / 1A000052',
+      ratio:   '1:11,1 (Serie)',
+      clutchD: 107,
+      note:    'Einheitsgetriebe für alle C9A-Motoren (NRG, Zip, Typhoon, Liberty, Fly …). Sehr weit verbreitet, Ersatzteile problemlos verfügbar.',
+      compat: [
+        { model:'Piaggio ZIP 50 (alle Bj.)',      code:'8438735', note:'Identisch' },
+        { model:'Piaggio Typhoon 50',              code:'8438735', note:'Identisch' },
+        { model:'Piaggio Liberty 50',              code:'8438735', note:'Identisch' },
+        { model:'Gilera Runner 50',                code:'8438735', note:'Identisch, direkt tauschbar' },
+        { model:'Gilera Stalker / Ice / DNA',      code:'8438735', note:'Identisch' },
+        { model:'Vespa ET2 50 / LX 50',            code:'8438735', note:'Identisch' },
+      ],
+      alt107: null,  // bereits 107 mm
+      ratioTuning: [
+        { name:'Malossi MHR Team',  code:'6111611', ratio:'1:10,6', note:'Kürzere Übersetzung → mehr Anzug, leicht niedrigere Top Speed', preis:'~85€', rec:false },
+        { name:'Polini Sport',       code:'241.100', ratio:'1:10,9', note:'Leicht kürzere Übersetzung, guter Kompromiss',                  preis:'~65€', rec:true  },
+        { name:'Malossi Sport Long', code:'6111612', ratio:'1:11,6', note:'Längere Übersetzung → mehr Top Speed, weniger Anzug',            preis:'~85€', rec:false },
+      ],
+    },
+
+    'minarelli-h': {
+      name:    'Minarelli AM6 Getriebe',
+      code:    '5BW-G7590 / OEM Aprilia',
+      ratio:   '1:11,3 (Serie)',
+      clutchD: 107,
+      note:    'Standardgetriebe für alle AM6-Motoren horizontal (Aerox, Nitro, SR50, Speedfight …). Gut verfügbar.',
+      compat: [
+        { model:'Yamaha Aerox 50 / BW\'S 50',    code:'5BW-G7590', note:'Identisch' },
+        { model:'MBK Nitro 50 / Stunt 50',        code:'5BW-G7590', note:'Identisch' },
+        { model:'Aprilia SR50 LC / AC',            code:'AP8220049', note:'Identisch, andere Art.-Nr.' },
+        { model:'Peugeot Speedfight 2',            code:'OEM Peugeot', note:'Identisch, tauschbar' },
+        { model:'Derbi Atlantis 50',               code:'OEM Derbi',   note:'Tauschbar' },
+        { model:'CPI Hussar / Oliver',             code:'OEM CPI',     note:'Tauschbar' },
+      ],
+      alt107: null,
+      ratioTuning: [
+        { name:'Malossi Sport',  code:'6111620', ratio:'1:10,8', note:'Mehr Anzug',      preis:'~85€', rec:true  },
+        { name:'Polini Sport',   code:'241.110', ratio:'1:11,1', note:'Kompromiss',       preis:'~65€', rec:false },
+        { name:'Malossi Long',   code:'6111621', ratio:'1:11,8', note:'Mehr Top Speed',  preis:'~85€', rec:false },
+      ],
+    },
+
+    'minarelli-v': {
+      name:    'Minarelli AM8 Getriebe (vertikal)',
+      code:    'OEM Yamaha/MBK',
+      ratio:   '1:11,0 (Serie)',
+      clutchD: 107,
+      note:    'Vertikaler AM8-Motor (Booster, Ovetto, Jog). Gut verfügbar.',
+      compat: [
+        { model:'MBK Booster 50 (alle Bj.)', code:'OEM', note:'Identisch' },
+        { model:'Yamaha Jog 50',              code:'OEM', note:'Identisch' },
+        { model:'MBK Ovetto 50',              code:'OEM', note:'Identisch' },
+      ],
+      alt107: null,
+      ratioTuning: [
+        { name:'Polini Sport AM8v', code:'241.112', ratio:'1:10,7', note:'Mehr Anzug', preis:'~65€', rec:true },
+      ],
+    },
+
+    'piaggio-big': {
+      name:    'Piaggio 125/150 Getriebe',
+      code:    'OEM Piaggio',
+      ratio:   '1:12,5 (Serie)',
+      clutchD: 114,
+      note:    '⚠️ 114 mm Kupplungsglocke — auf dem Markt kaum noch erhältlich! Umbau auf 107 mm empfohlen.',
+      compat: [
+        { model:'Piaggio Skipper 125',     code:'OEM',        note:'Identisch' },
+        { model:'Piaggio Hexagon 125',     code:'OEM',        note:'Identisch' },
+        { model:'Gilera Runner 125/180',   code:'OEM Gilera', note:'Ähnlich, Adapter prüfen' },
+      ],
+      alt107: {
+        note:    '✓ Umbau auf 107 mm möglich mit Adapter-Kit',
+        adapter: 'Malossi Adapter-Kit 114→107 mm',
+        code:    '5215940',
+        preis:   '~35€',
+        clutches107: [
+          { name:'Malossi MHR Delta 107 mm', code:'5215472', preis:'~90€', rec:true  },
+          { name:'Polini Speed 107 mm',       code:'241.654', preis:'~80€', rec:false },
+          { name:'Stage6 R/T 107 mm',         code:'S6-3215205', preis:'~75€', rec:false },
+        ],
+      },
+      ratioTuning: [
+        { name:'Malossi 125 Sport', code:'6111630', ratio:'1:11,8', note:'Mehr Anzug für 125ccm', preis:'~95€', rec:true },
+      ],
+    },
+
+    'kymco': {
+      name:    'Kymco Getriebe',
+      code:    'OEM Kymco',
+      ratio:   '1:10,9 (Serie)',
+      clutchD: 107,
+      note:    'Kymco-eigenes Getriebe. Gut verfügbar im Kymco-Ersatzteilnetz.',
+      compat: [
+        { model:'Kymco Agility 50 (alle Bj.)', code:'OEM', note:'Identisch' },
+        { model:'Kymco Super 8 50',             code:'OEM', note:'Identisch' },
+        { model:'Kymco Filly LX 50',            code:'OEM', note:'Identisch' },
+      ],
+      alt107: null,
+      ratioTuning: [],
+    },
+
+    'honda': {
+      name:    'Honda AF-Getriebe',
+      code:    'OEM Honda',
+      ratio:   '1:11,0 (Serie)',
+      clutchD: 107,
+      note:    'Honda-spezifisches Getriebe. Ersatzteile über Honda-Händler.',
+      compat: [
+        { model:'Honda Dio 50 (AF27/28)', code:'OEM', note:'Identisch' },
+        { model:'Honda Lead 50',           code:'OEM', note:'Ähnlich' },
+        { model:'Honda SH 50',             code:'OEM', note:'Ähnlich' },
+      ],
+      alt107: null,
+      ratioTuning: [],
+    },
+
+    'sym': {
+      name:    'SYM Getriebe',
+      code:    'OEM SYM',
+      ratio:   '1:11,0 (Serie)',
+      clutchD: 107,
+      note:    'SYM-eigenes Getriebe. Ersatzteile über SYM-Händler.',
+      compat: [
+        { model:'SYM Fiddle II 50', code:'OEM', note:'Identisch' },
+        { model:'SYM Jet4 50',      code:'OEM', note:'Identisch' },
+      ],
+      alt107: null,
+      ratioTuning: [],
+    },
+  },
+
+  // ── DISTANZRINGE (Variomatik-Abstandhalter) ──────────
+  // Distanzringe verkleinern den max. Variomatik-Durchmesser
+  // → Übersetzung bleibt länger "kurz" → höhere Drehzahl → weniger Top Speed
+  // Formel: jeder mm Ring ≈ −1,5 bis −2 km/h Top Speed
+  spacers: {
+    // Standard für Piaggio C9A (Variomatik ⌀ ca. 107 mm, Breite 26 mm)
+    'piaggio-c9a': {
+      maxDiam: 107,
+      beltW:   17.7,
+      origW:   0,    // mm Distanzring Original (kein Ring)
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−4 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+        { w:4, effect:'−6 bis −8 km/h', rpm:'+800 RPM', use:'<25 km/h Mofa' },
+        { w:5, effect:'−8 bis −10 km/h',rpm:'+1000 RPM',use:'Stark gedrosselt' },
+      ],
+      note:'Distanzringe aus Aluminium oder Stahl, werden zwischen Variomatik und Kurbelwellenflansch montiert.',
+      code:'div. Hersteller, z.B. Polini 248.100 (Satz)',
+    },
+    'minarelli-h': {
+      maxDiam: 107,
+      beltW:   17.7,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−4 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+        { w:4, effect:'−6 bis −8 km/h', rpm:'+800 RPM', use:'<25 km/h Mofa' },
+        { w:5, effect:'−8 bis −10 km/h',rpm:'+1000 RPM',use:'Stark gedrosselt' },
+      ],
+      note:'Standardmaßnahme bei Wiederherstellung der Typgenehmigung für 25 km/h.',
+      code:'Polini 248.102 (AM6 Satz)',
+    },
+    'minarelli-v': {
+      maxDiam: 105,
+      beltW:   17.8,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−2 bis −3 km/h', rpm:'+250 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−4 bis −5 km/h', rpm:'+500 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−6 bis −8 km/h', rpm:'+750 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'AM8 vertikal (Booster, Jog).',
+      code:'Polini 248.103 (AM8v Satz)',
+    },
+    'piaggio-big': {
+      maxDiam: 120,
+      beltW:   22,
+      origW:   0,
+      steps: [
+        { w:2, effect:'−3 bis −5 km/h', rpm:'+300 RPM', use:'Leichte Drosselung' },
+        { w:4, effect:'−6 bis −9 km/h', rpm:'+600 RPM', use:'Mittlere Drosselung' },
+        { w:6, effect:'−10 bis −14 km/h',rpm:'+900 RPM',use:'Starke Drosselung' },
+      ],
+      note:'125cc Getriebe. Selten für Drosselung verwendet.',
+      code:'Polini 248.110',
+    },
+    'kymco': {
+      maxDiam: 105,
+      beltW:   16,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−5 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'Kymco-spezifisch.',
+      code:'Herstellerseitig',
+    },
+    'honda': {
+      maxDiam: 107,
+      beltW:   16,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−5 bis −7 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'Honda AF-spezifisch.',
+      code:'Honda-Händler',
+    },
+    'sym': {
+      maxDiam: 105,
+      beltW:   17,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−5 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'SYM-spezifisch.',
+      code:'SYM-Händler',
+    },
+  },
+};
+
+// Distanzring-Breite berechnen für Ziel-km/h
+function calcSpacerWidth(targetKmh, vmax, vk) {
+  var sp = GEARDB.spacers[vk];
+  if (!sp) return null;
+  var delta = vmax - targetKmh;          // wieviel muss gedrosselt werden
+  if (delta <= 0) return 0;              // kein Ring nötig
+  // 1 mm ≈ 1,5 km/h (konservativ)
+  var mmRaw = delta / 1.6;
+  var mm = Math.ceil(mmRaw * 2) / 2;    // auf 0,5 mm aufrunden
+  mm = Math.max(0.5, Math.min(6, mm));  // 0,5 – 6 mm Bereich
+  return mm;
+}
+
+
+// ═══════════════════════════════════════════════════
+//  VARIOMATIK / RIEMEN / KUPPLUNG DATENBANK
+// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+//  GETRIEBE & KUPPLUNGS-DATENBANK
+// ═══════════════════════════════════════════════════════
+var GEARDB = {
+
+  // ── GETRIEBE-EINHEITEN ──────────────────────────────
+  gearboxes: {
+    'piaggio-c9a': {
+      name:    'Piaggio C9A Getriebe',
+      code:    '8438735 / 1A000052',
+      ratio:   '1:11,1 (Serie)',
+      clutchD: 107,
+      note:    'Einheitsgetriebe für alle C9A-Motoren (NRG, Zip, Typhoon, Liberty, Fly …). Sehr weit verbreitet, Ersatzteile problemlos verfügbar.',
+      compat: [
+        { model:'Piaggio ZIP 50 (alle Bj.)',      code:'8438735', note:'Identisch' },
+        { model:'Piaggio Typhoon 50',              code:'8438735', note:'Identisch' },
+        { model:'Piaggio Liberty 50',              code:'8438735', note:'Identisch' },
+        { model:'Gilera Runner 50',                code:'8438735', note:'Identisch, direkt tauschbar' },
+        { model:'Gilera Stalker / Ice / DNA',      code:'8438735', note:'Identisch' },
+        { model:'Vespa ET2 50 / LX 50',            code:'8438735', note:'Identisch' },
+      ],
+      alt107: null,  // bereits 107 mm
+      ratioTuning: [
+        { name:'Malossi MHR Team',  code:'6111611', ratio:'1:10,6', note:'Kürzere Übersetzung → mehr Anzug, leicht niedrigere Top Speed', preis:'~85€', rec:false },
+        { name:'Polini Sport',       code:'241.100', ratio:'1:10,9', note:'Leicht kürzere Übersetzung, guter Kompromiss',                  preis:'~65€', rec:true  },
+        { name:'Malossi Sport Long', code:'6111612', ratio:'1:11,6', note:'Längere Übersetzung → mehr Top Speed, weniger Anzug',            preis:'~85€', rec:false },
+      ],
+    },
+
+    'minarelli-h': {
+      name:    'Minarelli AM6 Getriebe',
+      code:    '5BW-G7590 / OEM Aprilia',
+      ratio:   '1:11,3 (Serie)',
+      clutchD: 107,
+      note:    'Standardgetriebe für alle AM6-Motoren horizontal (Aerox, Nitro, SR50, Speedfight …). Gut verfügbar.',
+      compat: [
+        { model:'Yamaha Aerox 50 / BW\'S 50',    code:'5BW-G7590', note:'Identisch' },
+        { model:'MBK Nitro 50 / Stunt 50',        code:'5BW-G7590', note:'Identisch' },
+        { model:'Aprilia SR50 LC / AC',            code:'AP8220049', note:'Identisch, andere Art.-Nr.' },
+        { model:'Peugeot Speedfight 2',            code:'OEM Peugeot', note:'Identisch, tauschbar' },
+        { model:'Derbi Atlantis 50',               code:'OEM Derbi',   note:'Tauschbar' },
+        { model:'CPI Hussar / Oliver',             code:'OEM CPI',     note:'Tauschbar' },
+      ],
+      alt107: null,
+      ratioTuning: [
+        { name:'Malossi Sport',  code:'6111620', ratio:'1:10,8', note:'Mehr Anzug',      preis:'~85€', rec:true  },
+        { name:'Polini Sport',   code:'241.110', ratio:'1:11,1', note:'Kompromiss',       preis:'~65€', rec:false },
+        { name:'Malossi Long',   code:'6111621', ratio:'1:11,8', note:'Mehr Top Speed',  preis:'~85€', rec:false },
+      ],
+    },
+
+    'minarelli-v': {
+      name:    'Minarelli AM8 Getriebe (vertikal)',
+      code:    'OEM Yamaha/MBK',
+      ratio:   '1:11,0 (Serie)',
+      clutchD: 107,
+      note:    'Vertikaler AM8-Motor (Booster, Ovetto, Jog). Gut verfügbar.',
+      compat: [
+        { model:'MBK Booster 50 (alle Bj.)', code:'OEM', note:'Identisch' },
+        { model:'Yamaha Jog 50',              code:'OEM', note:'Identisch' },
+        { model:'MBK Ovetto 50',              code:'OEM', note:'Identisch' },
+      ],
+      alt107: null,
+      ratioTuning: [
+        { name:'Polini Sport AM8v', code:'241.112', ratio:'1:10,7', note:'Mehr Anzug', preis:'~65€', rec:true },
+      ],
+    },
+
+    'piaggio-big': {
+      name:    'Piaggio 125/150 Getriebe',
+      code:    'OEM Piaggio',
+      ratio:   '1:12,5 (Serie)',
+      clutchD: 114,
+      note:    '⚠️ 114 mm Kupplungsglocke — auf dem Markt kaum noch erhältlich! Umbau auf 107 mm empfohlen.',
+      compat: [
+        { model:'Piaggio Skipper 125',     code:'OEM',        note:'Identisch' },
+        { model:'Piaggio Hexagon 125',     code:'OEM',        note:'Identisch' },
+        { model:'Gilera Runner 125/180',   code:'OEM Gilera', note:'Ähnlich, Adapter prüfen' },
+      ],
+      alt107: {
+        note:    '✓ Umbau auf 107 mm möglich mit Adapter-Kit',
+        adapter: 'Malossi Adapter-Kit 114→107 mm',
+        code:    '5215940',
+        preis:   '~35€',
+        clutches107: [
+          { name:'Malossi MHR Delta 107 mm', code:'5215472', preis:'~90€', rec:true  },
+          { name:'Polini Speed 107 mm',       code:'241.654', preis:'~80€', rec:false },
+          { name:'Stage6 R/T 107 mm',         code:'S6-3215205', preis:'~75€', rec:false },
+        ],
+      },
+      ratioTuning: [
+        { name:'Malossi 125 Sport', code:'6111630', ratio:'1:11,8', note:'Mehr Anzug für 125ccm', preis:'~95€', rec:true },
+      ],
+    },
+
+    'kymco': {
+      name:    'Kymco Getriebe',
+      code:    'OEM Kymco',
+      ratio:   '1:10,9 (Serie)',
+      clutchD: 107,
+      note:    'Kymco-eigenes Getriebe. Gut verfügbar im Kymco-Ersatzteilnetz.',
+      compat: [
+        { model:'Kymco Agility 50 (alle Bj.)', code:'OEM', note:'Identisch' },
+        { model:'Kymco Super 8 50',             code:'OEM', note:'Identisch' },
+        { model:'Kymco Filly LX 50',            code:'OEM', note:'Identisch' },
+      ],
+      alt107: null,
+      ratioTuning: [],
+    },
+
+    'honda': {
+      name:    'Honda AF-Getriebe',
+      code:    'OEM Honda',
+      ratio:   '1:11,0 (Serie)',
+      clutchD: 107,
+      note:    'Honda-spezifisches Getriebe. Ersatzteile über Honda-Händler.',
+      compat: [
+        { model:'Honda Dio 50 (AF27/28)', code:'OEM', note:'Identisch' },
+        { model:'Honda Lead 50',           code:'OEM', note:'Ähnlich' },
+        { model:'Honda SH 50',             code:'OEM', note:'Ähnlich' },
+      ],
+      alt107: null,
+      ratioTuning: [],
+    },
+
+    'sym': {
+      name:    'SYM Getriebe',
+      code:    'OEM SYM',
+      ratio:   '1:11,0 (Serie)',
+      clutchD: 107,
+      note:    'SYM-eigenes Getriebe. Ersatzteile über SYM-Händler.',
+      compat: [
+        { model:'SYM Fiddle II 50', code:'OEM', note:'Identisch' },
+        { model:'SYM Jet4 50',      code:'OEM', note:'Identisch' },
+      ],
+      alt107: null,
+      ratioTuning: [],
+    },
+  },
+
+  // ── DISTANZRINGE (Variomatik-Abstandhalter) ──────────
+  // Distanzringe verkleinern den max. Variomatik-Durchmesser
+  // → Übersetzung bleibt länger "kurz" → höhere Drehzahl → weniger Top Speed
+  // Formel: jeder mm Ring ≈ −1,5 bis −2 km/h Top Speed
+  spacers: {
+    // Standard für Piaggio C9A (Variomatik ⌀ ca. 107 mm, Breite 26 mm)
+    'piaggio-c9a': {
+      maxDiam: 107,
+      beltW:   17.7,
+      origW:   0,    // mm Distanzring Original (kein Ring)
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−4 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+        { w:4, effect:'−6 bis −8 km/h', rpm:'+800 RPM', use:'<25 km/h Mofa' },
+        { w:5, effect:'−8 bis −10 km/h',rpm:'+1000 RPM',use:'Stark gedrosselt' },
+      ],
+      note:'Distanzringe aus Aluminium oder Stahl, werden zwischen Variomatik und Kurbelwellenflansch montiert.',
+      code:'div. Hersteller, z.B. Polini 248.100 (Satz)',
+    },
+    'minarelli-h': {
+      maxDiam: 107,
+      beltW:   17.7,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−4 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+        { w:4, effect:'−6 bis −8 km/h', rpm:'+800 RPM', use:'<25 km/h Mofa' },
+        { w:5, effect:'−8 bis −10 km/h',rpm:'+1000 RPM',use:'Stark gedrosselt' },
+      ],
+      note:'Standardmaßnahme bei Wiederherstellung der Typgenehmigung für 25 km/h.',
+      code:'Polini 248.102 (AM6 Satz)',
+    },
+    'minarelli-v': {
+      maxDiam: 105,
+      beltW:   17.8,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−2 bis −3 km/h', rpm:'+250 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−4 bis −5 km/h', rpm:'+500 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−6 bis −8 km/h', rpm:'+750 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'AM8 vertikal (Booster, Jog).',
+      code:'Polini 248.103 (AM8v Satz)',
+    },
+    'piaggio-big': {
+      maxDiam: 120,
+      beltW:   22,
+      origW:   0,
+      steps: [
+        { w:2, effect:'−3 bis −5 km/h', rpm:'+300 RPM', use:'Leichte Drosselung' },
+        { w:4, effect:'−6 bis −9 km/h', rpm:'+600 RPM', use:'Mittlere Drosselung' },
+        { w:6, effect:'−10 bis −14 km/h',rpm:'+900 RPM',use:'Starke Drosselung' },
+      ],
+      note:'125cc Getriebe. Selten für Drosselung verwendet.',
+      code:'Polini 248.110',
+    },
+    'kymco': {
+      maxDiam: 105,
+      beltW:   16,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−5 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'Kymco-spezifisch.',
+      code:'Herstellerseitig',
+    },
+    'honda': {
+      maxDiam: 107,
+      beltW:   16,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−5 bis −7 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'Honda AF-spezifisch.',
+      code:'Honda-Händler',
+    },
+    'sym': {
+      maxDiam: 105,
+      beltW:   17,
+      origW:   0,
+      steps: [
+        { w:1, effect:'−1 bis −2 km/h', rpm:'+200 RPM', use:'Feinjustierung' },
+        { w:2, effect:'−3 bis −4 km/h', rpm:'+400 RPM', use:'25 km/h Bereich' },
+        { w:3, effect:'−5 bis −6 km/h', rpm:'+600 RPM', use:'25 km/h gesetzlich' },
+      ],
+      note:'SYM-spezifisch.',
+      code:'SYM-Händler',
+    },
+  },
+};
+
+// Distanzring-Breite berechnen für Ziel-km/h
+function calcSpacerWidth(targetKmh, vmax, vk) {
+  var sp = GEARDB.spacers[vk];
+  if (!sp) return null;
+  var delta = vmax - targetKmh;          // wieviel muss gedrosselt werden
+  if (delta <= 0) return 0;              // kein Ring nötig
+  // 1 mm ≈ 1,5 km/h (konservativ)
+  var mmRaw = delta / 1.6;
+  var mm = Math.ceil(mmRaw * 2) / 2;    // auf 0,5 mm aufrunden
+  mm = Math.max(0.5, Math.min(6, mm));  // 0,5 – 6 mm Bereich
+  return mm;
+}
+
+
+var VARDB={
+  belts:{
+    '729x17.7x28':{
+      desc:'Piaggio C9A',dim:'729 × 17,7 × 28°',
+      brands:[
+        {b:'Piaggio Original',code:'842062',type:'OEM'},
+        {b:'Dayco',code:'7182',type:'top'},
+        {b:'Gates',code:'6182',type:'top'},
+        {b:'Polini',code:'248.070',type:'tuning'},
+        {b:'Malossi',code:'6113148',type:'tuning'},
+        {b:'Stage6',code:'S6-23168',type:'tuning'},
+      ],interval:'8.000–12.000 km'
+    },
+    '743x17.7x28':{
+      desc:'Minarelli AM6 horizontal',dim:'743 × 17,7 × 28°',
+      brands:[
+        {b:'OEM (Yamaha/MBK)',code:'5WT-17641',type:'OEM'},
+        {b:'Dayco',code:'7191',type:'top'},
+        {b:'Gates',code:'6191',type:'top'},
+        {b:'Polini',code:'248.071',type:'tuning'},
+        {b:'Malossi',code:'6112558',type:'tuning'},
+      ],interval:'8.000–12.000 km'
+    },
+    '669x17.8x26':{
+      desc:'Minarelli AM8 vertikal',dim:'669 × 17,8 × 26°',
+      brands:[
+        {b:'Dayco',code:'7162',type:'top'},
+        {b:'Polini',code:'248.060',type:'tuning'},
+        {b:'Gates',code:'6162',type:'top'},
+      ],interval:'8.000–10.000 km'
+    },
+    '787x16x26':{
+      desc:'Kymco Standard',dim:'787 × 16 × 26°',
+      brands:[
+        {b:'Dayco',code:'7201',type:'top'},
+        {b:'Gates',code:'6201',type:'top'},
+      ],interval:'10.000–14.000 km'
+    },
+    '787x17x26':{
+      desc:'SYM Standard',dim:'787 × 17 × 26°',
+      brands:[
+        {b:'Dayco',code:'7202',type:'top'},
+      ],interval:'10.000–14.000 km'
+    },
+  },
+
+  vario:{
+    'piaggio-c9a':{
+      orig:{name:'Original Piaggio',code:'841532',note:'Serienvariomatik — für leichtes Tuning ausreichend'},
+      tuning:[
+        {name:'Naraku V2 Sport',code:'NK430.07',note:'Gutes Preis/Leistung, weiche Kurve, gute Grundlage',preis:'~45€',rec:false},
+        {name:'Polini Speed Control',code:'241.007',note:'Optimierte Kurvenform, bessere Spreizung',preis:'~55€',rec:false},
+        {name:'Malossi Multivar 2000',code:'5113298',note:'★ Empfehlung — breite Abstimmung, alle Setups',preis:'~65€',rec:true},
+        {name:'Stage6 R/T',code:'S6-2315111',note:'Race-Variomatik, maximale Performance',preis:'~70€',rec:false},
+      ]
+    },
+    'minarelli-h':{
+      orig:{name:'Original Yamaha/MBK',code:'5WT-17610',note:'Serienvariomatik AM6'},
+      tuning:[
+        {name:'Naraku V2',code:'NK430.09',note:'Preis/Leistungs-Empfehlung',preis:'~45€',rec:false},
+        {name:'Polini Speed Control',code:'241.009',note:'Sehr gute Spreizung für AM6',preis:'~55€',rec:false},
+        {name:'Malossi Multivar 2000',code:'5113285',note:'★ Empfehlung für AM6',preis:'~65€',rec:true},
+        {name:'Stage6 R/T',code:'S6-2315112',note:'Race-Setup',preis:'~70€',rec:false},
+      ]
+    },
+    'minarelli-v':{
+      orig:{name:'Original AM8 vertikal',code:'OEM',note:'Booster/Neo etc.'},
+      tuning:[
+        {name:'Polini Speed Control',code:'241.012',note:'Für AM8 vertikal',preis:'~55€',rec:true},
+        {name:'Malossi Multivar',code:'5113140',note:'Malossi für Booster',preis:'~65€',rec:false},
+      ]
+    },
+    'piaggio-big':{
+      orig:{name:'Original Piaggio 125+',code:'OEM',note:'Für 125/150cc Piaggio'},
+      tuning:[
+        {name:'Malossi Multivar 2000',code:'5113300',note:'Empfehlung',preis:'~75€',rec:true},
+        {name:'Polini Speed',code:'241.020',note:'Für größere Piaggio',preis:'~65€',rec:false},
+      ]
+    },
+    'kymco':{
+      orig:{name:'Original Kymco',code:'OEM',note:'Kymco Variomatik'},
+      tuning:[
+        {name:'Malossi Multivar',code:'5113215',note:'Empfehlung für Kymco',preis:'~65€',rec:true},
+      ]
+    },
+    'honda':{
+      orig:{name:'Original Honda',code:'OEM',note:'Honda Variomatik'},
+      tuning:[
+        {name:'Polini Speed Control',code:'241.030',note:'Für Honda 50cc',preis:'~55€',rec:true},
+      ]
+    },
+    'sym':{
+      orig:{name:'Original SYM',code:'OEM',note:'SYM Variomatik'},
+      tuning:[
+        {name:'Malossi Multivar',code:'5113210',note:'Empfehlung SYM',preis:'~65€',rec:true},
+      ]
+    },
+  },
+
+  weights:{
+    'piaggio-c9a':{
+      std:{g:5.5,note:'6 × 5,5g Original Piaggio'},
+      opts:[
+        {g:4.0,name:'4,0g',eff:'Maximaler Anzug — sehr frühe Schaltdrehzahl, geringe Endgeschwindigkeit (−8 km/h)',use:'Nur Stadtverkehr / Stop-Go'},
+        {g:4.5,name:'4,5g',eff:'Viel Anzug — frühe Schaltdrehzahl, niedrigere Endgeschwindigkeit (−4 km/h)',use:'Stadtverkehr'},
+        {g:5.0,name:'5,0g',eff:'Mehr Anzug als Serie, leichte Einbuße Top Speed (−2 km/h)',use:'Mischbetrieb, Anzug bevorzugt'},
+        {g:5.5,name:'5,5g ★ Original',eff:'Serienmäßig — ausgewogenes Fahrverhalten',use:'Standard',orig:true},
+        {g:6.0,name:'6,0g',eff:'Etwas mehr Endgeschwindigkeit (+2–3 km/h), etwas weniger Anzug',use:'Außerorts'},
+        {g:6.5,name:'6,5g',eff:'Deutlich mehr Endgeschwindigkeit (+4–5 km/h), merklich trägerer Anzug',use:'Überlandfahrt'},
+        {g:7.0,name:'7,0g',eff:'Hohe Endgeschwindigkeit (+6–8 km/h), langsamer Anzug',use:'Tuning / Race'},
+        {g:7.5,name:'7,5g',eff:'Maximale Endgeschwindigkeit, sehr träger Anzug',use:'Race mit Tuning-Motor'},
+      ],
+      mixed:[
+        {combo:'3×5,0g + 3×6,0g',avg:'5,5g',eff:'Ausgewogen: Kompromiss Anzug & Geschwindigkeit',rec:true},
+        {combo:'3×4,5g + 3×6,5g',avg:'5,5g',eff:'Progressiv: weicher Start mit guter Endgeschwindigkeit'},
+        {combo:'2×5,0g + 4×6,0g',avg:'5,67g',eff:'Leichter Fokus Geschwindigkeit, noch akzeptabler Anzug'},
+        {combo:'4×5,0g + 2×6,5g',avg:'5,5g',eff:'Leichter Fokus Anzug, kaum Einbuße Top Speed'},
+      ]
+    },
+    'minarelli-h':{
+      std:{g:6.0,note:'6 × 6,0g Original AM6'},
+      opts:[
+        {g:4.5,name:'4,5g',eff:'Sehr viel Anzug, deutlich niedrigere Top Speed (−6 km/h)',use:'Nur Stadtverkehr'},
+        {g:5.0,name:'5,0g',eff:'Viel Anzug (−3 km/h Top Speed)',use:'Stadtverkehr'},
+        {g:5.5,name:'5,5g',eff:'Mehr Anzug als Serie (−1 km/h)',use:'Mischbetrieb'},
+        {g:6.0,name:'6,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
+        {g:6.5,name:'6,5g',eff:'+2–3 km/h Top Speed, etwas weniger Anzug',use:'Außerorts'},
+        {g:7.0,name:'7,0g',eff:'+4–5 km/h, trägerer Anzug',use:'Überlandfahrt'},
+        {g:7.5,name:'7,5g',eff:'+6–8 km/h, langsamer Anzug',use:'Tuning'},
+        {g:8.0,name:'8,0g',eff:'Maximal Top Speed, sehr träger Anzug',use:'Race'},
+      ],
+      mixed:[
+        {combo:'3×5,5g + 3×6,5g',avg:'6,0g',eff:'Ausgewogener Kompromiss',rec:true},
+        {combo:'3×5,0g + 3×7,0g',avg:'6,0g',eff:'Progressiv: weicher Start, hohe Endgeschwindigkeit'},
+        {combo:'2×5,5g + 4×6,5g',avg:'6,17g',eff:'Leichter Fokus Geschwindigkeit'},
+      ]
+    },
+    'minarelli-v':{
+      std:{g:6.0,note:'6 × 6,0g Original AM8 vertikal'},
+      opts:[
+        {g:5.0,name:'5,0g',eff:'Mehr Anzug (−3 km/h)',use:'Stadtverkehr'},
+        {g:5.5,name:'5,5g',eff:'Leicht mehr Anzug',use:'Mischbetrieb'},
+        {g:6.0,name:'6,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
+        {g:6.5,name:'6,5g',eff:'+2 km/h Top Speed',use:'Außerorts'},
+        {g:7.0,name:'7,0g',eff:'+4 km/h',use:'Tuning'},
+      ],
+      mixed:[
+        {combo:'3×5,5g + 3×6,5g',avg:'6,0g',eff:'Ausgewogener Kompromiss',rec:true},
+      ]
+    },
+    'piaggio-big':{
+      std:{g:8.0,note:'Original Piaggio 125+'},
+      opts:[
+        {g:7.0,name:'7,0g',eff:'Mehr Anzug',use:'Stadtverkehr'},
+        {g:8.0,name:'8,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
+        {g:9.0,name:'9,0g',eff:'+3–5 km/h Top Speed',use:'Tuning'},
+        {g:10.0,name:'10,0g',eff:'Maximale Endgeschwindigkeit',use:'Race'},
+      ],
+      mixed:[
+        {combo:'3×7,5g + 3×8,5g',avg:'8,0g',eff:'Ausgewogen',rec:true},
+      ]
+    },
+    'kymco':{
+      std:{g:6.0,note:'Original Kymco'},
+      opts:[
+        {g:5.5,name:'5,5g',eff:'Mehr Anzug',use:'Stadtverkehr'},
+        {g:6.0,name:'6,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
+        {g:6.5,name:'6,5g',eff:'+2 km/h',use:'Außerorts'},
+      ],
+      mixed:[{combo:'3×5,5g + 3×6,5g',avg:'6,0g',eff:'Ausgewogen',rec:true}]
+    },
+    'honda':{
+      std:{g:8.0,note:'Original Honda 50cc'},
+      opts:[
+        {g:7.0,name:'7,0g',eff:'Mehr Anzug',use:'Stadtverkehr'},
+        {g:8.0,name:'8,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
+        {g:9.0,name:'9,0g',eff:'+3 km/h',use:'Tuning'},
+      ],
+      mixed:[{combo:'3×7,5g + 3×8,5g',avg:'8,0g',eff:'Ausgewogen',rec:true}]
+    },
+    'sym':{
+      std:{g:6.0,note:'Original SYM'},
+      opts:[
+        {g:5.5,name:'5,5g',eff:'Mehr Anzug',use:'Stadtverkehr'},
+        {g:6.0,name:'6,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
+        {g:6.5,name:'6,5g',eff:'+2 km/h',use:'Außerorts'},
+      ],
+      mixed:[{combo:'3×5,5g + 3×6,5g',avg:'6,0g',eff:'Ausgewogen',rec:true}]
+    },
+  },
+
+  clutch:{
+    'piaggio-c9a':{
+      orig:{name:'Original Piaggio Kupplung',code:'829207',spring:'gelb (weich)',eingriff:'~4.500 RPM'},
+      tuning:[
+        {name:'Naraku Racing',code:'NK430.20',spring:'blau',eingriff:'~4.500 RPM',note:'Gutes P/L',preis:'~65€',rec:false},
+        {name:'Polini Speed Clutch',code:'241.654',spring:'gelb',eingriff:'~4.000 RPM',note:'Sanfter Eingriff, gut für Anzug',preis:'~80€',rec:false},
+        {name:'Malossi MHR Delta',code:'5215472',spring:'silber',eingriff:'~4.200 RPM',note:'★ Empfehlung Allround',preis:'~90€',rec:true},
+        {name:'Stage6 R/T',code:'S6-3215205',spring:'rot',eingriff:'~5.000 RPM',note:'Race — Sport/Reso-Auspuff',preis:'~75€',rec:false},
+      ],
+      springs:[
+        {col:'gelb',force:'weich',eingriff:'~3.800 RPM',note:'Früher Eingriff, viel Schlupf → ruhiger sanfter Start'},
+        {col:'silber/grün',force:'mittel',eingriff:'~4.200 RPM',note:'★ Empfehlung Standard-Tuning — Allround'},
+        {col:'rot',force:'hart',eingriff:'~4.800–5.000 RPM',note:'Sport/Race — höhere Eingriff-Drehzahl, direktes Anfahren'},
+        {col:'blau',force:'sehr hart',eingriff:'~5.200 RPM',note:'Nur Race, abrupter Eingriff'},
+      ],
+      gegenfeder:[
+        {name:'Original (Serienfeder)',code:'OEM',note:'Standard'},
+        {name:'Malossi weich',code:'294215',note:'Weniger Gegendruck → früheres Hochschalten → mehr Top Speed'},
+        {name:'Polini hart',code:'241.680',note:'Mehr Gegendruck → längeres Beschleunigen → mehr Anzug'},
+      ]
+    },
+    'minarelli-h':{
+      orig:{name:'Original AM6 Kupplung',code:'OEM',spring:'standard',eingriff:'~4.500 RPM'},
+      tuning:[
+        {name:'Polini Speed Clutch',code:'241.660',spring:'gelb',eingriff:'~4.000 RPM',note:'Sanfter Eingriff',preis:'~80€',rec:false},
+        {name:'Malossi Delta Clutch',code:'5215482',spring:'silber',eingriff:'~4.200 RPM',note:'★ Empfehlung AM6',preis:'~90€',rec:true},
+        {name:'Stage6 Racing',code:'S6-3215210',spring:'rot',eingriff:'~5.000 RPM',note:'Race',preis:'~75€',rec:false},
+      ],
+      springs:[
+        {col:'gelb',force:'weich',eingriff:'~3.800 RPM',note:'Ruhiger Start'},
+        {col:'silber',force:'mittel',eingriff:'~4.200 RPM',note:'★ Empfehlung'},
+        {col:'rot',force:'hart',eingriff:'~5.000 RPM',note:'Race'},
+      ],
+      gegenfeder:[
+        {name:'Original',code:'OEM',note:'Standard'},
+        {name:'Malossi weich',code:'293889',note:'Mehr Top Speed'},
+        {name:'Polini hart',code:'241.685',note:'Mehr Anzug'},
+      ]
+    },
+    'minarelli-v':{
+      orig:{name:'Original AM8v Kupplung',code:'OEM',spring:'standard',eingriff:'~4.500 RPM'},
+      tuning:[
+        {name:'Malossi Delta',code:'5215490',spring:'silber',eingriff:'~4.200 RPM',note:'★ Empfehlung Booster',preis:'~90€',rec:true},
+        {name:'Polini Speed',code:'241.665',spring:'gelb',eingriff:'~4.000 RPM',note:'Sanft',preis:'~80€',rec:false},
+      ],
+      springs:[
+        {col:'gelb',force:'weich',eingriff:'~3.800 RPM',note:'Sanfter Start'},
+        {col:'silber',force:'mittel',eingriff:'~4.200 RPM',note:'★ Empfehlung'},
+      ],
+      gegenfeder:[
+        {name:'Original',code:'OEM',note:'Standard'},
+        {name:'Malossi weich',code:'293900',note:'Mehr Top Speed'},
+      ]
+    },
+    'piaggio-big':{
+      orig:{name:'Original Piaggio 125+',code:'OEM',spring:'standard',eingriff:'~4.000 RPM'},
+      tuning:[
+        {name:'Malossi MHR Delta',code:'5215500',spring:'silber',eingriff:'~4.000 RPM',note:'★ Empfehlung',preis:'~95€',rec:true},
+      ],
+      springs:[
+        {col:'silber',force:'mittel',eingriff:'~4.000 RPM',note:'★ Empfehlung'},
+        {col:'rot',force:'hart',eingriff:'~4.800 RPM',note:'Sport'},
+      ],
+      gegenfeder:[
+        {name:'Original',code:'OEM',note:'Standard'},
+      ]
+    },
+    'kymco':{
+      orig:{name:'Original Kymco',code:'OEM',spring:'standard',eingriff:'~4.500 RPM'},
+      tuning:[
+        {name:'Malossi Delta',code:'5215510',spring:'silber',eingriff:'~4.200 RPM',note:'Empfehlung',preis:'~85€',rec:true},
+      ],
+      springs:[{col:'silber',force:'mittel',eingriff:'~4.200 RPM',note:'Empfehlung'}],
+      gegenfeder:[{name:'Original',code:'OEM',note:'Standard'}]
+    },
+    'honda':{
+      orig:{name:'Original Honda',code:'OEM',spring:'standard',eingriff:'~4.500 RPM'},
+      tuning:[
+        {name:'Polini Speed',code:'241.670',spring:'gelb',eingriff:'~4.000 RPM',note:'Empfehlung Honda 50',preis:'~80€',rec:true},
+      ],
+      springs:[{col:'silber',force:'mittel',eingriff:'~4.200 RPM',note:'Empfehlung'}],
+      gegenfeder:[{name:'Original',code:'OEM',note:'Standard'}]
+    },
+    'sym':{
+      orig:{name:'Original SYM',code:'OEM',spring:'standard',eingriff:'~4.500 RPM'},
+      tuning:[
+        {name:'Malossi Delta',code:'5215520',spring:'silber',eingriff:'~4.200 RPM',note:'Empfehlung',preis:'~85€',rec:true},
+      ],
+      springs:[{col:'silber',force:'mittel',eingriff:'~4.200 RPM',note:'Empfehlung'}],
+      gegenfeder:[{name:'Original',code:'OEM',note:'Standard'}]
+    },
+  }
+};
+
+// Speed model: km/h Schätzung je Gewicht (Piaggio C9A 50cc @45 km/h Serie mit 5.5g)
+function speedEstimate(vmaxStd,wStd,wUsed,varioTuned){
+  var delta=(wUsed-wStd)*2.4; // ~2.4 km/h pro Gramm
+  var vBonus=varioTuned?5:0;
+  return Math.round(vmaxStd+delta+vBonus);
+}
+
+// Empfohlenes Gewicht für Ziel-km/h
+function weightForSpeed(targetKmh,vmaxStd,wStd,varioTuned){
+  var vBonus=varioTuned?5:0;
+  var delta=targetKmh-vmaxStd-vBonus;
+  var w=wStd+(delta/2.4);
+  return Math.round(w*2)/2; // auf 0.5g runden
+}
+
+
 // ══════════════════════════
 //  DATENBANK
 // ══════════════════════════
@@ -697,6 +1923,11 @@ var AVAIL={
   250:[21.5,24,28]
 };
 
+// Fahrzeug-State
+var selMaker='',selModel='',selYear=0,selVehicle=null;
+var manualWheel=false,manualTrans=false;
+var speedTarget=0; // 0=kein Ziel, sonst km/h
+// Vergaser-State
 var cc=50,carb=12,filt='serie',ausp='serie',kr='blind',ho='tal';
 
 function setBs(g,el){
@@ -752,6 +1983,913 @@ function setSc(g,el){
 
 function g(id){return document.getElementById(id);}
 
+
+
+// ═══════════════════════════════════════════════════════
+//  VARIO-TAB: STATE & LOGIC (Neubau)
+// ═══════════════════════════════════════════════════════
+var vState={
+  maker:'',model:'',year:0,veh:null,
+  riemen:'orig',   // 'orig'|'alt'
+  vario:'orig',    // 'orig'|index
+  wMode:'orig',    // 'orig'|'single'|'mixed'
+  wSingle:null,    // g value
+  wMixed:null,     // combo string
+  clutch:'orig',   // 'orig'|index
+  spring:null,     // color string
+  gegen:'orig',    // 'orig'|index
+  goal:'balanced', // 'anzug'|'balanced'|'speed'
+  spdTarget:0      // 0=none, else km/h
+};
+
+// Called from applyVehicle()
+function fillVarioTab(v){
+  if(!v||!v.vk){
+    g('vNoVeh').style.display='block';
+    g('vContent').style.display='none';
+    return;
+  }
+  g('vNoVeh').style.display='none';
+  g('vContent').style.display='block';
+  vState.veh=v;
+
+  // Banner
+  g('vVehName').textContent=(VDATA[selMaker]?VDATA[selMaker].name:'')+ ' '+v.name+' ('+selYear+')';
+  g('vVehSub').textContent='Motor: '+v.eng+' · '+v.cc+' ccm · Std. Gewicht: '+(v.wStd?v.wStd+'g':'—')+' · Max Serie: ~'+v.vmax+' km/h';
+
+  // Max speed hint
+  var mxLabel=g('spdMaxLabel');
+  if(mxLabel)mxLabel.textContent='(Serie: ~'+v.vmax+' km/h | max. erreichbar: ~'+calcMaxSpeed(v)+' km/h)';
+
+  renderBelt(v);
+  renderVario(v);
+  renderWeights(v);
+  renderClutch(v);
+  renderSummary();
+}
+
+// ── 1. RIEMEN ──────────────────────────────────────────
+
+// ═══════════════════════════════════════════════════════
+//  FAHRZEUGAUSWAHL LOGIK
+// ═══════════════════════════════════════════════════════
+function initVehicleSelects(){
+  var mk=g('selMakerEl'); if(!mk)return;
+  Object.keys(VDATA).sort(function(a,b){return VDATA[a].name.localeCompare(VDATA[b].name);}).forEach(function(key){
+    var o=document.createElement('option'); o.value=key; o.textContent=VDATA[key].name; mk.appendChild(o);
+  });
+}
+function onMakerChange(){
+  var mk=g('selMakerEl').value;
+  selMaker=mk; selModel=''; selYear=0; selVehicle=null;
+  var mdEl=g('selModelEl');
+  mdEl.innerHTML='<option value="">— Modell —</option>'; mdEl.disabled=!mk;
+  g('selYearEl').innerHTML='<option value="">— Bj. —</option>'; g('selYearEl').disabled=true;
+  g('vehInfoBox').style.display='none'; g('radGetrSec').style.display='none';
+  fillVarioTab(null);
+  if(!mk)return;
+  var models=VDATA[mk].models;
+  Object.keys(models).sort(function(a,b){return models[a].name.localeCompare(models[b].name);}).forEach(function(key){
+    var o=document.createElement('option'); o.value=key; o.textContent=models[key].name; mdEl.appendChild(o);
+  });
+}
+function onModelChange(){
+  var mk=selMaker, md=g('selModelEl').value;
+  selModel=md; selYear=0; selVehicle=null;
+  var yrEl=g('selYearEl');
+  yrEl.innerHTML='<option value="">— Bj. —</option>'; yrEl.disabled=!md;
+  g('vehInfoBox').style.display='none'; g('radGetrSec').style.display='none';
+  fillVarioTab(null);
+  if(!md)return;
+  var veh=VDATA[mk].models[md];
+  for(var y=veh.yr[1];y>=veh.yr[0];y--){
+    var o=document.createElement('option'); o.value=y; o.textContent=y; yrEl.appendChild(o);
+  }
+}
+function onYearChange(){
+  selYear=parseInt(g('selYearEl').value)||0;
+  if(!selYear)return;
+  selVehicle=VDATA[selMaker].models[selModel];
+  applyVehicle();
+}
+function applyVehicle(){
+  var v=selVehicle; if(!v)return;
+  // Update ccm
+  cc=v.cc;
+  document.querySelectorAll('#ccG .bs').forEach(function(b){b.classList.toggle('active',parseFloat(b.dataset.v)===cc);});
+  updateCarbBtns();
+  var rec=RECOMMEND[cc];
+  if(rec&&rec.length){
+    carb=rec[0];
+    document.querySelectorAll('#carbG .bs').forEach(function(b){b.classList.toggle('active',parseFloat(b.dataset.v)===carb);});
+  }
+  // Info box
+  var infoEl=g('vehInfoBox');
+  var wStr=v.belt?('<strong>Riemen:</strong> '+v.belt+' &nbsp;|&nbsp; '):'';
+  var wgStr=v.wStd?('<strong>Std.-Gewicht:</strong> '+String(v.wStd).replace('.',',')+' g &nbsp;|&nbsp; '):'';
+  infoEl.innerHTML='<strong>'+VDATA[selMaker].name+' '+v.name+' ('+selYear+')</strong><br>Motor: '+v.eng+' · '+v.cc+' ccm &nbsp;|&nbsp; '+wStr+wgStr+'Max. Serie: ~'+v.vmax+' km/h';
+  infoEl.style.display='block';
+  g('radGetrSec').style.display='block';
+  fillWheelRow(v); fillTransRow(v);
+  fillVarioTab(v);
+  calc();
+}
+function fillWheelRow(v){
+  var row=g('wheelRow'); if(!row)return;
+  row.innerHTML='';
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;gap:10px;align-items:center;flex-wrap:wrap;';
+  var bi=document.createElement('div');
+  bi.style.cssText='display:flex;flex-direction:column;align-items:center;padding:6px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--line2);';
+  bi.innerHTML='<span style="font-size:20px;font-weight:700;color:var(--ac);">'+v.inch+'"</span><span style="font-size:9px;color:var(--text3);text-transform:uppercase;">Zoll</span>';
+  var specs=document.createElement('div');
+  specs.innerHTML='<div style="font-size:11px;color:var(--text3);">Vorne</div><div style="font-weight:600;font-size:13px;">'+(v.wf||'—')+'</div><div style="font-size:11px;color:var(--text3);margin-top:5px;">Hinten</div><div style="font-weight:600;font-size:13px;">'+(v.wr||'—')+'</div>';
+  var minp=document.createElement('div');
+  minp.innerHTML='<div style="font-size:11px;color:var(--text3);">Manuell</div><input type="number" id="wheelInchInput" min="8" max="21" step="1" value="'+v.inch+'" style="width:58px;padding:8px 6px;margin-top:3px;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--rs);color:var(--text);font-size:14px;text-align:center;" oninput="manualWheel=true;"> <span style="font-size:11px;color:var(--text3);">Zoll</span>';
+  wrap.appendChild(bi); wrap.appendChild(specs); wrap.appendChild(minp);
+  row.appendChild(wrap);
+}
+function fillTransRow(v){
+  document.querySelectorAll('#transG .bs').forEach(function(b){b.classList.toggle('active',b.dataset.v===v.trans);});
+  var gr=g('gearRow'); if(gr)gr.style.display=(v.trans==='manual')?'flex':'none';
+  if(v.gears){var gc=g('gearCount');if(gc)gc.value=v.gears;}
+}
+function setTrans(val,el){
+  document.querySelectorAll('#transG .bs').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  var gr=g('gearRow'); if(gr)gr.style.display=(val==='manual')?'flex':'none';
+}
+
+function renderBelt(v){
+  var el=g('beltContent'); if(!el)return;
+  if(!v.belt||!VARDB.belts[v.belt]){
+    el.innerHTML='<div class="vinfo-box">Kein Riemenantrieb (Schaltgetriebe).</div>';
+    return;
+  }
+  var bd=VARDB.belts[v.belt];
+  var html='<div class="vinfo-box" style="margin-bottom:10px;">';
+  html+='<strong>Original-Maße: '+bd.dim+'</strong><br>';
+  html+='<span style="font-size:12px;">'+bd.desc+' · Wechsel alle '+bd.interval+'</span>';
+  html+='</div>';
+  html+='<div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;">Verfügbare Riemen (gleiche Maße)</div>';
+  bd.brands.forEach(function(br,i){
+    var badge=br.type==='OEM'?'<span class="vc-badge badge-orig">★ Original</span>':
+              br.type==='top'?'<span class="vc-badge badge-rec">Empfehlung</span>':
+              '<span class="vc-badge badge-race">Tuning</span>';
+    html+='<div class="vcard'+(br.type==='OEM'?' orig-card active':'')+'" onclick="selRiemen('+i+',this)">';
+    html+='<div class="vc-row"><span class="vc-name">'+br.b+'</span>'+badge+'</div>';
+    html+='<div class="vc-code">Art.-Nr.: '+br.code+'</div>';
+    html+='<div class="vc-note">Maße: '+bd.dim+'</div></div>';
+  });
+  el.innerHTML=html;
+}
+function selRiemen(i,el){
+  document.querySelectorAll('#beltContent .vcard').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  renderSummary();
+}
+
+// ── 2. VARIOMATIK ──────────────────────────────────────
+function renderVario(v){
+  var vk=v.vk;
+  var vd=VARDB.vario[vk]; if(!vd)return;
+
+  // Reset toggle
+  document.querySelectorAll('#varioToggle .vtog-btn').forEach(function(b){
+    b.classList.toggle('active',b.dataset.v==='orig');
+  });
+  g('varioTuningList').style.display='none';
+
+  // Original info
+  g('varioOrigInfo').innerHTML='<strong>'+vd.orig.name+'</strong><br>'+
+    '<span style="font-family:ui-monospace,monospace;font-size:12px;color:var(--text3);">Art.-Nr.: '+vd.orig.code+'</span><br>'+
+    '<span style="font-size:12px;">'+vd.orig.note+'</span>';
+
+  // Tuning cards
+  var html='';
+  vd.tuning.forEach(function(t,i){
+    var badge=t.rec?'<span class="vc-badge badge-rec">★ Empfehlung</span>':'';
+    html+='<div class="vcard'+(t.rec?' active':'')+'" onclick="selVario('+i+',this)">';
+    html+='<div class="vc-row"><span class="vc-name">'+t.name+'</span>'+badge+'</div>';
+    html+='<div class="vc-code">'+t.code+'</div>';
+    html+='<div class="vc-note">'+t.note+'</div>';
+    html+='<div class="badge-price" style="margin-top:4px;">'+t.preis+'</div></div>';
+  });
+  g('varioCards').innerHTML=html;
+}
+function varioToggle(mode,el){
+  document.querySelectorAll('#varioToggle .vtog-btn').forEach(function(b){b.classList.toggle('active',b.dataset.v===mode);});
+  g('varioOrigInfo').style.display=mode==='orig'?'block':'none';
+  g('varioTuningList').style.display=mode==='tuning'?'block':'none';
+  vState.vario=mode==='orig'?'orig':null;
+  if(mode==='tuning'){
+    var first=g('varioCards').querySelector('.vcard.active');
+    if(!first){var f=g('varioCards').querySelector('.vcard');if(f)f.classList.add('active');}
+  }
+  updateSpeedFromSetup();
+  renderSummary();
+}
+function selVario(i,el){
+  document.querySelectorAll('#varioCards .vcard').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  vState.vario=i;
+  updateSpeedFromSetup();
+  renderSummary();
+}
+
+// ── 3. GEWICHTE ────────────────────────────────────────
+function renderWeights(v){
+  var vk=v.vk;
+  var wd=VARDB.weights[vk]; if(!wd)return;
+  var wStd=v.wStd||6;
+
+  // Original info
+  g('wOrigInfo').innerHTML='<strong>Original: '+wd.std.g+'g</strong><br><span style="font-size:12px;">'+wd.std.note+'</span>';
+
+  // Single cards
+  var shtml='';
+  wd.opts.forEach(function(opt){
+    var isOrig=!!opt.orig;
+    var badge=isOrig?'<span class="vc-badge badge-orig">★ Original</span>':
+      (opt.g<wStd?'<span class="vc-badge" style="background:rgba(100,150,255,.15);color:#88f;">+ Anzug</span>':
+       opt.g>wStd?'<span class="vc-badge" style="background:rgba(255,150,50,.15);color:#f90;">+ Speed</span>':'');
+    shtml+='<div class="vcard'+(isOrig?' active orig-card':'')+'" onclick="selWSingle('+opt.g+',this)">';
+    shtml+='<div class="vc-row"><span class="vc-name">'+opt.name+'</span>'+badge+'</div>';
+    shtml+='<div class="vc-note">'+opt.eff+'</div>';
+    shtml+='<div style="font-size:11px;color:var(--text3);margin-top:2px;">Einsatz: '+opt.use+'</div></div>';
+  });
+  g('wSingleCards').innerHTML=shtml;
+
+  // Mixed cards
+  var mhtml='';
+  wd.mixed.forEach(function(m){
+    var badge=m.rec?'<span class="vc-badge badge-rec">★ Empfehlung</span>':'';
+    mhtml+='<div class="vcard'+(m.rec?' active':'')+'" onclick="selWMixed(\''+m.combo+'\',\''+m.avg+'\',this)">';
+    mhtml+='<div class="vc-row"><span class="vc-name">'+m.combo+'</span>'+badge+'</div>';
+    mhtml+='<div class="vc-code">Durchschnitt: Ø '+m.avg+' · je 3 Stück</div>';
+    mhtml+='<div class="vc-note">'+m.eff+'</div></div>';
+  });
+  g('wMixedCards').innerHTML=mhtml;
+
+  vState.wSingle=wStd;
+}
+function wModeToggle(mode,el){
+  document.querySelectorAll('#wModeToggle .vtog-btn').forEach(function(b){b.classList.toggle('active',b.dataset.v===mode);});
+  g('wOrigInfo').style.display=mode==='orig'?'block':'none';
+  g('wSingleArea').style.display=mode==='single'?'block':'none';
+  g('wMixedArea').style.display=mode==='mixed'?'block':'none';
+  vState.wMode=mode;
+  updateSpeedFromSetup();
+  renderSummary();
+}
+function selWSingle(gVal,el){
+  vState.wSingle=gVal;
+  document.querySelectorAll('#wSingleCards .vcard').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  // Effect label
+  var v=vState.veh;
+  if(v){
+    var est=speedEstimate(v.vmax,v.wStd||6,gVal,isVarioTuned());
+    g('wSingleEffect').innerHTML='Erwartete Endgeschwindigkeit: <strong style="color:var(--ac);">~'+est+' km/h</strong>';
+    g('wSingleEffect').style.display='block';
+  }
+  updateSpeedFromSetup();
+  renderSummary();
+}
+function selWMixed(combo,avg,el){
+  vState.wMixed=combo;
+  document.querySelectorAll('#wMixedCards .vcard').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  updateSpeedFromSetup();
+  renderSummary();
+}
+function isVarioTuned(){
+  return vState.vario!=='orig'&&vState.vario!==null&&vState.vario!=='';
+}
+
+// ── 4. KUPPLUNG ────────────────────────────────────────
+function renderClutch(v){
+  var vk=v.vk;
+  var cd=VARDB.clutch[vk]; if(!cd)return;
+  var gb=GEARDB.gearboxes[vk];
+  var sp=GEARDB.spacers[vk];
+
+  // ── GETRIEBE-ORIGINAL INFO ──────────────────────────
+  var gbEl=g('gearboxOrigInfo');
+  if(gbEl&&gb){
+    var is114=gb.clutchD===114;
+    var clutchWarn=is114?
+      '<br><span style="color:#ff8c00;font-weight:700;font-size:12px;">⚠️ 114 mm Kupplungsglocke — auf dem Markt kaum noch verfügbar! Umbau auf 107 mm empfohlen.</span>':
+      '<br><span style="color:var(--ok);font-size:12px;">✓ 107 mm Kupplungsglocke — Standard, gut verfügbar.</span>';
+    gbEl.innerHTML=
+      '<strong>Original-Getriebe: '+gb.name+'</strong><br>'+
+      '<span style="font-family:ui-monospace,monospace;font-size:12px;color:var(--text3);">Art.-Nr.: '+gb.code+'</span><br>'+
+      '<span style="font-size:12px;">Übersetzung: <strong>'+gb.ratio+'</strong> · Kupplungsglocke: <strong style="color:'+(is114?'#ff8c00':'var(--ok)')+';">'+gb.clutchD+' mm</strong></span>'+
+      clutchWarn+
+      '<br><span style="font-size:11px;color:var(--text2);margin-top:3px;display:block;">'+gb.note+'</span>';
+  }
+
+  // ── KOMPATIBLE GETRIEBE ─────────────────────────────
+  var gcSec=g('gearCompatSec'),gcCards=g('gearCompatCards');
+  if(gcSec&&gcCards&&gb&&gb.compat&&gb.compat.length){
+    var chtml='';
+    gb.compat.forEach(function(c){
+      chtml+='<div class="vcard orig-card" style="margin-bottom:5px;">';
+      chtml+='<div class="vc-row"><span class="vc-name" style="font-size:13px;">'+c.model+'</span>';
+      if(c.code!=='OEM'&&c.code!=='Identisch')chtml+='<span class="vc-code" style="font-size:11px;">'+c.code+'</span>';
+      chtml+='</div>';
+      chtml+='<div class="vc-note">'+c.note+'</div></div>';
+    });
+    gcCards.innerHTML=chtml;
+    gcSec.style.display='block';
+  } else if(gcSec){gcSec.style.display='none';}
+
+  // ── GETRIEBE-TUNING ÜBERSETZUNGEN ───────────────────
+  var grSec=g('gearRatioSec'),grCards=g('gearRatioCards');
+  if(grSec&&grCards&&gb&&gb.ratioTuning&&gb.ratioTuning.length){
+    var rhtml='';
+    gb.ratioTuning.forEach(function(t){
+      var badge=t.rec?'<span class="vc-badge badge-rec">★ Empfehlung</span>':'';
+      rhtml+='<div class="vcard'+(t.rec?' active':'')+'">';
+      rhtml+='<div class="vc-row"><span class="vc-name">'+t.name+'</span>'+badge+'</div>';
+      rhtml+='<div class="vc-code">'+t.code+' · Übersetzung: <strong>'+t.ratio+'</strong></div>';
+      rhtml+='<div class="vc-note">'+t.note+'</div>';
+      rhtml+='<div class="badge-price" style="margin-top:3px;">'+t.preis+'</div></div>';
+    });
+    grCards.innerHTML=rhtml;
+    grSec.style.display='block';
+  } else if(grSec){grSec.style.display='none';}
+
+  // ── 114→107 mm UMBAU ────────────────────────────────
+  var c114Sec=g('clutch114Sec');
+  if(c114Sec&&gb&&gb.alt107){
+    var alt=gb.alt107;
+    var ahtml='<div style="padding:10px 12px;background:color-mix(in srgb,#ff8c00 10%,var(--bg2));border:1px solid #ff8c00;border-radius:9px;">';
+    ahtml+='<div style="font-size:13px;font-weight:700;color:#ff8c00;margin-bottom:6px;">🔧 Umbau 114 → 107 mm Kupplung</div>';
+    ahtml+='<div style="font-size:12px;color:var(--text2);margin-bottom:8px;">'+alt.note+'</div>';
+    ahtml+='<div class="vcard orig-card" style="margin-bottom:8px;">';
+    ahtml+='<div class="vc-name">'+alt.adapter+'</div>';
+    ahtml+='<div class="vc-code">Art.-Nr.: '+alt.code+'</div>';
+    ahtml+='<div class="badge-price">'+alt.preis+'</div></div>';
+    ahtml+='<div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;">Passende 107 mm Kupplungen:</div>';
+    alt.clutches107.forEach(function(c){
+      var badge=c.rec?'<span class="vc-badge badge-rec">★ Empfehlung</span>':'';
+      ahtml+='<div class="vcard'+(c.rec?' active':'')+'" style="margin-bottom:5px;">';
+      ahtml+='<div class="vc-row"><span class="vc-name">'+c.name+'</span>'+badge+'</div>';
+      ahtml+='<div class="vc-code">'+c.code+'</div>';
+      ahtml+='<div class="badge-price">'+c.preis+'</div></div>';
+    });
+    ahtml+='</div>';
+    c114Sec.innerHTML=ahtml;
+    c114Sec.style.display='block';
+  } else if(c114Sec){c114Sec.style.display='none';}
+
+  // ── DISTANZRINGE ────────────────────────────────────
+  renderSpacers(v);
+
+  // Original info im Wandler-Block
+  var origHtml='<strong>Kupplungseinheit: '+cd.orig.name+'</strong><br>';
+  origHtml+='<span style="font-family:ui-monospace,monospace;font-size:12px;color:var(--text3);">Art.-Nr.: '+cd.orig.code+'</span><br>';
+  origHtml+='<span style="font-size:12px;">Eingreif-Drehzahl: '+cd.orig.eingriff+' · Serienfeder: '+cd.orig.spring+'</span>';
+  if(v.belt&&VARDB.belts[v.belt]){
+    var bd=VARDB.belts[v.belt];
+    origHtml+='<br><span style="font-size:12px;margin-top:4px;display:block;">Antriebsriemen Original: <strong>'+bd.dim+'</strong></span>';
+  }
+  g('wandlerOrigInfo').innerHTML=origHtml;
+
+  // Tuning Kupplungen
+  var chtml='';
+  cd.tuning.forEach(function(t,i){
+    var badge=t.rec?'<span class="vc-badge badge-rec">★ Empfehlung</span>':'';
+    chtml+='<div class="vcard'+(t.rec?' active':'')+'" onclick="selClutch('+i+',this)">';
+    chtml+='<div class="vc-row"><span class="vc-name">'+t.name+'</span>'+badge+'</div>';
+    chtml+='<div class="vc-code">'+t.code+' · Eingriff: '+t.eingriff+'</div>';
+    chtml+='<div class="vc-note">'+t.note+'</div>';
+    chtml+='<div class="badge-price" style="margin-top:4px;">'+t.preis+'</div></div>';
+  });
+  g('clutchCards').innerHTML=chtml;
+
+  // Federn
+  var springColors={gelb:'#f5c800',silber:'#aaa',grün:'#5c5',rot:'#e33',blau:'#48f'};
+  var sphtml='<div class="spring-row">';
+  cd.springs.forEach(function(s,i){
+    var col=springColors[s.col]||'#888';
+    var rec=i===1;
+    sphtml+='<div class="spring-btn'+(rec?' active':'')+'" onclick="selSpring(\''+s.col+'\',this)">';
+    sphtml+='<span class="spring-dot" style="background:'+col+';box-shadow:0 0 6px '+col+'66;"></span>';
+    sphtml+='<strong>'+s.col+'</strong><br>';
+    sphtml+='<span style="font-size:10px;color:var(--text3);">'+s.force+' · '+s.eingriff+'</span><br>';
+    sphtml+='<span style="font-size:11px;color:var(--text2);">'+s.note+'</span>';
+    if(rec)sphtml+='<div style="font-size:10px;font-weight:700;color:var(--ok);margin-top:3px;">★ Empfehlung</div>';
+    sphtml+='</div>';
+  });
+  sphtml+='</div>';
+  g('springCards').innerHTML=sphtml;
+  vState.spring=cd.springs[1]?cd.springs[1].col:cd.springs[0].col;
+
+  // Gegendruckfeder
+  var ghtml='';
+  cd.gegenfeder.forEach(function(gf,i){
+    ghtml+='<div class="vcard'+(i===0?' active orig-card':'')+'" onclick="selGegen('+i+',this)">';
+    ghtml+='<div class="vc-name">'+gf.name+(i===0?' <span class="vc-badge badge-orig">★ Original</span>':'')+'</div>';
+    if(gf.code!=='OEM')ghtml+='<div class="vc-code">'+gf.code+'</div>';
+    ghtml+='<div class="vc-note">'+gf.note+'</div></div>';
+  });
+  g('gegenCards').innerHTML=ghtml;
+  vState.gegen=cd.gegenfeder[0].name;
+}
+function cModeToggle(mode,el){
+  document.querySelectorAll('#cModeToggle .vtog-btn').forEach(function(b){b.classList.toggle('active',b.dataset.v===mode);});
+  g('cTuningArea').style.display=mode==='tuning'?'block':'none';
+  vState.clutch=mode;
+  renderSummary();
+}
+
+// ── Distanzringe rendern (aufgerufen von renderClutch + onSpdInput) ──
+function renderSpacers(v){
+  var el=g('spacerSec'); if(!el)return;
+  var vk=v?v.vk:null;
+  var sp=vk?GEARDB.spacers[vk]:null;
+  var target=vState.spdTarget;
+  var vmax=v?v.vmax||52:52;
+
+  // Nur anzeigen wenn Ziel < vmax oder im Anzug-Modus
+  var showSpacers=(target>0&&target<vmax)||(vState.goal==='anzug');
+  if(!sp||!showSpacers){el.style.display='none';return;}
+
+  el.style.display='block';
+  var mmNeeded = target>0 ? calcSpacerWidth(target,vmax,vk) : 2; // Anzug-Modus: 2mm Empfehlung
+  var html='';
+
+  html+='<div style="padding:10px 12px;background:color-mix(in srgb,var(--ac) 8%,var(--bg2));border:1px solid var(--ac);border-radius:9px;">';
+  html+='<div style="font-size:13px;font-weight:700;color:var(--ac);margin-bottom:4px;">📏 Distanzring-Berechnung</div>';
+
+  if(target>0&&target<vmax){
+    html+='<div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Für Ziel <strong>'+target+' km/h</strong> (Serie: ~'+vmax+' km/h) wird gedrosselt um <strong>'+(vmax-target)+' km/h</strong>:</div>';
+  } else {
+    html+='<div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Für mehr Anzug / niedrigere Endgeschwindigkeit:</div>';
+  }
+
+  // Empfohlene Breite
+  html+='<div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--bg2);border-radius:8px;margin-bottom:8px;">';
+  html+='<div style="text-align:center;"><div style="font-size:28px;font-weight:800;color:var(--ac);">'+mmNeeded+'</div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;">mm</div></div>';
+  html+='<div><div style="font-size:13px;font-weight:700;">Empfohlene Distanzring-Breite</div>';
+  // Zeige passendes Step
+  var matchStep=null;
+  sp.steps.forEach(function(s){if(s.w===mmNeeded||(!matchStep&&s.w>=mmNeeded))matchStep=s;});
+  if(!matchStep&&sp.steps.length)matchStep=sp.steps[sp.steps.length-1];
+  if(matchStep){
+    html+='<div style="font-size:12px;color:var(--text2);margin-top:2px;">Wirkung: <strong>'+matchStep.effect+'</strong> · Motor läuft <strong>'+matchStep.rpm+'</strong> höher</div>';
+    html+='<div style="font-size:11px;color:var(--text3);margin-top:1px;">Einsatz: '+matchStep.use+'</div>';
+  }
+  html+='</div></div>';
+
+  // Alle Stufen als Tabelle
+  html+='<div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;">Alle Distanzring-Stufen</div>';
+  html+='<div style="display:flex;flex-direction:column;gap:4px;">';
+  sp.steps.forEach(function(s){
+    var isRec=s.w===mmNeeded;
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:6px 9px;background:var(--bg2);border-radius:7px;border-left:3px solid '+(isRec?'var(--ac)':'var(--line2)')+';">';
+    html+='<div style="width:28px;text-align:center;font-size:15px;font-weight:700;color:'+(isRec?'var(--ac)':'var(--text2)');'">'+s.w+' mm</div>';
+    html+='<div style="flex:1;"><span style="font-size:12px;color:var(--text);">'+s.effect+'</span>';
+    html+='<span style="font-size:11px;color:var(--text3);margin-left:6px;">'+s.rpm+'</span></div>';
+    html+='<div style="font-size:10px;color:var(--text3);">'+s.use+'</div>';
+    if(isRec)html+='<span style="font-size:10px;font-weight:700;color:var(--ac);">★</span>';
+    html+='</div>';
+  });
+  html+='</div>';
+
+  // Montage-Hinweis + Bestellinfo
+  html+='<div style="margin-top:8px;font-size:12px;color:var(--text2);border-top:0.5px solid var(--line);padding-top:8px;">';
+  html+='<strong>Montage:</strong> Ring(e) zwischen Variomatik-Gehäuse und Kurbelwellenflansch montieren. Schraube auf korrektes Anzugsmoment (laut Werkstatthandbuch) anziehen.<br>';
+  html+='<strong>Bezug:</strong> '+sp.note+'<br>';
+  html+='<span style="font-family:ui-monospace,monospace;font-size:11px;color:var(--text3);">Teilenummer: '+sp.code+'</span>';
+  html+='</div></div>';
+
+  el.innerHTML=html;
+}
+
+function selClutch(i,el){
+  document.querySelectorAll('#clutchCards .vcard').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  vState.clutch=i;
+  renderSummary();
+}
+function selSpring(col,el){
+  vState.spring=col;
+  document.querySelectorAll('#springCards .spring-btn').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  renderSummary();
+}
+function selGegen(i,el){
+  var cd=VARDB.clutch[vState.veh?vState.veh.vk:null];
+  if(cd)vState.gegen=cd.gegenfeder[i].name;
+  document.querySelectorAll('#gegenCards .vcard').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  renderSummary();
+}
+
+// ── 5. ZIEL ────────────────────────────────────────────
+function setGoalCard(goal,el){
+  vState.goal=goal; vState.spdTarget=0;
+  document.querySelectorAll('[data-g]').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  document.querySelectorAll('[data-s]').forEach(function(b){b.classList.remove('active');});
+  var spdInp=g('spdInput'); if(spdInp)spdInp.value='';
+  applyGoalToWeights(goal);
+  renderSpacers(vState.veh);
+  renderSummary();
+}
+function setSpdCard(v,el){
+  vState.spdTarget=v; vState.goal='';
+  document.querySelectorAll('[data-s]').forEach(function(b){b.classList.toggle('active',b.dataset.s==String(v));});
+  document.querySelectorAll('[data-g]').forEach(function(b){b.classList.remove('active');});
+  var spdInp=g('spdInput'); if(spdInp)spdInp.value=v;
+  applySpeedTarget(v);
+  analyzeSpeedTarget(v);
+  renderSpacers(vState.veh);
+  renderSummary();
+}
+function onSpdInput(){
+  var v=parseInt(g('spdInput').value)||0;
+  vState.spdTarget=v; vState.goal='';
+  document.querySelectorAll('[data-s]').forEach(function(b){b.classList.toggle('active',b.dataset.s==String(v));});
+  document.querySelectorAll('[data-g]').forEach(function(b){b.classList.remove('active');});
+  if(v>10){
+    applySpeedTarget(v);
+    analyzeSpeedTarget(v);
+    renderSpacers(vState.veh);
+  } else {
+    var el=g('spdAnalysis'); if(el)el.style.display='none';
+    var spEl=g('spacerSec'); if(spEl)spEl.style.display='none';
+  }
+  renderSummary();
+}
+
+function applyGoalToWeights(goal){
+  var v=vState.veh; if(!v||!v.wStd)return;
+  var wStd=v.wStd;
+  var target=goal==='anzug'?wStd-1:goal==='speed'?wStd+1.5:wStd;
+  // Switch to single mode
+  var singleBtn=document.querySelector('#wModeToggle [data-v="single"]');
+  if(goal!=='balanced'&&singleBtn){wModeToggle('single',singleBtn);}
+  autoSelectWeight(target);
+}
+function applySpeedTarget(targetKmh){
+  var v=vState.veh; if(!v||!v.wStd||!v.vmax)return;
+  var wRec=weightForSpeed(targetKmh,v.vmax,v.wStd,isVarioTuned());
+  wRec=Math.max(3.5,Math.min(10,Math.round(wRec*2)/2));
+  // If target needs tuning vario, suggest it
+  if(targetKmh>v.vmax+5){
+    var tunBtn=document.querySelector('#varioToggle [data-v="tuning"]');
+    if(tunBtn)varioToggle('tuning',tunBtn);
+  }
+  var singleBtn=document.querySelector('#wModeToggle [data-v="single"]');
+  if(singleBtn)wModeToggle('single',singleBtn);
+  autoSelectWeight(wRec);
+}
+function autoSelectWeight(targetG){
+  var opts=document.querySelectorAll('#wSingleCards .vcard');
+  var best=null,bestDiff=99;
+  opts.forEach(function(el){
+    var txt=(el.querySelector('.vc-name')||{textContent:''}).textContent;
+    var m=txt.match(/([\d,]+)g/);
+    if(m){var gv=parseFloat(m[1].replace(',','.'));var d=Math.abs(gv-targetG);if(d<bestDiff){bestDiff=d;best=el;vState.wSingle=gv;}}
+  });
+  if(best){
+    opts.forEach(function(c){c.classList.remove('active');});
+    best.classList.add('active');
+    var v=vState.veh;
+    if(v){
+      var est=speedEstimate(v.vmax,v.wStd||6,vState.wSingle,isVarioTuned());
+      var effEl=g('wSingleEffect');
+      if(effEl){effEl.innerHTML='Erwartete Endgeschwindigkeit: <strong style="color:var(--ac);">~'+est+' km/h</strong>';effEl.style.display='block';}
+    }
+  }
+}
+function updateSpeedFromSetup(){
+  // Update expected speed in summary dynamically
+  renderSummary();
+}
+function calcMaxSpeed(v){
+  return speedEstimate(v.vmax,v.wStd||6,(v.wStd||6)+2,true);
+}
+
+// ── ZUSAMMENFASSUNG ────────────────────────────────────
+
+
+
+// ═══════════════════════════════════════════════════════
+//  GESCHWINDIGKEITSANALYSE — Mindest-Komponenten
+// ═══════════════════════════════════════════════════════
+
+// Stufen für Piaggio/Minarelli Systeme
+// delta = Ziel - Serien-Vmax
+// < 0  → nur Gewichtsanpassung leichter (Anzug)
+// 0..3 → nur Gewichtserhöhung
+// 3..6 → Gewicht + empf. Riemen
+// 6..10→ Tuning-Variomatik + Gewicht + Riemen
+// 10..15→ Tuning-Vario + Tuning-Kupplung + Gewicht + Riemen
+// >15  → alles tunen + Hinweis Motor
+
+function analyzeSpeedTarget(targetKmh){
+  var el=g('spdAnalysis'); if(!el)return;
+  var v=vState.veh; if(!v){el.style.display='none';return;}
+  var vmax=v.vmax||42;
+  var wStd=v.wStd||6;
+  var vk=v.vk;
+  var delta=targetKmh-vmax;
+
+  // ── Stufen bestimmen ──
+  var steps=[];
+  var wRec=wStd;
+  var needVario=false;
+  var needClutch=false;
+  var needBelt=false;
+  var impossibleNote='';
+
+  // Max erreichbar ohne Motortuning
+  var physMax=speedEstimate(vmax,wStd,wStd+2.5,true);
+
+  if(targetKmh<=vmax-5){
+    // Anzug-Setup: leichtere Gewichte
+    wRec=Math.max(3.5,wStd-Math.round(Math.abs(delta)/2.4*2)/2);
+    steps.push({icon:'⚖️',label:'Leichtere Gewichte',val:String(wRec).replace('.',',')+'g (6×)',info:'Früheres Einsetzen der Kupplung, mehr Anzug, niedrigere Endgeschwindigkeit.',level:'easy'});
+    steps.push({icon:'✅',label:'Original-Komponenten reichen',val:'Kein Tuning nötig',info:'Nur Gewichtsanpassung nach unten für mehr Stadtanzug.',level:'ok'});
+  } else if(delta<=0){
+    steps.push({icon:'✅',label:'Seriengeschwindigkeit erreichbar',val:'~'+vmax+' km/h',info:'Keine Änderungen nötig — Seriensetup ist optimal.',level:'ok'});
+  } else if(delta<=4){
+    // Nur Gewicht erhöhen
+    wRec=Math.min(wStd+2,10);
+    needBelt=false;
+    steps.push({icon:'⚖️',label:'Schwerere Gewichte',val:String(wRec).replace('.',',')+'g (6×)',info:'Erhöht Endgeschwindigkeit um ~'+Math.round(delta)+' km/h. Kein weiteres Tuning erforderlich.',level:'easy'});
+    steps.push({icon:'🔄',label:'Variomatik',val:'Original ausreichend',info:'Für diesen Speed-Bereich reicht die Serienvariomatik.',level:'ok'});
+  } else if(delta<=8){
+    // Gewicht + empfohlener Riemen
+    wRec=Math.min(wStd+Math.round(delta/2.4*2)/2,10);
+    needBelt=true;
+    steps.push({icon:'⚖️',label:'Schwerere Gewichte',val:String(wRec).replace('.',',')+'g (6×)',info:'Hauptträger der Geschwindigkeitserhöhung.',level:'easy'});
+    steps.push({icon:'🔩',label:'Riemen: Qualitätsriemen',val:'Dayco oder Gates',info:'Qualitätsriemen reduziert Slip und überträgt Leistung effizienter. Maße bleiben gleich.',level:'easy'});
+    steps.push({icon:'🔄',label:'Variomatik',val:'Original ausreichend',info:'Original-Variomatik noch für diesen Bereich geeignet.',level:'ok'});
+  } else if(delta<=14){
+    // Tuning-Variomatik + Gewicht + Riemen
+    wRec=Math.min(wStd+Math.round(delta/2.4*2)/2,10);
+    needVario=true; needBelt=true;
+    steps.push({icon:'⚖️',label:'Schwerere Gewichte',val:String(wRec).replace('.',',')+'g (6×)',info:'Notwendig für höhere Endgeschwindigkeit.',level:'medium'});
+    steps.push({icon:'🔄',label:'★ Tuning-Variomatik',val:'Malossi Multivar 2000 (empfohlen)',info:'Tuning-Vario mit optimierter Kurvenform für mehr Spreizung — liefert +4–6 km/h gegenüber Serie.',level:'medium'});
+    steps.push({icon:'🔩',label:'Tuning-Riemen',val:'Polini oder Malossi',info:'Tuning-Riemen für höhere Belastung bei Tuning-Setup. Gleiche Maße wie Original.',level:'medium'});
+  } else if(delta<=20){
+    // Alles + Tuning-Kupplung
+    wRec=Math.min(wStd+Math.round(delta/2.4*2)/2,10);
+    needVario=true; needBelt=true; needClutch=true;
+    steps.push({icon:'⚖️',label:'Max. Gewichte',val:String(wRec).replace('.',',')+'g (6×)',info:'Maximale Gewichte für höchste Endgeschwindigkeit.',level:'hard'});
+    steps.push({icon:'🔄',label:'★ Tuning-Variomatik',val:'Malossi Multivar 2000',info:'Notwendig für diesen Speed-Bereich.',level:'hard'});
+    steps.push({icon:'🔗',label:'★ Tuning-Kupplung',val:'Malossi MHR Delta + rote Federn',info:'Hohe Eingreif-Drehzahl für kraftvolles Hochschalten. Gegendruckfeder: weich für max. Speed.',level:'hard'});
+    steps.push({icon:'🔩',label:'Tuning-Riemen',val:'Malossi oder Stage6',info:'Hochbelastbarer Riemen für Race-Setup.',level:'hard'});
+  } else {
+    // Über physikalischem Maximum
+    wRec=10;
+    needVario=true; needBelt=true; needClutch=true;
+    impossibleNote='⚠️ Diese Geschwindigkeit ('+targetKmh+' km/h) übersteigt das Serienpotenzial auch mit vollem Antriebsstrang-Tuning (~'+physMax+' km/h). Zusätzlich ist ein Motortuning erforderlich (70ccm-Kit / Zylinderkopfbearbeitung / Resonanzauspuff).';
+    steps.push({icon:'⚖️',label:'Max. Gewichte',val:'7,5–8,0g',info:'Absolut maximale Gewichte.',level:'impossible'});
+    steps.push({icon:'🔄',label:'Tuning-Variomatik',val:'Stage6 R/T',info:'Race-Variomatik.',level:'impossible'});
+    steps.push({icon:'🔗',label:'Tuning-Kupplung',val:'Stage6 Racing + blaue Federn',info:'Race-Kupplung mit maximaler Eingreif-Drehzahl.',level:'impossible'});
+    steps.push({icon:'🔩',label:'Race-Riemen',val:'Stage6',info:'Hochbelastbarer Race-Riemen.',level:'impossible'});
+    steps.push({icon:'🏎️',label:'Motortuning erforderlich',val:'70ccm-Kit + Reso-Auspuff',info:'Ohne Motortuning nicht erreichbar.',level:'impossible'});
+  }
+
+  // Erwartete Geschwindigkeit mit empfohlenem Setup
+  var estWithTuning=speedEstimate(vmax,wStd,Math.min(wRec,10),needVario);
+  wRec=Math.max(3.5,Math.min(10,Math.round(wRec*2)/2));
+
+  // ── Level-Farben ──
+  var levelColors={easy:'#39ff14',medium:'#f5c800',hard:'#ff8c00',impossible:'#ff2d78',ok:'#39ff14'};
+  var levelLabels={easy:'Einfach',medium:'Mittel',hard:'Aufwändig',impossible:'Motor nötig',ok:'OK'};
+
+  // ── HTML bauen ──
+  var html='';
+
+  // Header mit Machbarkeit
+  var feasible=targetKmh<=physMax;
+  html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;margin-bottom:10px;background:'+(feasible?'color-mix(in srgb,var(--ok) 10%,var(--bg2))':'color-mix(in srgb,#ff2d78 10%,var(--bg2))');
+  html+=';border:1px solid '+(feasible?'var(--ok)':'#ff2d78')+';">';
+  html+='<div><div style="font-size:16px;font-weight:700;color:'+(feasible?'var(--ok)':'#ff2d78')+';">'+targetKmh+' km/h '+(feasible?'erreichbar ✓':'mit Motortuning ⚠️')+'</div>';
+  html+='<div style="font-size:12px;color:var(--text2);margin-top:2px;">Erwartete Top Speed mit Setup: <strong>~'+estWithTuning+' km/h</strong></div></div>';
+  html+='<div style="font-size:22px;">'+(feasible?'🟢':'🔴')+'</div></div>';
+
+  // Pflicht-Warnung
+  if(impossibleNote){
+    html+='<div style="padding:10px 12px;background:color-mix(in srgb,#ff2d78 12%,var(--bg2));border:1px solid #ff2d78;border-radius:8px;font-size:12px;color:var(--text);line-height:1.5;margin-bottom:10px;">'+impossibleNote+'</div>';
+  }
+
+  // Mindest-Komponenten
+  html+='<div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Mindest-Komponenten für '+targetKmh+' km/h</div>';
+  html+='<div style="display:flex;flex-direction:column;gap:6px;">';
+  steps.forEach(function(s){
+    var col=levelColors[s.level]||'#aaa';
+    var lbl=levelLabels[s.level]||'';
+    html+='<div style="display:flex;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:9px;border-left:3px solid '+col+';">';
+    html+='<div style="font-size:20px;line-height:1;flex-shrink:0;">'+s.icon+'</div>';
+    html+='<div style="flex:1;">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">';
+    html+='<div style="font-size:13px;font-weight:700;color:var(--text);">'+s.label+'</div>';
+    html+='<span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:8px;background:color-mix(in srgb,'+col+' 15%,var(--bg2));color:'+col+';white-space:nowrap;">'+lbl+'</span>';
+    html+='</div>';
+    html+='<div style="font-size:13px;font-weight:600;color:var(--ac);margin:2px 0;">'+s.val+'</div>';
+    html+='<div style="font-size:11px;color:var(--text2);line-height:1.4;">'+s.info+'</div>';
+    html+='</div></div>';
+  });
+  html+='</div>';
+
+  // Auto-Selektion Button
+  html+='<button onclick="autoSelectFromSpeed('+targetKmh+','+wRec+','+needVario+','+needBelt+','+needClutch+')" style="width:100%;margin-top:12px;padding:12px;background:var(--ac);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.03em;">✓ Komponenten automatisch auswählen</button>';
+
+  el.innerHTML=html;
+  el.style.display='block';
+}
+
+// Auto-Selektion aller Komponenten basierend auf Speed-Analyse
+function autoSelectFromSpeed(targetKmh,wRec,needVario,needBelt,needClutch){
+  var v=vState.veh; if(!v)return;
+  var vk=v.vk;
+
+  // 1. Gewicht setzen
+  var singleBtn=document.querySelector('#wModeToggle [data-v="single"]');
+  if(singleBtn)wModeToggle('single',singleBtn);
+  autoSelectWeight(wRec);
+
+  // 2. Variomatik
+  if(needVario){
+    var tunBtn=document.querySelector('#varioToggle [data-v="tuning"]');
+    if(tunBtn)varioToggle('tuning',tunBtn);
+    // Empfohlene Karte wählen (rec-card)
+    var recCard=document.querySelector('#varioCards .vcard.rec-card');
+    if(!recCard)recCard=document.querySelector('#varioCards .vcard');
+    if(recCard){
+      document.querySelectorAll('#varioCards .vcard').forEach(function(c){c.classList.remove('active');});
+      recCard.classList.add('active');
+      vState.vario=0;
+    }
+  } else {
+    var origBtn=document.querySelector('#varioToggle [data-v="orig"]');
+    if(origBtn)varioToggle('orig',origBtn);
+  }
+
+  // 3. Riemen — Tuning-Riemen wählen falls nötig
+  if(needBelt){
+    var beltCards=document.querySelectorAll('#beltContent .vcard');
+    var tuningBelt=null;
+    // Bevorzuge Dayco oder Gates (top), dann Polini/Malossi (tuning)
+    beltCards.forEach(function(c){
+      var badge=c.querySelector('.vc-badge');
+      if(badge&&(badge.textContent.includes('Empfehlung'))&&!tuningBelt)tuningBelt=c;
+    });
+    if(!tuningBelt)tuningBelt=beltCards[1]||beltCards[0];
+    if(tuningBelt){
+      beltCards.forEach(function(c){c.classList.remove('active');});
+      tuningBelt.classList.add('active');
+    }
+  }
+
+  // 4. Kupplung
+  if(needClutch){
+    var cTunBtn=document.querySelector('#cModeToggle [data-v="tuning"]');
+    if(cTunBtn)cModeToggle('tuning',cTunBtn);
+    var cRec=document.querySelector('#clutchCards .vcard.rec-card');
+    if(!cRec)cRec=document.querySelector('#clutchCards .vcard');
+    if(cRec){selClutch(0,cRec);}
+    // Federn: rot für Race (needClutch bedeutet high-performance)
+    var redSpring=document.querySelector('#springCards .spring-btn');
+    if(redSpring){
+      document.querySelectorAll('#springCards .spring-btn').forEach(function(b){b.classList.remove('active');});
+      // Finde rote Feder
+      document.querySelectorAll('#springCards .spring-btn').forEach(function(b){
+        if(b.textContent.indexOf('rot')>-1){redSpring=b;}
+      });
+      redSpring.classList.add('active');
+      vState.spring='rot';
+    }
+    // Gegendruckfeder: weich für max Speed
+    var gegenCards=document.querySelectorAll('#gegenCards .vcard');
+    if(gegenCards.length>1){selGegen(1,gegenCards[1]);}
+  } else {
+    var cOrigBtn=document.querySelector('#cModeToggle [data-v="orig"]');
+    if(cOrigBtn)cModeToggle('orig',cOrigBtn);
+    // Federn: silber (Standard)
+    document.querySelectorAll('#springCards .spring-btn').forEach(function(b){
+      if(b.textContent.indexOf('silber')>-1){
+        document.querySelectorAll('#springCards .spring-btn').forEach(function(x){x.classList.remove('active');});
+        b.classList.add('active'); vState.spring='silber';
+      }
+    });
+  }
+
+  // 5. Zusammenfassung aktualisieren + nach oben scrollen
+  renderSummary();
+  var sumEl=g('vSummary');
+  if(sumEl)sumEl.scrollIntoView({behavior:'smooth',block:'start'});
+
+  // Bestätigungs-Flash auf Button
+  var btn=event.target;
+  btn.textContent='✓ Ausgewählt!';
+  btn.style.background='var(--ok)';
+  setTimeout(function(){
+    btn.textContent='✓ Komponenten automatisch auswählen';
+    btn.style.background='var(--ac)';
+  },2000);
+}
+
+function renderSummary(){
+  var el=g('summaryBox'); if(!el)return;
+  var v=vState.veh; if(!v){el.innerHTML='';return;}
+  var vk=v.vk;
+
+  // Riemen
+  var beltAct=document.querySelector('#beltContent .vcard.active');
+  var beltName=beltAct?(beltAct.querySelector('.vc-name')||{textContent:'Original'}).textContent:'Original';
+  var beltCode=beltAct?(beltAct.querySelector('.vc-code')||{textContent:''}).textContent:'';
+  var beltIsOrig=beltAct?beltAct.classList.contains('orig-card'):true;
+
+  // Variomatik
+  var varioAct=document.querySelector('#varioCards .vcard.active');
+  var varioName=vState.vario==='orig'?
+    (VARDB.vario[vk]?'Original — '+VARDB.vario[vk].orig.name:'Original'):
+    (varioAct?(varioAct.querySelector('.vc-name')||{textContent:'—'}).textContent+'<br><span style="font-size:10px;color:var(--text3);">'+(varioAct.querySelector('.vc-code')||{textContent:''}).textContent+'</span>':'—');
+
+  // Gewichte
+  var wg=(vState.wMode==='single'&&vState.wSingle)?vState.wSingle:(v.wStd||6);
+  var wName='Original ('+v.wStd+'g · 6×)';
+  var wIsOrig=vState.wMode==='orig';
+  if(vState.wMode==='single'&&vState.wSingle){
+    wName='6 × '+String(vState.wSingle).replace('.',',')+'g';
+    wIsOrig=(vState.wSingle===(v.wStd||6));
+  } else if(vState.wMode==='mixed'){
+    var mAct=document.querySelector('#wMixedCards .vcard.active');
+    wName=mAct?(mAct.querySelector('.vc-name')||{textContent:'Original'}).textContent:'Original';
+    wIsOrig=false;
+  }
+
+  // Kupplung
+  var cAct=document.querySelector('#clutchCards .vcard.active');
+  var clutchName=vState.clutch==='orig'?
+    'Original — '+(VARDB.clutch[vk]?VARDB.clutch[vk].orig.name:'Serienkupplung'):
+    (cAct?(cAct.querySelector('.vc-name')||{textContent:'—'}).textContent+'<br><span style="font-size:10px;color:var(--text3);">'+(cAct.querySelector('.vc-code')||{textContent:''}).textContent+'</span>':'—');
+
+  // Federn
+  var springLabel=vState.spring?vState.spring+' Federn':'Serienfeder';
+  var springColors={gelb:'#f5c800',silber:'#aaa',grün:'#5c5',rot:'#ff5500',blau:'#48f'};
+  var springCol=springColors[vState.spring]||'#aaa';
+  var springDot='<span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:'+springCol+';box-shadow:0 0 5px '+springCol+'66;vertical-align:middle;margin-right:5px;"></span>';
+  var gegenName=vState.gegen||'Original';
+
+  // Speed
+  var vTuned=isVarioTuned();
+  var estSpd=speedEstimate(v.vmax,v.wStd||6,wg,vTuned);
+  var goalText={anzug:'🚀 Mehr Anzug',balanced:'⚖️ Ausgewogen',speed:'🏁 Mehr Speed'}[vState.goal]||'';
+  var spdText=vState.spdTarget>0?('🎯 Ziel: '+vState.spdTarget+' km/h'):(goalText||'Kein Ziel gesetzt');
+
+  // Änderungen kennzeichnen
+  function changed(isOrig,html){
+    if(isOrig)return '<span style="color:var(--text2);">'+html+'</span>';
+    return '<span style="color:var(--text);">'+html+'</span>';
+  }
+
+  var html='';
+
+  // Speed-Banner
+  var delta=estSpd-(v.vmax||42);
+  var deltaStr=delta>0?'<span style="color:var(--ok);">+'+delta+' km/h</span>':delta<0?'<span style="color:#f90;">'+delta+' km/h</span>':'<span style="color:var(--text3);">±0</span>';
+  html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg2);border-radius:10px;margin-bottom:10px;border:1px solid var(--line2);">';
+  html+='<div><div style="font-size:12px;color:var(--text3);">Erwartete Top Speed</div>';
+  html+='<div style="font-size:28px;font-weight:800;color:var(--ac);line-height:1;">~'+estSpd+' km/h</div>';
+  html+='<div style="font-size:12px;color:var(--text2);margin-top:2px;">'+deltaStr+' gegenüber Serie (~'+v.vmax+' km/h)</div></div>';
+  html+='<div style="font-size:30px;">🏁</div></div>';
+
+  // Komponenten-Tabelle
+  html+='<div style="background:var(--bg2);border-radius:10px;padding:2px 12px 8px;">';
+
+  function sumRow(lbl,val,orig){
+    var dot=orig?'':'<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);margin-right:5px;vertical-align:middle;"></span>';
+    return '<div class="sum-row"><span class="sum-lbl">'+dot+lbl+'</span><span class="sum-val">'+val+'</span></div>';
+  }
+
+  html+=sumRow('Antriebsriemen', beltName+(beltCode&&!beltIsOrig?'<br><span style="font-size:10px;font-family:ui-monospace,monospace;color:var(--text3);">'+beltCode+'</span>':''), beltIsOrig);
+  html+=sumRow('Variomatik', varioName, vState.vario==='orig');
+  html+=sumRow('Variogewichte', wName, wIsOrig);
+  html+=sumRow('Kupplung', clutchName, vState.clutch==='orig');
+  html+=sumRow('Kupplungsfedern', springDot+springLabel, !vState.spring||vState.spring==='silber');
+  html+=sumRow('Gegendruckfeder', gegenName, gegenName==='Original'||gegenName.indexOf('orig')>-1);
+  html+=sumRow('Ziel', spdText, true);
+  html+='</div>';
+
+  // Legende
+  var changes=document.querySelectorAll('.sum-row .sum-lbl span[style*="background:var(--ac)"]').length;
+  html+='<div style="font-size:11px;color:var(--text3);margin-top:6px;padding-left:4px;">';
+  html+='<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);vertical-align:middle;margin-right:4px;"></span>= geändert gegenüber Original';
+  html+='</div>';
+
+  el.innerHTML=html;
+}
 function calc(){
   // Guard: check if combination is in DB
   if(!DB[cc]||!DB[cc][carb]){
@@ -869,7 +3007,7 @@ function swDev(id,el){
 }
 // ══════════════════════════════════════════
 //  LOCK SCREEN — PIN Logik
-//  Standard-PIN: 0815 (änderbar)
+//  Standard-PIN: 1234 (änderbar)
 // ══════════════════════════════════════════
 var CORRECT_PIN = '0815';
 var pinBuffer = '';
@@ -954,6 +3092,7 @@ document.addEventListener('keydown', function(e) {
 // ══════════════════════════════════════════
 
 updateCarbBtns(); // init carb button states
+initVehicleSelects(); // init Fahrzeugauswahl dropdowns
 calc();
 </script>
 </body>
