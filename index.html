@@ -50,12 +50,12 @@ body{
   position:relative;
 }
 /* HEADER */
-#hdr{padding:calc(var(--st) + 14px) 18px 12px;background:var(--bg);border-bottom:0.5px solid var(--line2);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
+#hdr{padding:calc(var(--st) + 14px) 18px 12px;background:var(--bg);border-bottom:0.5px solid var(--line2);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:100;position:relative;z-index:100;}
 .htitle{font-size:17px;font-weight:600;letter-spacing:-.3px;}
 .hsub{font-size:11px;color:var(--text3);margin-top:2px;}
 .hbadge{background:var(--ac);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;}
 /* TABS */
-#tabbar{display:flex;background:var(--bg);border-bottom:0.5px solid var(--line2);flex-shrink:0;}
+#tabbar{display:flex;background:var(--bg);border-bottom:0.5px solid var(--line2);flex-shrink:0;position:relative;z-index:100;position:relative;z-index:100;}
 .tab{
   flex:1;padding:10px 2px 8px;min-height:44px;
   text-align:center;cursor:pointer;font-size:10px;color:var(--text3);
@@ -75,9 +75,6 @@ body{
   scroll-behavior:smooth;
   display:none;
   padding-bottom:calc(var(--sb) + 28px);
-  /* Performance: GPU-Layer für smooth scrolling */
-  -webkit-transform:translateZ(0);
-  transform:translateZ(0);
 }
 .screen.active{display:block;}
 /* SECTION */
@@ -4003,6 +4000,7 @@ function lockApp(reason){
   document.documentElement.style.overflow = 'hidden';
   var ls = document.getElementById('lockScreen');
   if(ls){
+    ls.removeAttribute('hidden');
     ls.style.cssText = [
       'position:fixed','top:0','left:0','right:0','bottom:0',
       'width:100vw','height:100vh','z-index:2147483647',
@@ -4091,11 +4089,15 @@ function unlockApp(isGuest){
   document.documentElement.classList.remove('app-locked');
   document.body.style.overflow = '';
   document.documentElement.style.overflow = '';
+  // iOS Safari: nach overflow-Änderung zum Anfang scrollen
+  try { window.scrollTo(0,0); document.body.scrollTop=0; document.documentElement.scrollTop=0; } catch(e){}
   var ls = document.getElementById('lockScreen');
   if(ls){
     ls.classList.add('unlocking');
     setTimeout(function(){
-      ls.style.cssText = 'display:none !important';
+      ls.style.cssText = '';
+      ls.style.display = 'none';
+      ls.setAttribute('hidden','');
       ls.classList.remove('unlocking');
     }, 400);
   }
