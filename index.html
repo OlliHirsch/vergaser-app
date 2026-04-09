@@ -529,8 +529,9 @@ button:focus:not(:focus-visible),
   border-radius:6px;padding:1px 6px;
 }
 /* Wenn Gast-Banner da: App-Inhalt nach unten schieben */
-body.guest-active #hdr{ margin-top:40px; }
-body.guest-active{ /* timer banner aktiv */ }
+body.guest-active #app{
+  padding-top:28px;
+}
 /* Ablauf-Warnung: letzte 60 Sekunden rot pulsieren */
 #guestBanner.warning{
   background:linear-gradient(90deg,#c0392b,#e74c3c);
@@ -544,18 +545,14 @@ body.guest-active{ /* timer banner aktiv */ }
 #guestBar{
   display:none;
   position:fixed;
-  top:0;left:0;right:0;
-  height:40px;
-  background:linear-gradient(90deg,#c07810,#e8a020);
-  color:#fff;
-  font-size:13px;
-  font-weight:700;
-  z-index:9000;
+  bottom:0;left:0;right:0;
+  height:36px;
+  background:var(--bg);
+  border-top:0.5px solid var(--line);
+  z-index:800;
   align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:0 14px;
-  box-shadow:0 2px 8px rgba(0,0,0,.35);
+  gap:10px;
+  padding:0 16px;
 }
 #guestBarFill{
   height:4px;border-radius:2px;
@@ -769,7 +766,7 @@ html.app-locked{ overflow:hidden !important; }
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
-    <div class="hbadge">v6.1c [TEST]</div>
+    <div class="hbadge">v6.1c</div>
     <button id="logoutBtn" onclick="doLogout()" title="Ausloggen">🔒 Sperren</button>
   </div>
 </div>
@@ -4225,9 +4222,8 @@ function startGuestCountdown(){
   var bar = document.getElementById('guestBar');
   var lbl = document.getElementById('guestLbl');
   if(bar){ bar.style.display = 'flex'; }
-  document.body.classList.add('guest-active');
 
-  clearInterval(guestTimer);
+  clearTimeout(guestTimer);
   var tick = setInterval(function(){
     var remaining = endTime - Date.now();
     if(remaining <= 0){
@@ -4242,15 +4238,9 @@ function startGuestCountdown(){
     // Balken-Breite
     var pct = (remaining / GUEST_TIMEOUT_MS) * 100;
     var fill = document.getElementById('guestBarFill');
-    if(fill){ fill.style.width = pct + '%'; }
-    if(bar){
-      if(remaining < 60000){
-        bar.style.background = 'linear-gradient(90deg,#a01020,#e03040)';
-        bar.style.animation = 'pulse-banner 1s ease-in-out infinite';
-      } else if(remaining < 120000){
-        bar.style.background = 'linear-gradient(90deg,#7a4400,#c07000)';
-        bar.style.animation = '';
-      }
+    if(fill){
+      fill.style.width = pct + '%';
+      fill.style.background = pct < 25 ? '#e03' : pct < 50 ? '#f90' : 'var(--ok)';
     }
   }, 500);
   guestTimer = tick;
@@ -4267,9 +4257,6 @@ function lockApp(reason){
   // guestBar verstecken
   var bar = document.getElementById('guestBar');
   if(bar) bar.style.display = 'none';
-  document.body.classList.remove('guest-active');
-  if(bar) bar.style.animation = '';
-  if(bar) bar.style.background = 'linear-gradient(90deg,#c07810,#e8a020)';
   // Scroll zurück
   try { window.scrollTo(0,0); document.body.scrollTop=0; } catch(e){}
   document.body.classList.add('app-locked');
@@ -4305,9 +4292,6 @@ function lockApp(reason){
   if(ls) ls.style.display = 'flex';
   var bar = document.getElementById('guestBar');
   if(bar) bar.style.display = 'none';
-  document.body.classList.remove('guest-active');
-  if(bar) bar.style.animation = '';
-  if(bar) bar.style.background = 'linear-gradient(90deg,#c07810,#e8a020)';
   // Session-Key löschen
   try {
     sessionStorage.removeItem('sg_auth_v51');
@@ -4428,8 +4412,6 @@ document.addEventListener('keydown', function(e){
     sessionStorage.removeItem('sg_auth_v31');
     sessionStorage.removeItem('sg_auth_v41');
     sessionStorage.removeItem('sg_guest_v41');
-    // Test-Version: immer neu einloggen (kein dauerhafter Main-Login)
-    sessionStorage.removeItem('sg_auth_v51');
 
     // LockScreen per JS direkt stylen — CSS-cascade-sicher
     var ls = document.getElementById('lockScreen');
@@ -4630,13 +4612,9 @@ calc();
 </div>
 
 <div id="guestBar">
-  <span style="font-size:14px;">⏱</span>
-  <span>Test-Zugang aktiv —</span>
-  <span id="guestLbl" style="font-variant-numeric:tabular-nums;font-size:15px;font-weight:800;background:rgba(0,0,0,.25);padding:1px 8px;border-radius:6px;min-width:42px;text-align:center;">5:00</span>
-  <div style="height:3px;flex:1;background:rgba(255,255,255,.3);border-radius:2px;overflow:hidden;max-width:80px;">
-    <div id="guestBarFill" style="height:100%;width:100%;background:rgba(255,255,255,.9);border-radius:2px;transition:width .5s linear;"></div>
-  </div>
-</div>
+  <span class="guest-icon">⏱</span>
+  <div style="flex:1;height:4px;background:var(--line2);border-radius:2px;overflow:hidden;">
+    <div id="guestBarFill" style="height:100%;width:100%;border-radius:2px;"></div>
   </div>
   <span style="font-size:11px;color:var(--text3);">Test-Zugang:</span>
   <span id="guestLbl" style="font-size:13px;font-weight:700;color:var(--ac);">5:00</span>
