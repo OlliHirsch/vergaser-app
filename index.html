@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-visual">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#080808" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)">
@@ -390,18 +390,20 @@ button:focus-visible,.sc:focus-visible,.vcard:focus-visible{outline:2px solid va
 /* Numpad */
 .numpad{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:12px;width:100%;max-width:280px;
+  gap:10px;width:100%;max-width:260px;
 }
 .numpad-key{
   aspect-ratio:1;border-radius:50%;border:none;
   background:#1e1e1e;color:#f0ede8;
-  font-size:22px;font-weight:500;cursor:pointer;
+  font-size:20px;font-weight:500;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:background .1s,transform .08s;
   -webkit-tap-highlight-color:transparent;
   user-select:none;-webkit-user-select:none;
-  touch-action:manipulation;     /* kein 300ms Delay */
-  min-width:44px;min-height:44px;/* Apple HIG minimum */
+  touch-action:manipulation;
+  min-width:44px;min-height:44px;
+  width:72px;height:72px;        /* feste Größe für iPhone */
+  max-width:80px;max-height:80px;
 }
 .numpad-key:active{background:#2e2e2e;transform:scale(.92);}
 .numpad-key.del{font-size:17px;color:#888;}
@@ -584,8 +586,10 @@ html.app-locked{ overflow:hidden !important; }
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
+  overflow-y:auto;               /* scrollbar falls zu klein */
+  overflow-x:hidden;
   box-sizing:border-box;
+  -webkit-overflow-scrolling:touch;
 }
 #lockScreen.unlocking{opacity:0;transform:scale(1.04);pointer-events:none;}
 @media (min-width:1024px){
@@ -4030,7 +4034,7 @@ function lockApp(reason){
       'width:100vw','height:100vh','z-index:2147483647',
       'background:#0a0a0a','display:flex','flex-direction:column',
       'align-items:center','justify-content:center','overflow:hidden',
-      'padding:40px 32px 60px','box-sizing:border-box'
+      'padding:max(20px,env(safe-area-inset-top,20px)) 32px max(20px,env(safe-area-inset-bottom,20px))','box-sizing:border-box'
     ].join(';');
   }
   clearInterval(guestTimer);
@@ -4176,7 +4180,7 @@ document.addEventListener('keydown', function(e){
         'align-items:center',
         'justify-content:center',
         'overflow:hidden',
-        'padding:40px 32px 60px',
+        'padding:max(20px,env(safe-area-inset-top,20px)) 32px max(20px,env(safe-area-inset-bottom,20px))',
         'box-sizing:border-box',
         'transition:opacity .4s ease'
       ].join(';');
@@ -4225,7 +4229,7 @@ function doLogout(){
       'width:100vw','height:100vh','z-index:2147483647',
       'background:#0a0a0a','display:flex','flex-direction:column',
       'align-items:center','justify-content:center','overflow:hidden',
-      'padding:40px 32px 60px','box-sizing:border-box'
+      'padding:max(20px,env(safe-area-inset-top,20px)) 32px max(20px,env(safe-area-inset-bottom,20px))','box-sizing:border-box'
     ].join(';');
   }
   document.body.style.overflow = 'hidden';
@@ -4263,9 +4267,9 @@ calc();
 <div id="lockScreen">
 
   <!-- Logo -->
-  <div class="logo-wrap" style="margin-bottom:24px;">
+  <div class="logo-wrap" style="margin-bottom:12px;">
   <!-- Scooter Garage Neon Logo -->
-  <div style="background:#080808;border-radius:14px;padding:14px 10px 6px;max-width:340px;margin:0 auto;">
+  <div style="background:#080808;border-radius:14px;padding:8px 8px 4px;max-width:280px;margin:0 auto;">
     <!-- SCOOTER neon -->
     <div style="display:flex;align-items:center;justify-content:center;gap:0;">
       <div style="flex:1;height:1.5px;background:linear-gradient(90deg,transparent,rgba(245,200,0,.5));max-width:70px;"></div>
