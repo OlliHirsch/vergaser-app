@@ -377,7 +377,7 @@ button:focus-visible,.sc:focus-visible,.vcard:focus-visible{outline:2px solid va
 }
 
 /* PIN dots */
-.pin-dots{display:flex;gap:14px;justify-content:center;margin-bottom:28px;}
+.pin-dots{display:flex;gap:14px;justify-content:center;margin-bottom:16px;}
 .pin-dot{
   width:14px;height:14px;border-radius:50%;
   border:2px solid #444;background:transparent;
@@ -390,7 +390,7 @@ button:focus-visible,.sc:focus-visible,.vcard:focus-visible{outline:2px solid va
 /* Numpad */
 .numpad{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:10px;width:100%;max-width:260px;
+  gap:8px;width:100%;max-width:240px;
 }
 .numpad-key{
   aspect-ratio:1;border-radius:50%;border:none;
@@ -401,9 +401,9 @@ button:focus-visible,.sc:focus-visible,.vcard:focus-visible{outline:2px solid va
   -webkit-tap-highlight-color:transparent;
   user-select:none;-webkit-user-select:none;
   touch-action:manipulation;
-  min-width:44px;min-height:44px;
-  width:72px;height:72px;        /* feste Größe für iPhone */
-  max-width:80px;max-height:80px;
+  width:clamp(52px,14vw,72px);
+  height:clamp(52px,14vw,72px);
+  min-width:52px;min-height:52px;
 }
 .numpad-key:active{background:#2e2e2e;transform:scale(.92);}
 .numpad-key.del{font-size:17px;color:#888;}
@@ -419,7 +419,7 @@ button:focus-visible,.sc:focus-visible,.vcard:focus-visible{outline:2px solid va
 
 /* Hint */
 .lock-hint{
-  font-size:11px;color:#444;margin-top:24px;
+  font-size:11px;color:#444;margin-top:6px;
   text-align:center;line-height:1.5;
 }
 
@@ -674,6 +674,76 @@ html.app-locked{ overflow:hidden !important; }
   background:var(--bg);
   flex-shrink:0;
 }
+
+/* ── KERZENANALYSE ─────────────────────────────────────── */
+#kerzenUpload{display:none;}
+.kerzen-upload-area{
+  border:2px dashed var(--line2);border-radius:12px;
+  padding:24px 16px;text-align:center;cursor:pointer;
+  transition:all .2s;background:var(--bg2);
+  touch-action:manipulation;
+}
+.kerzen-upload-area:hover,.kerzen-upload-area.dragover{
+  border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--bg2));
+}
+.kerzen-upload-area.has-image{padding:8px;}
+.kerzen-preview{
+  width:100%;max-height:220px;object-fit:contain;
+  border-radius:8px;display:none;margin-bottom:8px;
+}
+.kerzen-preview.visible{display:block;}
+.kbewertung{
+  margin-top:12px;padding:14px 16px;border-radius:10px;
+  border-left:4px solid var(--ac);background:var(--bg2);
+  font-size:14px;line-height:1.6;
+}
+.kbewertung.fett{border-left-color:#3af;}
+.kbewertung.mager{border-left-color:#f84;}
+.kbewertung.optimal{border-left-color:var(--ok);}
+.kbewertung.nass{border-left-color:#a8f;}
+.kbewertung.oel{border-left-color:#fa0;}
+.kbew-header{
+  display:flex;align-items:center;gap:10px;
+  font-size:16px;font-weight:700;margin-bottom:8px;
+}
+.kbew-badge{
+  padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.badge-optimal{background:color-mix(in srgb,var(--ok) 20%,var(--bg2));color:var(--ok);}
+.badge-fett{background:color-mix(in srgb,#3af 20%,var(--bg2));color:#3af;}
+.badge-mager{background:color-mix(in srgb,#f84 20%,var(--bg2));color:#f84;}
+.badge-nass{background:color-mix(in srgb,#a8f 20%,var(--bg2));color:#a8f;}
+.badge-oel{background:color-mix(in srgb,#fa0 20%,var(--bg2));color:#fa0;}
+.badge-unklar{background:color-mix(in srgb,#888 20%,var(--bg2));color:#aaa;}
+.kbew-text{font-size:13px;color:var(--text2);line-height:1.55;}
+.kbew-massnahme{
+  margin-top:10px;padding:10px 12px;
+  background:var(--bg3);border-radius:8px;
+  font-size:13px;color:var(--text);
+}
+.kbew-massnahme strong{color:var(--ac);}
+.kanalyse-btn{
+  width:100%;padding:13px;margin-top:12px;
+  background:var(--ac);color:#fff;border:none;border-radius:var(--rs);
+  font-size:15px;font-weight:700;cursor:pointer;
+  touch-action:manipulation;transition:opacity .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.kanalyse-btn:disabled{opacity:.5;cursor:not-allowed;}
+.kanalyse-btn .spinner{
+  width:16px;height:16px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;
+  animation:spin .7s linear infinite;display:none;
+}
+.kanalyse-btn.loading .spinner{display:block;}
+.kanalyse-btn.loading .btn-text{display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.kinfo-box{
+  padding:10px 12px;background:var(--bg2);border-radius:8px;
+  font-size:12px;color:var(--text2);line-height:1.5;
+  border:1px solid var(--line2);margin-top:8px;
+}
 </style>
 </head>
 <body>
@@ -696,13 +766,14 @@ html.app-locked{ overflow:hidden !important; }
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
-    <div class="hbadge">v5.1b</div>
+    <div class="hbadge">v5.1c</div>
     <button id="logoutBtn" onclick="doLogout()" title="Ausloggen">🔒 Sperren</button>
   </div>
 </div>
 <div id="tabbar">
   <div class="tab active" onclick="swTab('rechner',this)"><span class="ti">⚙️</span>Rechner</div>
   <div class="tab" onclick="swTab('vario',this)"><span class="ti">🔧</span>Vario</div>
+  <div class="tab" onclick="swTab('kerze',this)"><span class="ti">🔍</span>Kerze</div>
   <div class="tab" onclick="swTab('erklaerung',this)"><span class="ti">📖</span>Technik</div>
   <div class="tab" onclick="swTab('install',this)"><span class="ti">📲</span>Installieren</div>
 </div>
@@ -888,6 +959,73 @@ html.app-locked{ overflow:hidden !important; }
 
 
 <!-- ══════════ TAB 2: TECHNIK ══════════ -->
+
+<!-- ══════════ TAB: KERZENANALYSE ══════════ -->
+<div class="screen" id="s-kerze">
+
+<div class="sec" style="padding-bottom:0;">
+  <div class="sl">🔍 Kerzenbildanalyse — 2-Takt</div>
+  <div style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.5;">
+    Foto der Zündkerze hochladen — KI bewertet das Kerzenbild und gibt eine Empfehlung zur Vergaserabstimmung.
+  </div>
+
+  <!-- Upload-Bereich -->
+  <div class="kerzen-upload-area" id="kerzenDropArea"
+       onclick="document.getElementById('kerzenUpload').click()"
+       ondragover="kDragOver(event)" ondragleave="kDragLeave(event)" ondrop="kDrop(event)">
+    <img id="kerzenPreview" class="kerzen-preview" alt="Kerzenvorschau">
+    <div id="kerzenPlaceholder">
+      <div style="font-size:36px;margin-bottom:8px;">📷</div>
+      <div style="font-weight:600;font-size:14px;color:var(--text);">Foto hochladen oder hierher ziehen</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:4px;">JPG / PNG · Kerze von oben oder Seite fotografieren</div>
+    </div>
+  </div>
+  <input type="file" id="kerzenUpload" accept="image/*" capture="environment" onchange="kFileSelected(event)">
+
+  <!-- Analyse-Button -->
+  <button class="kanalyse-btn" id="kerzenBtn" onclick="analyseKerze()" disabled>
+    <div class="spinner"></div>
+    <span class="btn-text">🔬 Kerzenbild analysieren</span>
+  </button>
+
+  <!-- Hinweis -->
+  <div class="kinfo-box">
+    <strong>Tipps für gute Fotos:</strong> Kerze aus dem Motor ausbauen, gut beleuchten (Tageslicht oder Taschenlampe). Elektrode und Isolator müssen scharf sichtbar sein. Bitte kein Zoom-Foto von weit weg.
+  </div>
+</div>
+
+<!-- Ergebnis -->
+<div id="kerzenResult" style="display:none;" class="sec">
+  <div class="sl">Auswertung</div>
+  <div id="kerzenBewertung" class="kbewertung"></div>
+</div>
+
+<!-- Referenzbild-Legende -->
+<div class="sec">
+  <div class="sl">Referenz — Kerzenbilder 2-Takt</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div style="padding:10px;background:var(--bg2);border-radius:8px;border-left:3px solid var(--ok);">
+      <div style="font-weight:700;font-size:13px;">✅ Optimal</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:3px;">Isolator hellbraun bis beige. Kein Ruß, kein Ölfilm. Elektrode sauber.</div>
+    </div>
+    <div style="padding:10px;background:var(--bg2);border-radius:8px;border-left:3px solid #3af;">
+      <div style="font-weight:700;font-size:13px;">💧 Zu fett</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:3px;">Isolator schwarz, rußig oder feucht. Hauptdüse verkleinern.</div>
+    </div>
+    <div style="padding:10px;background:var(--bg2);border-radius:8px;border-left:3px solid #f84;">
+      <div style="font-weight:700;font-size:13px;">🔥 Zu mager</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:3px;">Isolator weiß oder grau. Kein Ruß. Hauptdüse vergrößern — Motorschaden-Gefahr!</div>
+    </div>
+    <div style="padding:10px;background:var(--bg2);border-radius:8px;border-left:3px solid #a8f;">
+      <div style="font-weight:700;font-size:13px;">💦 Nass/Ölig</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:3px;">Kerze nass oder stark verölt. Mischungsverhältnis oder Motorseal prüfen.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<!-- ══ END KERZENANALYSE ══ -->
+
 <div class="screen" id="s-erklaerung">
 
 <div class="sec" style="padding:16px;">
@@ -2098,6 +2236,12 @@ var VARDB={
         {g:6.5,name:'6,5g',eff:'Deutlich mehr Endgeschwindigkeit (+4–5 km/h), merklich trägerer Anzug',use:'Überlandfahrt'},
         {g:7.0,name:'7,0g',eff:'Hohe Endgeschwindigkeit (+6–8 km/h), langsamer Anzug',use:'Tuning / Race'},
         {g:7.5,name:'7,5g',eff:'Maximale Endgeschwindigkeit, sehr träger Anzug',use:'Race mit Tuning-Motor'},
+        {g:8.0,name:'8,0g',eff:'Extreme Endgeschwindigkeit (+12–14 km/h), minimaler Anzug — nur mit Tuning-Motor sinnvoll',use:'Race / Motorkittuning'},
+        {g:8.5,name:'8,5g',eff:'Extreme Endgeschwindigkeit (+15–17 km/h), kaum Anzug — Abstimmung auf Prüfstand',use:'Race / Volltuning'},
+        {g:9.0,name:'9,0g',eff:'Race-Setup: maximale Endgeschwindigkeit, Motor muss sehr leistungsstark sein',use:'Race-Volltuning'},
+        {g:10.0,name:'10,0g',eff:'Profi-Race: nur mit stark aufgeborenem Motor + Reso-Auspuff',use:'Profi-Race'},
+        {g:11.0,name:'11,0g',eff:'Rennsport: extrem hohe Endgeschwindigkeit, Motor muss sehr starke Leistung haben',use:'Rennsport'},
+        {g:12.0,name:'12,0g',eff:'Maximalgewicht: nur für leistungsstarke 70–125ccm Race-Motoren',use:'Maximale Endgeschwindigkeit / Race'},
       ],
       mixed:[
         {combo:'3×5,0g + 3×6,0g',avg:'5,5g',eff:'Ausgewogen: Kompromiss Anzug & Geschwindigkeit',rec:true},
@@ -2117,6 +2261,11 @@ var VARDB={
         {g:7.0,name:'7,0g',eff:'+4–5 km/h, trägerer Anzug',use:'Überlandfahrt'},
         {g:7.5,name:'7,5g',eff:'+6–8 km/h, langsamer Anzug',use:'Tuning'},
         {g:8.0,name:'8,0g',eff:'Maximal Top Speed, sehr träger Anzug',use:'Race'},
+        {g:8.5,name:'8,5g',eff:'Extreme Endgeschwindigkeit, kaum Anzug — nur starker Tuning-Motor',use:'Race-Volltuning'},
+        {g:9.0,name:'9,0g',eff:'Race-Setup: maximale Endgeschwindigkeit',use:'Race-Volltuning'},
+        {g:10.0,name:'10,0g',eff:'Profi-Race: nur mit stark aufgeborenem AM6-Motor',use:'Profi-Race'},
+        {g:11.0,name:'11,0g',eff:'Rennsport: extremes Gewicht für leistungsstarke Motoren',use:'Rennsport'},
+        {g:12.0,name:'12,0g',eff:'Maximalgewicht für 70–125ccm AM6 Race-Motoren',use:'Maximale Endgeschwindigkeit'},
       ],
       mixed:[
         {combo:'3×5,5g + 3×6,5g',avg:'6,0g',eff:'Ausgewogener Kompromiss',rec:true},
@@ -2132,6 +2281,10 @@ var VARDB={
         {g:6.0,name:'6,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
         {g:6.5,name:'6,5g',eff:'+2 km/h Top Speed',use:'Außerorts'},
         {g:7.0,name:'7,0g',eff:'+4 km/h',use:'Tuning'},
+        {g:8.0,name:'8,0g',eff:'+6–8 km/h, sehr träger Anzug',use:'Race'},
+        {g:9.0,name:'9,0g',eff:'Extreme Endgeschwindigkeit',use:'Race-Volltuning'},
+        {g:10.0,name:'10,0g',eff:'Profi-Race AM8v',use:'Profi-Race'},
+        {g:12.0,name:'12,0g',eff:'Maximalgewicht AM8v',use:'Maximale Endgeschwindigkeit'},
       ],
       mixed:[
         {combo:'3×5,5g + 3×6,5g',avg:'6,0g',eff:'Ausgewogener Kompromiss',rec:true},
@@ -2144,6 +2297,8 @@ var VARDB={
         {g:8.0,name:'8,0g ★ Original',eff:'Serienmäßig',use:'Standard',orig:true},
         {g:9.0,name:'9,0g',eff:'+3–5 km/h Top Speed',use:'Tuning'},
         {g:10.0,name:'10,0g',eff:'Maximale Endgeschwindigkeit',use:'Race'},
+        {g:11.0,name:'11,0g',eff:'Extreme Endgeschwindigkeit für 125cc Race',use:'Profi-Race'},
+        {g:12.0,name:'12,0g',eff:'Maximalgewicht 125cc Race',use:'Maximale Endgeschwindigkeit'},
       ],
       mixed:[
         {combo:'3×7,5g + 3×8,5g',avg:'8,0g',eff:'Ausgewogen',rec:true},
@@ -4023,18 +4178,40 @@ function startGuestCountdown(){
 
 // ── App sperren ────────────────────────────────────────────────
 function lockApp(reason){
+  // PIN zurücksetzen
+  pinBuffer = '';
+  pinLocked = false;
+  // Timer stoppen
+  clearInterval(guestTimer);
+  guestMode = false;
+  // guestBar verstecken
+  var bar = document.getElementById('guestBar');
+  if(bar) bar.style.display = 'none';
+  // Scroll zurück
+  try { window.scrollTo(0,0); document.body.scrollTop=0; } catch(e){}
   document.body.classList.add('app-locked');
   document.body.style.overflow = 'hidden';
   document.documentElement.style.overflow = 'hidden';
   var ls = document.getElementById('lockScreen');
   if(ls){
     ls.removeAttribute('hidden');
-    ls.style.cssText = [
-      'position:fixed','top:0','left:0','right:0','bottom:0',
-      'width:100vw','height:100vh','z-index:2147483647',
-      'background:#0a0a0a','display:flex','flex-direction:column',
-      'align-items:center','justify-content:center','overflow:hidden',
-      'padding:max(20px,env(safe-area-inset-top,20px)) 32px max(20px,env(safe-area-inset-bottom,20px))','box-sizing:border-box'
+    ls.style.cssText = ['position:fixed',
+      'top:0','left:0','right:0','bottom:0',
+      'width:100vw','height:100vh',
+      'z-index:2147483647',
+      'background:#0a0a0a',
+      'display:flex',
+      'flex-direction:column',
+      'align-items:center',
+      'justify-content:flex-start',
+      'overflow-y:scroll',
+      'overflow-x:hidden',
+      '-webkit-overflow-scrolling:touch',
+      'padding-top:max(60px,env(safe-area-inset-top,60px))',
+      'padding-bottom:max(30px,env(safe-area-inset-bottom,30px))',
+      'padding-left:20px',
+      'padding-right:20px',
+      'box-sizing:border-box'
     ].join(';');
   }
   clearInterval(guestTimer);
@@ -4061,9 +4238,8 @@ function lockApp(reason){
     // Nach Ablauf: nur noch Haupt-PIN akzeptieren → guestExpired flag
     sessionStorage.setItem('guest_expired', '1');
   }
+  hideErr();
 }
-
-// ── PIN-Eingabe ────────────────────────────────────────────────
 function pinPress(n){
   if(pinLocked || pinBuffer.length >= 4) return;
   pinBuffer += n;
@@ -4169,21 +4345,24 @@ document.addEventListener('keydown', function(e){
     // LockScreen per JS direkt stylen — CSS-cascade-sicher
     var ls = document.getElementById('lockScreen');
     if(ls){
-      ls.style.cssText = [
-        'position:fixed',
-        'top:0','left:0','right:0','bottom:0',
-        'width:100vw','height:100vh',
-        'z-index:2147483647',
-        'background:#0a0a0a',
-        'display:flex',
-        'flex-direction:column',
-        'align-items:center',
-        'justify-content:center',
-        'overflow:hidden',
-        'padding:max(20px,env(safe-area-inset-top,20px)) 32px max(20px,env(safe-area-inset-bottom,20px))',
-        'box-sizing:border-box',
-        'transition:opacity .4s ease'
-      ].join(';');
+      ls.style.cssText = ['position:fixed',
+      'top:0','left:0','right:0','bottom:0',
+      'width:100vw','height:100vh',
+      'z-index:2147483647',
+      'background:#0a0a0a',
+      'display:flex',
+      'flex-direction:column',
+      'align-items:center',
+      'justify-content:flex-start',
+      'overflow-y:scroll',
+      'overflow-x:hidden',
+      '-webkit-overflow-scrolling:touch',
+      'padding-top:max(60px,env(safe-area-inset-top,60px))',
+      'padding-bottom:max(30px,env(safe-area-inset-bottom,30px))',
+      'padding-left:20px',
+      'padding-right:20px',
+      'box-sizing:border-box'
+    ].join(';');
     }
     // Scroll sperren
     document.body.style.overflow = 'hidden';
@@ -4210,37 +4389,142 @@ document.addEventListener('keydown', function(e){
 // ══════════════════════════════════════════
 
 function doLogout(){
-  // Alle Session-Keys löschen
   try{
     sessionStorage.removeItem('sg_auth_v51');
     sessionStorage.removeItem('sg_guest_v51');
     sessionStorage.removeItem('guest_expired');
   }catch(e){}
-  // App sperren
-  clearInterval(guestTimer);
-  guestMode = false;
-  pinBuffer = '';
-  // LockScreen wieder anzeigen
-  var ls = document.getElementById('lockScreen');
-  if(ls){
-    ls.removeAttribute('hidden');
-    ls.style.cssText = [
-      'position:fixed','top:0','left:0','right:0','bottom:0',
-      'width:100vw','height:100vh','z-index:2147483647',
-      'background:#0a0a0a','display:flex','flex-direction:column',
-      'align-items:center','justify-content:center','overflow:hidden',
-      'padding:max(20px,env(safe-area-inset-top,20px)) 32px max(20px,env(safe-area-inset-bottom,20px))','box-sizing:border-box'
-    ].join(';');
+  lockApp('logout');
+}
+
+function kDragOver(e){
+  e.preventDefault();
+  document.getElementById('kerzenDropArea').classList.add('dragover');
+}
+function kDragLeave(e){
+  document.getElementById('kerzenDropArea').classList.remove('dragover');
+}
+function kDrop(e){
+  e.preventDefault();
+  kDragLeave(e);
+  var file = e.dataTransfer.files[0];
+  if(file && file.type.startsWith('image/')) kLoadFile(file);
+}
+function kFileSelected(e){
+  var file = e.target.files[0];
+  if(file) kLoadFile(file);
+}
+function kLoadFile(file){
+  kerzenMimeType = file.type || 'image/jpeg';
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    kerzenImageB64 = ev.target.result.split(',')[1];
+    // Preview anzeigen
+    var prev = document.getElementById('kerzenPreview');
+    var ph   = document.getElementById('kerzenPlaceholder');
+    var area = document.getElementById('kerzenDropArea');
+    prev.src = ev.target.result;
+    prev.classList.add('visible');
+    ph.style.display = 'none';
+    area.classList.add('has-image');
+    // Button aktivieren
+    var btn = document.getElementById('kerzenBtn');
+    btn.disabled = false;
+    // Ergebnis zurücksetzen
+    document.getElementById('kerzenResult').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyseKerze(){
+  if(!kerzenImageB64){ return; }
+  var btn = document.getElementById('kerzenBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  // Kontext aus aktuellem Setup
+  var ccm    = typeof cc !== 'undefined' ? cc : 50;
+  var carbSz = typeof carb !== 'undefined' ? carb : 12;
+  var auspStr= typeof ausp !== 'undefined' ? ({serie:'Serienauspuff',sport:'Sportauspuff',reso:'Resonanzrohr',race:'Raceauspuff'}[ausp]||'unbekannt') : 'unbekannt';
+
+  var prompt = 'Du bist ein erfahrener 2-Takt-Motorrad- und Roller-Mechaniker. Analysiere das Kerzenbild dieser 2-Takt-Zündkerze und gib eine präzise Einschätzung.\n\n' +
+    'Motor-Kontext: ' + ccm + ' ccm, Vergaser ' + carbSz + ' mm, ' + auspStr + '.\n\n' +
+    'Bewerte:\n' +
+    '1. ZUSTAND: Wähle genau einen: "optimal", "zu_fett", "zu_mager", "nass_oelig", "ueberhitzt", "unklar"\n' +
+    '2. DIAGNOSE: Was siehst du konkret? (Farbe Isolator, Elektrode, Ablagerungen, 2-3 Sätze)\n' +
+    '3. MASSNAHME: Was ist zu tun? (konkret: z.B. "Hauptdüse von 64 auf 60 verkleinern", "Luftschraube 0,5 Umdrehungen eindrehen", "Mischungsverhältnis prüfen")\n' +
+    '4. DRINGLICHKEIT: "sofort handeln", "baldmöglichst", "beobachten", "alles ok"\n\n' +
+    'Antworte NUR in diesem JSON-Format (kein Markdown, keine Backticks):\n' +
+    '{"zustand":"zu_fett","diagnose":"...","massnahme":"...","dringlichkeit":"..."}';
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            {type:'image', source:{type:'base64', media_type:kerzenMimeType, data:kerzenImageB64}},
+            {type:'text',  text:prompt}
+          ]
+        }]
+      })
+    });
+    var data = await response.json();
+    var raw = (data.content && data.content[0] && data.content[0].text) || '';
+    // JSON extrahieren
+    var jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if(!jsonMatch) throw new Error('Kein JSON in Antwort');
+    var result = JSON.parse(jsonMatch[0]);
+    renderKerzenResult(result);
+  } catch(err) {
+    renderKerzenError(err.message);
   }
-  document.body.style.overflow = 'hidden';
-  document.documentElement.style.overflow = 'hidden';
-  document.body.classList.add('app-locked');
-  // guestBar verstecken
-  var bar = document.getElementById('guestBar');
-  if(bar) bar.style.display = 'none';
-  // PIN-Dots zurücksetzen
-  updateDots();
-  hideErr();
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+}
+
+function renderKerzenResult(r){
+  var zustand = r.zustand || 'unklar';
+  var labels = {
+    optimal:     {text:'✅ Optimal',       cls:'optimal', badge:'badge-optimal'},
+    zu_fett:     {text:'💧 Zu fett',       cls:'fett',    badge:'badge-fett'},
+    zu_mager:    {text:'🔥 Zu mager',      cls:'mager',   badge:'badge-mager'},
+    nass_oelig:  {text:'💦 Nass / Ölig',   cls:'nass',    badge:'badge-nass'},
+    ueberhitzt:  {text:'🌡 Überhitzt',     cls:'mager',   badge:'badge-mager'},
+    unklar:      {text:'❓ Nicht eindeutig',cls:'',        badge:'badge-unklar'},
+  };
+  var lbl = labels[zustand] || labels.unklar;
+  var dringStr = {
+    'sofort handeln': '⛔ Sofort handeln — Motorschaden möglich!',
+    'baldmöglichst':  '⚠️ Baldmöglichst prüfen',
+    'beobachten':     'ℹ️ Weiter beobachten',
+    'alles ok':       '✅ Alles in Ordnung',
+  }[r.dringlichkeit] || r.dringlichkeit;
+
+  var html = '<div class="kbew-header">' +
+    '<span style="font-size:22px;">' + lbl.text.split(' ')[0] + '</span>' +
+    '<span class="kbew-badge ' + lbl.badge + '">' + lbl.text.substring(lbl.text.indexOf(' ')+1) + '</span>' +
+    '</div>' +
+    '<div class="kbew-text">' + (r.diagnose||'') + '</div>' +
+    '<div class="kbew-massnahme"><strong>👉 Empfohlene Maßnahme:</strong><br>' + (r.massnahme||'') + '</div>' +
+    '<div style="margin-top:8px;font-size:12px;font-weight:700;color:var(--text2);">' + dringStr + '</div>';
+
+  var bew = document.getElementById('kerzenBewertung');
+  bew.className = 'kbewertung ' + lbl.cls;
+  bew.innerHTML = html;
+  document.getElementById('kerzenResult').style.display = 'block';
+}
+
+function renderKerzenError(msg){
+  var bew = document.getElementById('kerzenBewertung');
+  bew.className = 'kbewertung';
+  bew.innerHTML = '<div style="color:var(--err);">⚠️ Analyse fehlgeschlagen:<br>' + msg + '</div>';
+  document.getElementById('kerzenResult').style.display = 'block';
 }
 
 updateCarbBtns(); // init carb button states
@@ -4267,7 +4551,7 @@ calc();
 <div id="lockScreen">
 
   <!-- Logo -->
-  <div class="logo-wrap" style="margin-bottom:12px;">
+  <div class="logo-wrap" style="margin-bottom:8px;transform:scale(0.7);transform-origin:top center;">
   <!-- Scooter Garage Neon Logo -->
   <div style="background:#080808;border-radius:14px;padding:8px 8px 4px;max-width:280px;margin:0 auto;">
     <!-- SCOOTER neon -->
