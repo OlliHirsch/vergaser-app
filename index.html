@@ -649,6 +649,27 @@ html.app-locked{ overflow:hidden !important; }
   #hdr{padding:20px 24px 14px;}
   .htitle{font-size:20px !important;}
 }
+
+/* ── LOGOUT-BUTTON im Header ─────────────────────────────── */
+#logoutBtn{
+  background:none;border:1px solid var(--line2);border-radius:20px;
+  color:var(--text2);font-size:11px;padding:4px 10px;cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+  touch-action:manipulation;transition:all .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+#logoutBtn:hover{border-color:var(--err);color:var(--err);}
+#logoutBtn:active{transform:scale(.95);}
+
+/* ── COPYRIGHT Footer ────────────────────────────────────── */
+#appFooter{
+  text-align:center;
+  padding:12px 16px calc(env(safe-area-inset-bottom,0px) + 12px);
+  font-size:11px;color:var(--text3);
+  border-top:0.5px solid var(--line);
+  background:var(--bg);
+  flex-shrink:0;
+}
 </style>
 </head>
 <body>
@@ -670,7 +691,10 @@ html.app-locked{ overflow:hidden !important; }
       <div class="hsub">Vergaser-Abstimmung · Dellorto</div>
     </div>
   </div>
-  <div class="hbadge">v5.1a</div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="hbadge">v5.1b</div>
+    <button id="logoutBtn" onclick="doLogout()" title="Ausloggen">🔒 Sperren</button>
+  </div>
 </div>
 <div id="tabbar">
   <div class="tab active" onclick="swTab('rechner',this)"><span class="ti">⚙️</span>Rechner</div>
@@ -4181,6 +4205,40 @@ document.addEventListener('keydown', function(e){
 
 // ══════════════════════════════════════════
 
+function doLogout(){
+  // Alle Session-Keys löschen
+  try{
+    sessionStorage.removeItem('sg_auth_v51');
+    sessionStorage.removeItem('sg_guest_v51');
+    sessionStorage.removeItem('guest_expired');
+  }catch(e){}
+  // App sperren
+  clearInterval(guestTimer);
+  guestMode = false;
+  pinBuffer = '';
+  // LockScreen wieder anzeigen
+  var ls = document.getElementById('lockScreen');
+  if(ls){
+    ls.removeAttribute('hidden');
+    ls.style.cssText = [
+      'position:fixed','top:0','left:0','right:0','bottom:0',
+      'width:100vw','height:100vh','z-index:2147483647',
+      'background:#0a0a0a','display:flex','flex-direction:column',
+      'align-items:center','justify-content:center','overflow:hidden',
+      'padding:40px 32px 60px','box-sizing:border-box'
+    ].join(';');
+  }
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+  document.body.classList.add('app-locked');
+  // guestBar verstecken
+  var bar = document.getElementById('guestBar');
+  if(bar) bar.style.display = 'none';
+  // PIN-Dots zurücksetzen
+  updateDots();
+  hideErr();
+}
+
 updateCarbBtns(); // init carb button states
 initVehicleSelects(); // init Fahrzeugauswahl dropdowns
 calc();
@@ -4189,6 +4247,10 @@ calc();
 <!-- ── GAST-MODUS COUNTDOWN-BALKEN ── -->
 <!-- ══ LOCK SCREEN ══ -->
 
+
+<div id="appFooter">
+  © 2026 Oliver Hirsch · Scooter Garage
+</div>
 
 <div id="guestBar">
   <span class="guest-icon">⏱</span>
