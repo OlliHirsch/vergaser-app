@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'API key nicht konfiguriert' });
 
   try {
@@ -31,33 +31,46 @@ Antworte NUR mit einem JSON-Objekt, kein Text davor oder danach:
 
 Wenn das Bild keine Zündkerze zeigt oder zu unscharf/dunkel ist: zustand="unklar", bildqualitaet="schlecht".`;
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-opus-4-5',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: mimeType, data: imageB64 } },
-            { type: 'text', text: prompt }
+        contents: [{
+          parts: [
+            {
+              inline_data: {
+                mime_type: mimeType,
+                data: imageB64
+              }
+            },
+            { text: prompt }
           ]
-        }]
+        }],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 1000,
+        }
       })
     });
 
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
-      return res.status(response.status).json({ error: err.error?.message || 'API Fehler ' + response.status });
+      const msg = (err.error && err.error.message) || 'Gemini API Fehler ' + response.status;
+      return res.status(response.status).json({ error: msg });
     }
 
     const data = await response.json();
-    const raw = (data.content[0]?.text || '').trim();
+    const raw = (
+      data.candidates &&
+      data.candidates[0] &&
+      data.candidates[0].content &&
+      data.candidates[0].content.parts &&
+      data.candidates[0].content.parts[0] &&
+      data.candidates[0].content.parts[0].text
+    ) || '';
+
     const jsonStr = raw.replace(/```json|```/g, '').trim();
     const result = JSON.parse(jsonStr);
 
