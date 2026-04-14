@@ -4802,108 +4802,72 @@ function kReset(){
   document.getElementById('kerzenGallery').value = '';
 }
 
-function analyseKerze(){
+async function analyseKerze(){
   if(!kerzenImageB64){ return; }
   var btn = document.getElementById('kerzenBtn');
   btn.disabled = true;
   btn.classList.add('loading');
 
-  // Lade Bild in Canvas und analysiere Farbwerte
-  var img = new Image();
-  img.onload = function(){
-    try {
-      var canvas = document.createElement('canvas');
-      // Mittelbereich analysieren (Isolator-Bereich)
-      var sw = Math.floor(img.width  * 0.6);
-      var sh = Math.floor(img.height * 0.6);
-      var sx = Math.floor(img.width  * 0.2);
-      var sy = Math.floor(img.height * 0.15);
-      canvas.width  = sw;
-      canvas.height = sh;
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
-      var px = ctx.getImageData(0, 0, sw, sh).data;
+  var prompt = `Du bist ein erfahrener 2-Takt-Motorenexperte und analysierst das Bild einer Zündkerze aus einem Piaggio/Minarelli 50cc oder 70cc 2-Takt-Moped mit Dellorto-Vergaser.
 
-      // Farbstatistik berechnen
-      var r=0,g=0,b=0,n=0;
-      var darkPx=0, blackPx=0, whitePx=0, brownPx=0, oilPx=0;
-      for(var i=0;i<px.length;i+=4){
-        var pr=px[i],pg=px[i+1],pb=px[i+2];
-        r+=pr; g+=pg; b+=pb; n++;
-        var bright = (pr+pg+pb)/3;
-        if(bright < 40)  blackPx++;   // Ruß/schwarz
-        if(bright > 210) whitePx++;   // Sehr hell/weiß
-        if(pr>100 && pg>60 && pb<60 && bright>80 && bright<180) brownPx++; // Braun/beige
-        if(pr>80 && pg>60 && pb<40 && bright<120) oilPx++;   // Ölig/dunkelbraun
-        if(bright<80) darkPx++;
-      }
-      r=r/n; g=g/n; b=b/n;
-      var brightness=(r+g+b)/3;
-      var rRatio = n>0 ? r/(r+g+b+1) : 0.33;
-      var gRatio = n>0 ? g/(r+g+b+1) : 0.33;
-      var bRatio = n>0 ? b/(r+g+b+1) : 0.33;
-      var blackRatio = blackPx/n;
-      var whiteRatio = whitePx/n;
-      var brownRatio = brownPx/n;
-      var oilRatio   = oilPx/n;
-      var darkRatio  = darkPx/n;
+Analysiere das Kerzenbild genau. Beurteile insbesondere:
+- Farbe und Zustand des Isolators (weißer Keramik-Teil)
+- Ablagerungen auf Elektrode und Isolator (Ruß, Öl, Schmelzspuren)
+- Allgemeinen Verbrennungszustand
 
-      // Diagnose-Algorithmus
-      var zustand, diagnose, massnahme, dringlichkeit;
+Antworte NUR mit einem JSON-Objekt, kein Text davor oder danach:
+{
+  "zustand": "optimal" | "zu_fett" | "zu_mager" | "nass_oelig" | "ueberhitzt" | "unklar",
+  "diagnose": "Beschreibung was du siehst (2-3 Sätze, auf Deutsch, präzise)",
+  "massnahme": "Konkrete Handlungsempfehlung für Dellorto-Vergaser (Düsengröße, Luftschraube etc.)",
+  "dringlichkeit": "sofort handeln" | "baldmöglichst" | "beobachten" | "alles ok",
+  "bildqualitaet": "gut" | "ausreichend" | "schlecht"
+}
 
-      if(blackRatio > 0.35 || (darkRatio > 0.55 && brightness < 70)){
-        // Zu viel Schwarz/Ruß → zu fett oder nass
-        if(oilRatio > 0.15 || (brightness < 55 && b > 40)){
-          zustand='nass_oelig';
-          diagnose='Der Isolator zeigt starke Öl- oder Kraftstoffbenetzung. Die Kerze ist nass und verölt — deutlich sichtbar an der dunklen, glänzenden Oberfläche.';
-          massnahme='Mischungsverhältnis prüfen (max. 1:50). Leerlauf einstellen. Kurzstrecken-Betrieb vermeiden. Kerze reinigen oder ersetzen.';
-          dringlichkeit='baldmöglichst';
-        } else {
-          zustand='zu_fett';
-          diagnose='Der Isolator ist stark verrußt und dunkelgrau bis schwarz. Die Ablagerungen deuten auf ein zu fettes Gemisch hin — zu viel Kraftstoff oder zu wenig Luft.';
-          massnahme='Hauptdüse 2–3 Größen verkleinern (z.B. von 68 auf 64). Luftfilter auf Verschmutzung prüfen. Luftschraube 0,25 Umdrehungen eindrehen.';
-          dringlichkeit='baldmöglichst';
-        }
-      } else if(whiteRatio > 0.40 || brightness > 175){
-        // Zu hell → zu mager oder überhitzt
-        if(brightness > 200 && whiteRatio > 0.55){
-          zustand='ueberhitzt';
-          diagnose='Die Kerze zeigt extreme Weißfärbung oder Verbrennungsrückstände. Das deutet auf sehr mageres Gemisch oder Überhitzung hin — Motorschaden-Gefahr!';
-          massnahme='Sofort Hauptdüse 3–4 Größen vergrößern. Kühlung prüfen. Keine weiteren Fahrten ohne Korrektur — Kolbenfresser-Gefahr!';
-          dringlichkeit='sofort handeln';
-        } else {
-          zustand='zu_mager';
-          diagnose='Der Isolator erscheint weiß oder sehr hell-grau ohne braune Tönung. Das ist ein typisches Zeichen für ein zu mageres Gemisch.';
-          massnahme='Hauptdüse 2–3 Größen vergrößern (z.B. von 60 auf 64). Luftschraube 0,5 Umdrehungen herausdrehen. Ansaugwege auf Falschluftzieher prüfen.';
-          dringlichkeit='sofort handeln';
-        }
-      } else if(brownRatio > 0.20 || (brightness>90 && brightness<160 && rRatio>0.34)){
-        // Braun/Beige → optimal
-        zustand='optimal';
-        diagnose='Der Isolator zeigt eine hellbraune bis beige Färbung — das ideale Verbrennungsbild bei einem 2-Takter. Elektrode sauber, keine problematischen Ablagerungen.';
-        massnahme='Keine Änderung notwendig. Vergaserabstimmung ist optimal. Nächste Kerzenkontrolle nach ca. 2.000–3.000 km.';
-        dringlichkeit='alles ok';
-      } else {
-        // Unklar
-        zustand='unklar';
-        diagnose='Das Bild lässt keine eindeutige Diagnose zu. Möglicherweise ist die Beleuchtung ungünstig oder der Bildausschnitt zeigt nicht den Isolator-Bereich.';
-        massnahme='Erneutes Foto bei gutem Licht aufnehmen (Tageslicht oder Taschenlampe direkt auf die Kerze). Isolator und Elektrode müssen scharf und nah sichtbar sein.';
-        dringlichkeit='beobachten';
-      }
+Wenn das Bild keine Zündkerze zeigt oder zu unscharf/dunkel ist: zustand="unklar", bildqualitaet="schlecht".`;
 
-      renderKerzenResult({zustand:zustand, diagnose:diagnose, massnahme:massnahme, dringlichkeit:dringlichkeit});
-    } catch(e){
-      renderKerzenError('Bildanalyse fehlgeschlagen: ' + e.message);
+  try {
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: kerzenMimeType, data: kerzenImageB64 } },
+            { type: 'text',  text: prompt }
+          ]
+        }]
+      })
+    });
+
+    if(!resp.ok){
+      var err = await resp.json().catch(function(){ return {}; });
+      throw new Error('API Fehler ' + resp.status + (err.error ? ': ' + err.error.message : ''));
     }
-    btn.disabled = false;
-    btn.classList.remove('loading');
-  };
-  img.onerror = function(){
-    renderKerzenError('Bild konnte nicht geladen werden.');
-    btn.disabled = false;
-    btn.classList.remove('loading');
-  };
-  img.src = 'data:' + kerzenMimeType + ';base64,' + kerzenImageB64;
+
+    var data = await resp.json();
+    var raw  = (data.content[0].text || '').trim();
+
+    // JSON aus Antwort extrahieren (strip mögliche Backticks)
+    var jsonStr = raw.replace(/```json|```/g,'').trim();
+    var result  = JSON.parse(jsonStr);
+
+    // Bildqualitäts-Hinweis ergänzen wenn nötig
+    if(result.bildqualitaet === 'schlecht' && result.zustand !== 'unklar'){
+      result.diagnose += ' (Hinweis: Bildqualität eingeschränkt — Ergebnis mit Vorsicht interpretieren.)';
+    }
+
+    renderKerzenResult(result);
+
+  } catch(e){
+    renderKerzenError('Analyse fehlgeschlagen: ' + (e.message || e));
+  }
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
 }
 
 function renderKerzenResult(r){
