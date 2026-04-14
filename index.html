@@ -744,6 +744,67 @@ html.app-locked{ overflow:hidden !important; }
   font-size:12px;color:var(--text2);line-height:1.5;
   border:1px solid var(--line2);margin-top:8px;
 }
+
+/* ── WARTUNGS-TAB ─────────────────────────────────── */
+.wartung-section{margin-bottom:4px;}
+.wartung-header{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;background:var(--bg2);
+  border-radius:10px;cursor:pointer;
+  touch-action:manipulation;
+  transition:background .15s;
+}
+.wartung-header:hover,.wartung-header:active{background:var(--bg3);}
+.wartung-icon{font-size:20px;flex-shrink:0;}
+.wartung-title{font-weight:700;font-size:14px;color:var(--text);flex:1;}
+.wartung-interval{
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;
+  background:color-mix(in srgb,var(--ac) 15%,var(--bg2));
+  color:var(--ac);white-space:nowrap;
+}
+.wartung-interval.warn{
+  background:color-mix(in srgb,#e05050 15%,var(--bg2));
+  color:#e05050;
+}
+.wartung-interval.ok{
+  background:color-mix(in srgb,var(--ok) 15%,var(--bg2));
+  color:var(--ok);
+}
+.wartung-chevron{color:var(--text3);font-size:12px;transition:transform .2s;flex-shrink:0;}
+.wartung-body{
+  display:none;padding:12px 14px 14px;
+  background:var(--bg2);border-radius:0 0 10px 10px;
+  margin-top:1px;
+}
+.wartung-section.open .wartung-chevron{transform:rotate(90deg);}
+.wartung-section.open .wartung-body{display:block;}
+.wartung-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:7px 0;border-bottom:0.5px solid var(--line);
+  font-size:13px;
+}
+.wartung-row:last-child{border-bottom:none;padding-bottom:0;}
+.wartung-row-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+.wartung-row-text{flex:1;color:var(--text2);line-height:1.45;}
+.wartung-row-text strong{color:var(--text);}
+.wartung-tip{
+  margin-top:10px;padding:9px 12px;
+  background:color-mix(in srgb,var(--inf) 10%,var(--bg2));
+  border-left:3px solid var(--inf);
+  border-radius:6px;font-size:12px;color:var(--text2);line-height:1.5;
+}
+.wartung-checkliste{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;
+}
+.wcheck{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 10px;background:var(--bg3);
+  border-radius:7px;font-size:12px;color:var(--text2);
+  cursor:pointer;touch-action:manipulation;
+}
+.wcheck input[type=checkbox]{
+  accent-color:var(--ac);width:16px;height:16px;flex-shrink:0;
+}
 </style>
 </head>
 <body>
@@ -766,7 +827,7 @@ html.app-locked{ overflow:hidden !important; }
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
-    <div class="hbadge">v6.1c</div>
+    <div class="hbadge">v7.1a</div>
     <button id="logoutBtn" onclick="doLogout()" title="Ausloggen">🔒 Sperren</button>
   </div>
 </div>
@@ -774,6 +835,7 @@ html.app-locked{ overflow:hidden !important; }
   <div class="tab active" onclick="swTab('rechner',this)"><span class="ti">⚙️</span>Rechner</div>
   <div class="tab" onclick="swTab('vario',this)"><span class="ti">🔧</span>Vario</div>
   <div class="tab" onclick="swTab('kerze',this)"><span class="ti">🔍</span>Kerze</div>
+  <div class="tab" onclick="swTab('wartung',this)"><span class="ti">🛠</span>Wartung</div>
   <div class="tab" onclick="swTab('erklaerung',this)"><span class="ti">📖</span>Technik</div>
   <div class="tab" onclick="swTab('install',this)"><span class="ti">📲</span>Installieren</div>
 </div>
@@ -971,16 +1033,28 @@ html.app-locked{ overflow:hidden !important; }
 
   <!-- Upload-Bereich -->
   <div class="kerzen-upload-area" id="kerzenDropArea"
-       onclick="document.getElementById('kerzenUpload').click()"
        ondragover="kDragOver(event)" ondragleave="kDragLeave(event)" ondrop="kDrop(event)">
     <img id="kerzenPreview" class="kerzen-preview" alt="Kerzenvorschau">
     <div id="kerzenPlaceholder">
-      <div style="font-size:36px;margin-bottom:8px;">📷</div>
-      <div style="font-weight:600;font-size:14px;color:var(--text);">Foto hochladen oder hierher ziehen</div>
-      <div style="font-size:12px;color:var(--text3);margin-top:4px;">JPG / PNG · Kerze von oben oder Seite fotografieren</div>
+      <div style="font-size:36px;margin-bottom:10px;">🔍</div>
+      <div style="font-weight:600;font-size:14px;color:var(--text);margin-bottom:12px;">Kerzenfoto auswählen</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="document.getElementById('kerzenCamera').click()"
+                style="padding:9px 16px;background:var(--ac);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:6px;">
+          📷 Kamera
+        </button>
+        <button onclick="document.getElementById('kerzenGallery').click()"
+                style="padding:9px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--line2);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:6px;">
+          🖼 Mediathek
+        </button>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:8px;">Auch per Drag & Drop</div>
     </div>
   </div>
-  <input type="file" id="kerzenUpload" accept="image/*" capture="environment" onchange="kFileSelected(event)">
+  <!-- Kamera-Input (capture=environment → direkt Kamera) -->
+  <input type="file" id="kerzenCamera"  accept="image/*" capture="environment" onchange="kFileSelected(event)" style="display:none;">
+  <!-- Mediathek-Input (kein capture → Auswahl aus Fotos) -->
+  <input type="file" id="kerzenGallery" accept="image/*" onchange="kFileSelected(event)" style="display:none;">
 
   <!-- Analyse-Button -->
   <button class="kanalyse-btn" id="kerzenBtn" onclick="analyseKerze()" disabled>
@@ -1025,6 +1099,197 @@ html.app-locked{ overflow:hidden !important; }
 
 </div>
 <!-- ══ END KERZENANALYSE ══ -->
+
+
+<!-- ══════════ TAB: WARTUNG & PFLEGE ══════════ -->
+<div class="screen" id="s-wartung">
+
+<div class="sec">
+  <div class="sl">🛠 Wartung & Pflege — 2-Takt Roller</div>
+  <div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.5;">
+    Wartungsintervalle für 50cc 2-Takt Roller (Piaggio C9A, Minarelli AM6/AM8v). Alle Angaben als Richtwerte — Herstellerangaben im Servicehandbuch beachten.
+  </div>
+
+  <!-- ── Zündkerze ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">🕯</span>
+      <span class="wartung-title">Zündkerze prüfen / wechseln</span>
+      <span class="wartung-interval">alle 3.000 km</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">🔧</span><div class="wartung-row-text"><strong>Prüfintervall:</strong> alle 1.000–2.000 km (Kerzenbild kontrollieren)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔄</span><div class="wartung-row-text"><strong>Wechselintervall:</strong> alle 3.000 km oder bei Leistungsverlust</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">📐</span><div class="wartung-row-text"><strong>Elektrodenabstand:</strong> 0,5–0,7 mm (NGK B7HS/B9HS typisch)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">💡</span><div class="wartung-row-text"><strong>Anzugsmoment:</strong> 12–15 Nm (nicht zu fest — Alu-Gewinde!)</div></div>
+      <div class="wartung-tip">💡 Tipp: Beim Kerzenwechsel immer Kerzenbild begutachten (→ Tab Kerze). Farbe sagt viel über die Vergaserabstimmung aus.</div>
+    </div>
+  </div>
+
+  <!-- ── Getriebeöl ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">🛢</span>
+      <span class="wartung-title">Getriebeöl wechseln</span>
+      <span class="wartung-interval">alle 5.000 km</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">🔄</span><div class="wartung-row-text"><strong>Intervall:</strong> alle 5.000 km oder jährlich</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🫙</span><div class="wartung-row-text"><strong>Ölsorte:</strong> SAE 80W-90 Getriebeöl (oder Piaggio Original)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">📏</span><div class="wartung-row-text"><strong>Füllmenge:</strong> ca. 150–200 ml (Piaggio C9A), 100–120 ml (Minarelli AM6)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🌡</span><div class="wartung-row-text"><strong>Ölstand prüfen:</strong> Motor warm fahren, dann Schauglas/Peilstab prüfen</div></div>
+      <div class="wartung-tip">💡 Tipp: Altes Öl im warmen Zustand ablassen — fließt besser. Auf Metallspäne im alten Öl achten (Lagerprobleme).</div>
+    </div>
+  </div>
+
+  <!-- ── Luftfilter ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">💨</span>
+      <span class="wartung-title">Luftfilter reinigen / tauschen</span>
+      <span class="wartung-interval">alle 3.000 km</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">🧹</span><div class="wartung-row-text"><strong>Schaumstofffilter:</strong> alle 1.500 km reinigen (Filterspray), alle 5.000 km tauschen</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">📦</span><div class="wartung-row-text"><strong>Papierfilter:</strong> alle 3.000 km tauschen (nicht reinigen!)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">⚠️</span><div class="wartung-row-text"><strong>Verschmutzter Filter:</strong> verursacht fettes Gemisch → schlechter Leerlauf, Mehrverbrauch</div></div>
+      <div class="wartung-tip">💡 Tipp: Nach Luftfiltertausch immer Vergaser-Grundeinstellung prüfen — besonders Leerlaufdüse und Luftschraube.</div>
+    </div>
+  </div>
+
+  <!-- ── Antriebsriemen ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">⚙️</span>
+      <span class="wartung-title">Antriebsriemen prüfen / tauschen</span>
+      <span class="wartung-interval warn">alle 5.000–8.000 km</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">📐</span><div class="wartung-row-text"><strong>Prüfung:</strong> Riemenbreite messen — unter Verschleißmarkierung → sofort tauschen</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔍</span><div class="wartung-row-text"><strong>Risse / Ausbrüche:</strong> auch kleine Risse am Rand → sofort tauschen (Risiko Riss während Fahrt)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔄</span><div class="wartung-row-text"><strong>Empfehlung:</strong> alle 5.000 km tauschen (Original), alle 8.000 km (Dayco/Gates/Polini)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🧹</span><div class="wartung-row-text"><strong>Reinigung:</strong> Varioscheiben von Abrieb reinigen, fettfrei (kein Öl/Fett auf Riemen!)</div></div>
+      <div class="wartung-tip">⚠️ Ein gerissener Riemen bedeutet sofortigen Liegenbleiber — Tausch lieber früher als später.</div>
+    </div>
+  </div>
+
+  <!-- ── Variogewichte / Gleitstücke ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">🎯</span>
+      <span class="wartung-title">Variogewichte & Gleitstücke</span>
+      <span class="wartung-interval">alle 10.000 km</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">⚖️</span><div class="wartung-row-text"><strong>Gewichte prüfen:</strong> auf ungleichmäßigen Verschleiß, Riefen, ovale Form → tauschen</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">📏</span><div class="wartung-row-text"><strong>Gleitstücke:</strong> Verschleiß unter 2 mm Restdicke → tauschen (Set komplett wechseln)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔍</span><div class="wartung-row-text"><strong>Scheiben prüfen:</strong> Varioscheibe auf Riefen — leichte Riefen polieren, tiefe → tauschen</div></div>
+      <div class="wartung-tip">💡 Tipp: Gewichte immer als kompletten Satz (6 Stück) tauschen. Mischung alter/neuer Gewichte führt zu unrundem Lauf.</div>
+    </div>
+  </div>
+
+  <!-- ── Bremsbeläge ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">🛑</span>
+      <span class="wartung-title">Bremsbeläge / Bremsschuhe</span>
+      <span class="wartung-interval warn">ab 1 mm Restdicke</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">📐</span><div class="wartung-row-text"><strong>Scheibenbremsbeläge:</strong> Restdicke unter 1,5 mm → tauschen</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🥁</span><div class="wartung-row-text"><strong>Trommelbremse (hinten):</strong> Einstellspiel prüfen, Backen unter 2 mm Belag → tauschen</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔧</span><div class="wartung-row-text"><strong>Bremsscheibe:</strong> Mindestdicke beachten (meist 3,5 mm — auf Scheibe geprägt)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">💧</span><div class="wartung-row-text"><strong>Bremsflüssigkeit:</strong> alle 2 Jahre wechseln (DOT 4), Behälter nie unter MIN-Marke</div></div>
+    </div>
+  </div>
+
+  <!-- ── Kühlsystem (Wasserkühler LC) ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">💧</span>
+      <span class="wartung-title">Kühlsystem (LC — Wasserkühlung)</span>
+      <span class="wartung-interval">alle 2 Jahre</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">🌡</span><div class="wartung-row-text"><strong>Kühlmittel prüfen:</strong> Vor jeder Fahrsaison — Stand, Farbe, Frostschutz</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔄</span><div class="wartung-row-text"><strong>Kühlmittel wechseln:</strong> alle 2 Jahre (Gemisch 1:1 mit Destilliertem Wasser)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔍</span><div class="wartung-row-text"><strong>Thermostat prüfen:</strong> Öffnung bei ca. 65–75 °C (im Wasserbad testen)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">⚠️</span><div class="wartung-row-text"><strong>Schläuche:</strong> auf Risse und Verhärtung prüfen — spröde Schläuche sofort tauschen</div></div>
+      <div class="wartung-tip">⚠️ Nur für wassergekühlte (LC) Motoren: Minarelli AM6 LC, Piaggio C9A LC, Dragster LC etc.</div>
+    </div>
+  </div>
+
+  <!-- ── Kraftstoffsystem ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">⛽</span>
+      <span class="wartung-title">Kraftstoffsystem & Vergaser</span>
+      <span class="wartung-interval">jährlich</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">🔽</span><div class="wartung-row-text"><strong>Kraftstofffilter:</strong> alle 5.000 km oder jährlich tauschen</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🧹</span><div class="wartung-row-text"><strong>Vergaser reinigen:</strong> bei Leerlaufproblemen, nach Winterpause — Ultraschall oder Spray</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">🔧</span><div class="wartung-row-text"><strong>Kraftstoffschläuche:</strong> alle 3–4 Jahre tauschen (verhärten, spröde Stellen)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">❄️</span><div class="wartung-row-text"><strong>Winterlager:</strong> Schwimmergehäuse leeren, Vergaser reinigen — verhindert Lackablösung im Inneren</div></div>
+      <div class="wartung-tip">💡 2-Takt-Mischung: frisch anmischen — abgestandenes Gemisch (über 30 Tage) kann Lackschäden am Vergaser verursachen.</div>
+    </div>
+  </div>
+
+  <!-- ── Reifen & Räder ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">🔵</span>
+      <span class="wartung-title">Reifen & Reifendruck</span>
+      <span class="wartung-interval ok">wöchentlich prüfen</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-row"><span class="wartung-row-icon">💨</span><div class="wartung-row-text"><strong>Reifendruck vorn:</strong> 1,5–1,8 bar (kalt gemessen, lt. Aufkleber am Fahrzeug)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">💨</span><div class="wartung-row-text"><strong>Reifendruck hinten:</strong> 1,8–2,2 bar (kalt, 1 Person ohne Gepäck)</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">📐</span><div class="wartung-row-text"><strong>Mindestprofiltiefe:</strong> 1,6 mm (gesetzlich), empfohlen 2 mm — bei 50er oft früher wechseln</div></div>
+      <div class="wartung-row"><span class="wartung-row-icon">📅</span><div class="wartung-row-text"><strong>Alter:</strong> Reifen über 5 Jahre (DOT-Datum prüfen) → tauschen auch bei ausreichend Profil</div></div>
+      <div class="wartung-tip">💡 DOT-Datum: letzte 4 Ziffern = KW/Jahr. Z.B. DOT...2319 = 23. KW 2019. DOT-Datum befindet sich auf der Reifenflanke.</div>
+    </div>
+  </div>
+
+  <!-- ── Saisonvorbereitung ── -->
+  <div class="wartung-section" onclick="togWartung(this)">
+    <div class="wartung-header">
+      <span class="wartung-icon">🌸</span>
+      <span class="wartung-title">Saisonstart-Checkliste (Frühjahr)</span>
+      <span class="wartung-interval ok">einmal jährlich</span>
+      <span class="wartung-chevron">›</span>
+    </div>
+    <div class="wartung-body">
+      <div class="wartung-checkliste">
+        <label class="wcheck"><input type="checkbox"> Zündkerze prüfen</label>
+        <label class="wcheck"><input type="checkbox"> Luftfilter reinigen</label>
+        <label class="wcheck"><input type="checkbox"> Getriebeöl prüfen</label>
+        <label class="wcheck"><input type="checkbox"> Reifendruck prüfen</label>
+        <label class="wcheck"><input type="checkbox"> Riemen prüfen</label>
+        <label class="wcheck"><input type="checkbox"> Bremsen prüfen</label>
+        <label class="wcheck"><input type="checkbox"> Vergaser reinigen</label>
+        <label class="wcheck"><input type="checkbox"> Beleuchtung prüfen</label>
+        <label class="wcheck"><input type="checkbox"> Kraftstoffschlauch</label>
+        <label class="wcheck"><input type="checkbox"> Kühlmittel (LC)</label>
+        <label class="wcheck"><input type="checkbox"> Lenkung prüfen</label>
+        <label class="wcheck"><input type="checkbox"> Alle Schrauben fest</label>
+      </div>
+      <div class="wartung-tip" style="margin-top:10px;">💡 Beim Saisonstart frisches Kraftstoffgemisch tanken — altes Gemisch abfahren oder entsorgen.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+<!-- ══ END WARTUNG ══ -->
 
 <div class="screen" id="s-erklaerung">
 
@@ -1082,7 +1347,7 @@ html.app-locked{ overflow:hidden !important; }
 <div class="nr"><div class="nrc">W7</div><div class="nri"><strong>PHBG 17,5 – 50 ccm Sport</strong><span>Leicht magerer als W2 im Teillast. Für offenere Ansaugung oder leichtes Reso.</span></div><div class="nrb">50 ccm</div></div>
 <div class="nr"><div class="nrc">K24</div><div class="nri"><strong>PHBG 17,5 – 50 ccm Reso/Race</strong><span>Für schnell ansprechende 50-ccm-Renntriebwerke mit Expansionskammer.</span></div><div class="nrb">Race</div></div>
 <div class="nr"><div class="nrc">A2</div><div class="nri"><strong>PHBG 17,5/19 – 70 ccm Standard</strong><span>Häufigste Wahl für 70-ccm-Kits. Passt zu Sportauspuff und offenerem Ansaugweg.</span></div><div class="nrb">70 ccm</div></div>
-<div class="nr"><div class="nrc">A7</div><div class="nri"><strong>PHBG 17,5/19 – 70 ccm offener</strong><span>Leicht magerer als A2 im Teillast. Bei Rennfilter oder leichtem Reso.</span></div><div class="nrb">70 ccm</div></div>
+<div class="nr"><div class="nrc">A7</div><div class="nri"><strong>PHBG 17,5 – 70 ccm / PHVA 17,5 Original</strong><span>Leicht magerer als A2 im Teillast. Werksnadel im Dellorto PHVA 17,5 QD (Fly 50, Liberty 50 ab 2003). Bei PHBG für offeneren Filter oder leichtes Reso.</span></div><div class="nrb">70 ccm / OEM</div></div>
 <div class="nr"><div class="nrc">SA2</div><div class="nri"><strong>PHBG 17,5 – 70 ccm Reso/Race</strong><span>Sport-Nadel. Breiteres Gemischfenster im Teillast. Ideal mit Expansionskammer und 70-ccm-Kit.</span></div><div class="nrb">Reso</div></div>
 <div class="nr"><div class="nrc">A22</div><div class="nri"><strong>PHBG 21,5 – 70 ccm Standard/Reso</strong><span>Standardnadel für den 21,5-mm-Vergaser bei 70-ccm-Kits aller Art.</span></div><div class="nrb">21,5 mm</div></div>
 <p style="margin-top:10px;"><strong>Clip-Positionen:</strong> Position 1 = Clip oben = Nadel hängt tiefer = magerer Teillast. Position 5 = Clip unten = Nadel hängt höher = fetterer Teillast. Start immer auf Position 3 (Mitte). Erst Hauptdüse korrekt wählen, dann Clip feinjustieren.</p>
@@ -1388,62 +1653,62 @@ html.app-locked{ overflow:hidden !important; }
 // ═══════════════════════════════════════════════════
 var VDATA={
   piaggio:{name:'Piaggio',models:{
-    'nrg-mc3':{name:'NRG MC3',yr:[1994,2001],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
-    'nrg-power':{name:'NRG Power',yr:[2000,2010],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
-    'nrg-mc2':{name:'NRG MC2',yr:[1996,2001],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'nrg-mc3':{name:'NRG MC3',yr:[1994,2001],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'nrg-power':{name:'NRG Power',yr:[2000,2010],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'nrg-mc2':{name:'NRG MC2',yr:[1996,2001],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
     'sfera-nsl':{name:'Sfera NSL50',yr:[1991,2000],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
     'sfera-rst':{name:'Sfera RST 50',yr:[1994,1997],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
     'zip-50':{name:'Zip 50',yr:[1992,2023],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
     'typhoon':{name:'Typhoon XR/XRG',yr:[1992,2023],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
-    'liberty-50':{name:'Liberty 50',yr:[1997,2023],eng:'C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'liberty-50':{name:'Liberty 50',yr:[1997,2023],eng:'C9A',cc:50,trans:'auto',inch:12,wf:'110/70-12',wr:'120/70-12',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
     'fly-50':{name:'Fly 50',yr:[2005,2023],eng:'C9A',cc:50,trans:'auto',inch:12,wf:'110/70-12',wr:'120/70-12',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
-    'skipper-125':{name:'Skipper 125',yr:[1993,2001],eng:'C9A-125',cc:125,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:7.0,vk:'piaggio-c9a',vmax:90},
+    'skipper-125':{name:'Skipper 125',yr:[1993,2001],eng:'C9A-125',cc:125,trans:'auto',inch:12,wf:'110/70-12',wr:'130/70-12',belt:'729x17.7x28',wStd:7.0,vk:'piaggio-c9a',vmax:90},
     'hexagon-125':{name:'Hexagon 125',yr:[1994,2003],eng:'Piaggio-125',cc:125,trans:'auto',inch:12,wf:'120/70-12',wr:'130/70-12',belt:'965x22x27',wStd:9.0,vk:'piaggio-big',vmax:100},
   }},
   aprilia:{name:'Aprilia',models:{
-    'sr50-lc':{name:'SR50 LC',yr:[1992,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:12,wf:'120/70-12',wr:'140/70-12',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
-    'sr50-ac':{name:'SR50 AC',yr:[1992,2001],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
-    'rally-50':{name:'Rally 50',yr:[1995,2003],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'sr50-lc':{name:'SR50 LC',yr:[1992,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:13,wf:'110/70-13',wr:'130/60-13',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'sr50-ac':{name:'SR50 AC',yr:[1992,2001],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'rally-50':{name:'Rally 50',yr:[1995,2003],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
     'sonic-50':{name:'Sonic 50',yr:[1998,2005],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
     'rx50':{name:'RX 50',yr:[2002,2014],eng:'Minarelli AM6',cc:50,trans:'manual',gears:6,inch:17,wf:'2.50-17',wr:'2.75-17',belt:null,wStd:null,vk:null,vmax:50},
   }},
   gilera:{name:'Gilera',models:{
-    'runner-50':{name:'Runner 50 SP',yr:[1997,2012],eng:'Piaggio C9A',cc:50,trans:'auto',inch:12,wf:'110/70-12',wr:'140/70-12',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
-    'stalker':{name:'Stalker 50',yr:[1997,2006],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
-    'ice':{name:'Ice 50',yr:[2003,2007],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
-    'dna-50':{name:'DNA 50',yr:[2000,2005],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'runner-50':{name:'Runner 50 SP',yr:[1997,2012],eng:'Piaggio C9A',cc:50,trans:'auto',inch:12,wf:'110/70-12',wr:'140/60-12',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'stalker':{name:'Stalker 50',yr:[1997,2006],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'ice':{name:'Ice 50',yr:[2003,2007],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/80-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
+    'dna-50':{name:'DNA 50',yr:[2000,2005],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'130/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:52},
   }},
   mbk:{name:'MBK',models:{
-    'nitro':{name:'Nitro 50',yr:[1996,2023],eng:'Minarelli AM6',cc:50,trans:'auto',inch:12,wf:'120/70-12',wr:'140/70-12',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
-    'booster':{name:'Booster 50',yr:[1994,2023],eng:'Minarelli AM8v',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'100/80-10',belt:'669x17.8x26',wStd:6.0,vk:'minarelli-v',vmax:50},
-    'stunt':{name:'Stunt 50',yr:[2000,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:12,wf:'120/70-12',wr:'140/70-12',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'nitro':{name:'Nitro 50',yr:[1996,2023],eng:'Minarelli AM6',cc:50,trans:'auto',inch:13,wf:'120/70-13',wr:'130/60-13',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'booster':{name:'Booster 50',yr:[1994,2023],eng:'Minarelli AM8v',cc:50,trans:'auto',inch:12,wf:'120/70-12',wr:'130/70-12',belt:'669x17.8x26',wStd:6.0,vk:'minarelli-v',vmax:50},
+    'stunt':{name:'Stunt 50',yr:[2000,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:13,wf:'120/70-13',wr:'130/60-13',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
     'ovetto':{name:'Ovetto 50',yr:[1997,2012],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
   }},
   yamaha:{name:'Yamaha',models:{
-    'aerox':{name:'Aerox 50',yr:[1997,2023],eng:'Minarelli AM6',cc:50,trans:'auto',inch:12,wf:'120/70-12',wr:'140/70-12',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'aerox':{name:'Aerox 50',yr:[1997,2023],eng:'Minarelli AM6',cc:50,trans:'auto',inch:13,wf:'120/70-13',wr:'130/60-13',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
     'bws':{name:"BW'S 50",yr:[1996,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
-    'jog':{name:'Jog 50',yr:[1990,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'jog':{name:'Jog 50',yr:[1990,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'3.00-10',wr:'3.50-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
   }},
   peugeot:{name:'Peugeot',models:{
-    'speedfight2':{name:'Speedfight 2',yr:[2000,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:12,wf:'120/70-12',wr:'140/70-12',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
-    'trekker':{name:'Trekker 50',yr:[1996,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
-    'vivacity':{name:'Vivacity 50',yr:[1999,2012],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
-    'looxor':{name:'Looxor 50',yr:[2001,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'speedfight2':{name:'Speedfight 2',yr:[2000,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:13,wf:'120/70-13',wr:'130/60-13',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'trekker':{name:'Trekker 50',yr:[1996,2004],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/90-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'vivacity':{name:'Vivacity 50',yr:[1999,2012],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'looxor':{name:'Looxor 50',yr:[2001,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'120/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
   }},
   vespa:{name:'Vespa',models:{
     'et2':{name:'ET2 50',yr:[1996,2004],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
-    'lx50':{name:'LX 50',yr:[2004,2023],eng:'Piaggio C9A',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
+    'lx50':{name:'LX 50',yr:[2004,2023],eng:'Piaggio C9A',cc:50,trans:'auto',inch:11,wf:'100/80-11',wr:'120/70-11',belt:'729x17.7x28',wStd:5.5,vk:'piaggio-c9a',vmax:50},
     'pk50':{name:'PK 50',yr:[1981,1990],eng:'Vespa Rotax',cc:50,trans:'manual',gears:3,inch:10,wf:'3.00-10',wr:'3.50-10',belt:null,wStd:null,vk:null,vmax:40},
     'px50':{name:'PX 50',yr:[1978,1984],eng:'Vespa',cc:50,trans:'manual',gears:4,inch:10,wf:'3.00-10',wr:'3.50-10',belt:null,wStd:null,vk:null,vmax:40},
   }},
   derbi:{name:'Derbi',models:{
-    'atlantis':{name:'Atlantis 50',yr:[1999,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
+    'atlantis':{name:'Atlantis 50',yr:[1999,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
     'predator':{name:'Predator 50',yr:[2002,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
     'gpr50':{name:'GPR 50',yr:[2004,2015],eng:'Derbi D50B0',cc:50,trans:'manual',gears:6,inch:17,wf:'2.50-17',wr:'2.75-17',belt:null,wStd:null,vk:null,vmax:50},
   }},
   cpi:{name:'CPI',models:{
     'hussar':{name:'Hussar 50',yr:[2003,2010],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:52},
-    'oliver':{name:'Oliver 50',yr:[2000,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/90-10',wr:'130/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
+    'oliver':{name:'Oliver 50',yr:[2000,2008],eng:'Minarelli AM6',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'743x17.7x28',wStd:6.0,vk:'minarelli-h',vmax:50},
   }},
   kymco:{name:'Kymco',models:{
     'agility50':{name:'Agility 50',yr:[2004,2023],eng:'Kymco',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'787x16x26',wStd:6.0,vk:'kymco',vmax:50},
@@ -1455,9 +1720,9 @@ var VDATA={
     'jet450':{name:'Jet4 50',yr:[2010,2023],eng:'SYM',cc:50,trans:'auto',inch:10,wf:'100/80-10',wr:'120/70-10',belt:'787x17x26',wStd:6.0,vk:'sym',vmax:50},
   }},
   honda:{name:'Honda',models:{
-    'dio50':{name:'Dio 50',yr:[1988,2010],eng:'Honda AF28',cc:50,trans:'auto',inch:10,wf:'90/90-10',wr:'100/90-10',belt:'23100-GBJ-601',wStd:8.0,vk:'honda',vmax:50},
-    'lead50':{name:'Lead 50',yr:[2002,2013],eng:'Honda AF47',cc:50,trans:'auto',inch:10,wf:'90/90-10',wr:'100/90-10',belt:'23100-GET-010',wStd:8.0,vk:'honda',vmax:50},
-    'sh50':{name:'SH 50',yr:[1993,2000],eng:'Honda',cc:50,trans:'auto',inch:10,wf:'90/90-10',wr:'100/90-10',belt:'23100-GW5-010',wStd:8.0,vk:'honda',vmax:50},
+    'dio50':{name:'Dio 50',yr:[1988,2010],eng:'Honda AF28',cc:50,trans:'auto',inch:10,wf:'80/90-10',wr:'90/90-10',belt:'23100-GBJ-601',wStd:8.0,vk:'honda',vmax:50},
+    'lead50':{name:'Lead 50',yr:[2002,2013],eng:'Honda AF47',cc:50,trans:'auto',inch:10,wf:'80/90-10',wr:'90/90-10',belt:'23100-GET-010',wStd:8.0,vk:'honda',vmax:50},
+    'sh50':{name:'SH 50',yr:[1993,2000],eng:'Honda',cc:50,trans:'auto',inch:12,wf:'100/80-12',wr:'120/70-12',belt:'23100-GW5-010',wStd:8.0,vk:'honda',vmax:50},
   }},
 
   italjet:{name:'Italjet',models:{
@@ -2564,11 +2829,11 @@ var CARBDB = {
     'phva-175': {
       name:'Dellorto PHVA 17,5 QD', short:'PHVA 17,5',
       bore:17.5, type:'Rundschieber (Membran)', brand:'Dellorto',
-      needle:'verstellbar (W7 / 3 Clips)', pilot:true,
-      needleCode:'W7', clipPos:3, clipRange:'1–5',
+      needle:'verstellbar (A7 / 3 Clips)', pilot:true,
+      needleCode:'A7', clipPos:3, clipRange:'1–5',
       pilotJet:42, airScrew:1.75,
       code:'PHVA 17.5 QD', preis:'~70–110€',
-      note:'Größerer Membran-Rundschieber. Original in manchen Piaggio-Modellen und als Tuning-Ersatz für PHVA 12. Gleiche Bauweise, mehr Durchsatz.',
+      note:'Größerer Membran-Rundschieber. Original in Piaggio Fly 50, Liberty 50 (ab 2003), Typhoon (neuere BJ). Werksnadel A7 Clip 3, bei manchen Modellen A2 Clip 3.',
       avail:'◎ eingeschränkt verfügbar',
     },
     'dellorto-shb-16': {
@@ -2595,8 +2860,8 @@ var CARBDB = {
         'sfera-rst':  {carb:'phva-12',   note:'Sfera RST 50 Dellorto PHVA 12 QD — Nadel W7 Clip 3, Pilotjet 40'},
         'zip-50':     {carb:'phva-12',   note:'ZIP 50 ab Werk Dellorto PHVA 12 QD — Membranvergaser, Nadel W7 Clip 3, Pilotjet 40, Luftschraube 1,5 Umdr.'},
         'typhoon':    {carb:'phva-12',   note:'Typhoon XR ab Werk PHVA 12 QD (ab 2003 teilweise PHBG 15) — Nadel W7 Clip 3'},
-        'liberty-50': {carb:'phva-12',   note:'Liberty 50 (bis 2002) PHVA 12 QD, ab 2003 PHVA 17,5 QD — Nadel W7 Clip 3'},
-        'fly-50':     {carb:'phva-175',  note:'Fly 50 ab Werk PHVA 17,5 QD — Membranvergaser, Nadel W7 Clip 3, Pilotjet 42'},
+        'liberty-50': {carb:'phva-12',   note:'Liberty 50 (bis 2002) PHVA 12 QD — Nadel W7 Clip 3; ab 2003 PHVA 17,5 QD — Nadel A7 Clip 3'},
+        'fly-50':     {carb:'phva-175',  note:'Fly 50 ab Werk PHVA 17,5 QD — Membranvergaser, Nadel A7 Clip 3, Pilotjet 42'},
         'skipper-125':{carb:'phbg-175',  note:'Skipper 125 Dellorto PHBG 17,5 BS — Nadel W4 Clip 3, Pilotjet 50'},
       },
       default: {carb:'phva-12', note:'Standard Piaggio C9A — Dellorto PHVA 12 QD'},
@@ -4190,6 +4455,10 @@ function swTab(id,el){
   g('s-'+id).classList.add('active');
   el.classList.add('active');
 }
+function togWartung(section){
+  section.classList.toggle('open');
+}
+
 function togAcc(h){
   var b=h.nextElementSibling,c=h.querySelector('.acc'),o=b.classList.contains('open');
   b.classList.toggle('open',!o);
@@ -4507,56 +4776,108 @@ function kLoadFile(file){
   reader.readAsDataURL(file);
 }
 
-async function analyseKerze(){
+function analyseKerze(){
   if(!kerzenImageB64){ return; }
   var btn = document.getElementById('kerzenBtn');
   btn.disabled = true;
   btn.classList.add('loading');
 
-  // Kontext aus aktuellem Setup
-  var ccm    = typeof cc !== 'undefined' ? cc : 50;
-  var carbSz = typeof carb !== 'undefined' ? carb : 12;
-  var auspStr= typeof ausp !== 'undefined' ? ({serie:'Serienauspuff',sport:'Sportauspuff',reso:'Resonanzrohr',race:'Raceauspuff'}[ausp]||'unbekannt') : 'unbekannt';
+  // Lade Bild in Canvas und analysiere Farbwerte
+  var img = new Image();
+  img.onload = function(){
+    try {
+      var canvas = document.createElement('canvas');
+      // Mittelbereich analysieren (Isolator-Bereich)
+      var sw = Math.floor(img.width  * 0.6);
+      var sh = Math.floor(img.height * 0.6);
+      var sx = Math.floor(img.width  * 0.2);
+      var sy = Math.floor(img.height * 0.15);
+      canvas.width  = sw;
+      canvas.height = sh;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+      var px = ctx.getImageData(0, 0, sw, sh).data;
 
-  var prompt = 'Du bist ein erfahrener 2-Takt-Motorrad- und Roller-Mechaniker. Analysiere das Kerzenbild dieser 2-Takt-Zündkerze und gib eine präzise Einschätzung.\n\n' +
-    'Motor-Kontext: ' + ccm + ' ccm, Vergaser ' + carbSz + ' mm, ' + auspStr + '.\n\n' +
-    'Bewerte:\n' +
-    '1. ZUSTAND: Wähle genau einen: "optimal", "zu_fett", "zu_mager", "nass_oelig", "ueberhitzt", "unklar"\n' +
-    '2. DIAGNOSE: Was siehst du konkret? (Farbe Isolator, Elektrode, Ablagerungen, 2-3 Sätze)\n' +
-    '3. MASSNAHME: Was ist zu tun? (konkret: z.B. "Hauptdüse von 64 auf 60 verkleinern", "Luftschraube 0,5 Umdrehungen eindrehen", "Mischungsverhältnis prüfen")\n' +
-    '4. DRINGLICHKEIT: "sofort handeln", "baldmöglichst", "beobachten", "alles ok"\n\n' +
-    'Antworte NUR in diesem JSON-Format (kein Markdown, keine Backticks):\n' +
-    '{"zustand":"zu_fett","diagnose":"...","massnahme":"...","dringlichkeit":"..."}';
+      // Farbstatistik berechnen
+      var r=0,g=0,b=0,n=0;
+      var darkPx=0, blackPx=0, whitePx=0, brownPx=0, oilPx=0;
+      for(var i=0;i<px.length;i+=4){
+        var pr=px[i],pg=px[i+1],pb=px[i+2];
+        r+=pr; g+=pg; b+=pb; n++;
+        var bright = (pr+pg+pb)/3;
+        if(bright < 40)  blackPx++;   // Ruß/schwarz
+        if(bright > 210) whitePx++;   // Sehr hell/weiß
+        if(pr>100 && pg>60 && pb<60 && bright>80 && bright<180) brownPx++; // Braun/beige
+        if(pr>80 && pg>60 && pb<40 && bright<120) oilPx++;   // Ölig/dunkelbraun
+        if(bright<80) darkPx++;
+      }
+      r=r/n; g=g/n; b=b/n;
+      var brightness=(r+g+b)/3;
+      var rRatio = n>0 ? r/(r+g+b+1) : 0.33;
+      var gRatio = n>0 ? g/(r+g+b+1) : 0.33;
+      var bRatio = n>0 ? b/(r+g+b+1) : 0.33;
+      var blackRatio = blackPx/n;
+      var whiteRatio = whitePx/n;
+      var brownRatio = brownPx/n;
+      var oilRatio   = oilPx/n;
+      var darkRatio  = darkPx/n;
 
-  try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            {type:'image', source:{type:'base64', media_type:kerzenMimeType, data:kerzenImageB64}},
-            {type:'text',  text:prompt}
-          ]
-        }]
-      })
-    });
-    var data = await response.json();
-    var raw = (data.content && data.content[0] && data.content[0].text) || '';
-    // JSON extrahieren
-    var jsonMatch = raw.match(/\{[\s\S]*\}/);
-    if(!jsonMatch) throw new Error('Kein JSON in Antwort');
-    var result = JSON.parse(jsonMatch[0]);
-    renderKerzenResult(result);
-  } catch(err) {
-    renderKerzenError(err.message);
-  }
+      // Diagnose-Algorithmus
+      var zustand, diagnose, massnahme, dringlichkeit;
 
-  btn.disabled = false;
-  btn.classList.remove('loading');
+      if(blackRatio > 0.35 || (darkRatio > 0.55 && brightness < 70)){
+        // Zu viel Schwarz/Ruß → zu fett oder nass
+        if(oilRatio > 0.15 || (brightness < 55 && b > 40)){
+          zustand='nass_oelig';
+          diagnose='Der Isolator zeigt starke Öl- oder Kraftstoffbenetzung. Die Kerze ist nass und verölt — deutlich sichtbar an der dunklen, glänzenden Oberfläche.';
+          massnahme='Mischungsverhältnis prüfen (max. 1:50). Leerlauf einstellen. Kurzstrecken-Betrieb vermeiden. Kerze reinigen oder ersetzen.';
+          dringlichkeit='baldmöglichst';
+        } else {
+          zustand='zu_fett';
+          diagnose='Der Isolator ist stark verrußt und dunkelgrau bis schwarz. Die Ablagerungen deuten auf ein zu fettes Gemisch hin — zu viel Kraftstoff oder zu wenig Luft.';
+          massnahme='Hauptdüse 2–3 Größen verkleinern (z.B. von 68 auf 64). Luftfilter auf Verschmutzung prüfen. Luftschraube 0,25 Umdrehungen eindrehen.';
+          dringlichkeit='baldmöglichst';
+        }
+      } else if(whiteRatio > 0.40 || brightness > 175){
+        // Zu hell → zu mager oder überhitzt
+        if(brightness > 200 && whiteRatio > 0.55){
+          zustand='ueberhitzt';
+          diagnose='Die Kerze zeigt extreme Weißfärbung oder Verbrennungsrückstände. Das deutet auf sehr mageres Gemisch oder Überhitzung hin — Motorschaden-Gefahr!';
+          massnahme='Sofort Hauptdüse 3–4 Größen vergrößern. Kühlung prüfen. Keine weiteren Fahrten ohne Korrektur — Kolbenfresser-Gefahr!';
+          dringlichkeit='sofort handeln';
+        } else {
+          zustand='zu_mager';
+          diagnose='Der Isolator erscheint weiß oder sehr hell-grau ohne braune Tönung. Das ist ein typisches Zeichen für ein zu mageres Gemisch.';
+          massnahme='Hauptdüse 2–3 Größen vergrößern (z.B. von 60 auf 64). Luftschraube 0,5 Umdrehungen herausdrehen. Ansaugwege auf Falschluftzieher prüfen.';
+          dringlichkeit='sofort handeln';
+        }
+      } else if(brownRatio > 0.20 || (brightness>90 && brightness<160 && rRatio>0.34)){
+        // Braun/Beige → optimal
+        zustand='optimal';
+        diagnose='Der Isolator zeigt eine hellbraune bis beige Färbung — das ideale Verbrennungsbild bei einem 2-Takter. Elektrode sauber, keine problematischen Ablagerungen.';
+        massnahme='Keine Änderung notwendig. Vergaserabstimmung ist optimal. Nächste Kerzenkontrolle nach ca. 2.000–3.000 km.';
+        dringlichkeit='alles ok';
+      } else {
+        // Unklar
+        zustand='unklar';
+        diagnose='Das Bild lässt keine eindeutige Diagnose zu. Möglicherweise ist die Beleuchtung ungünstig oder der Bildausschnitt zeigt nicht den Isolator-Bereich.';
+        massnahme='Erneutes Foto bei gutem Licht aufnehmen (Tageslicht oder Taschenlampe direkt auf die Kerze). Isolator und Elektrode müssen scharf und nah sichtbar sein.';
+        dringlichkeit='beobachten';
+      }
+
+      renderKerzenResult({zustand:zustand, diagnose:diagnose, massnahme:massnahme, dringlichkeit:dringlichkeit});
+    } catch(e){
+      renderKerzenError('Bildanalyse fehlgeschlagen: ' + e.message);
+    }
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  };
+  img.onerror = function(){
+    renderKerzenError('Bild konnte nicht geladen werden.');
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  };
+  img.src = 'data:' + kerzenMimeType + ';base64,' + kerzenImageB64;
 }
 
 function renderKerzenResult(r){
