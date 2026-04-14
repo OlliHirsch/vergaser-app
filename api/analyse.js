@@ -29,15 +29,38 @@ Antworte NUR mit einem JSON-Objekt, kein Text davor oder danach:
 
 Wenn das Bild keine Zündkerze zeigt oder zu unscharf/dunkel ist: zustand="unklar", bildqualitaet="schlecht".`;
 
-  const models = [
-    'google/gemini-2.0-flash-exp:free',
-    'meta-llama/llama-3.2-11b-vision-instruct:free',
-    'qwen/qwen2.5-vl-72b-instruct:free',
-  ];
+  // Erst verfügbare kostenlose Vision-Modelle von OpenRouter abrufen
+  let freeVisionModels = [];
+  try {
+    const modelsResp = await fetch('https://openrouter.ai/api/v1/models', {
+      headers: { 'Authorization': `Bearer ${apiKey}` }
+    });
+    if (modelsResp.ok) {
+      const modelsData = await modelsResp.json();
+      freeVisionModels = (modelsData.data || [])
+        .filter(m =>
+          m.pricing && m.pricing.prompt === '0' &&
+          m.architecture && m.architecture.modality && m.architecture.modality.includes('image')
+        )
+        .map(m => m.id)
+        .slice(0, 5); // max 5 versuchen
+    }
+  } catch (_) {}
+
+  // Fallback-Liste falls API-Abfrage scheitert
+  if (freeVisionModels.length === 0) {
+    freeVisionModels = [
+      'google/gemini-2.0-flash-exp:free',
+      'google/gemma-3-27b-it:free',
+      'meta-llama/llama-3.2-11b-vision-instruct:free',
+      'mistralai/mistral-small-3.1-24b-instruct:free',
+    ];
+  }
 
   let lastError = 'Kein Modell verfügbar';
+  let errors = [];
 
-  for (const model of models) {
+  for (const model of freeVisionModels) {
     try {
       const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
@@ -63,20 +86,23 @@ Wenn das Bild keine Zündkerze zeigt oder zu unscharf/dunkel ist: zustand="unkla
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        lastError = (err.error && (err.error.message || JSON.stringify(err.error))) || 'Fehler ' + response.status;
+        const msg = (err.error && (err.error.message || JSON.stringify(err.error))) || 'Fehler ' + response.status;
+        errors.push(`${model}: ${msg}`);
         continue;
       }
 
       const data = await response.json();
       const raw = ((data.choices || [])[0]?.message?.content || '').trim();
+      if (!raw) { errors.push(`${model}: Leere Antwort`); continue; }
+
       const jsonStr = raw.replace(/```json|```/g, '').trim();
       const result = JSON.parse(jsonStr);
       return res.status(200).json(result);
 
     } catch (e) {
-      lastError = e.message || 'Unbekannter Fehler';
+      errors.push(`${model}: ${e.message}`);
     }
   }
 
-  return res.status(500).json({ error: lastError });
+  return res.status(500).json({ error: errors.join(' | ') || lastError });
 }
