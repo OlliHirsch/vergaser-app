@@ -4808,50 +4808,19 @@ async function analyseKerze(){
   btn.disabled = true;
   btn.classList.add('loading');
 
-  var prompt = `Du bist ein erfahrener 2-Takt-Motorenexperte und analysierst das Bild einer Zündkerze aus einem Piaggio/Minarelli 50cc oder 70cc 2-Takt-Moped mit Dellorto-Vergaser.
-
-Analysiere das Kerzenbild genau. Beurteile insbesondere:
-- Farbe und Zustand des Isolators (weißer Keramik-Teil)
-- Ablagerungen auf Elektrode und Isolator (Ruß, Öl, Schmelzspuren)
-- Allgemeinen Verbrennungszustand
-
-Antworte NUR mit einem JSON-Objekt, kein Text davor oder danach:
-{
-  "zustand": "optimal" | "zu_fett" | "zu_mager" | "nass_oelig" | "ueberhitzt" | "unklar",
-  "diagnose": "Beschreibung was du siehst (2-3 Sätze, auf Deutsch, präzise)",
-  "massnahme": "Konkrete Handlungsempfehlung für Dellorto-Vergaser (Düsengröße, Luftschraube etc.)",
-  "dringlichkeit": "sofort handeln" | "baldmöglichst" | "beobachten" | "alles ok",
-  "bildqualitaet": "gut" | "ausreichend" | "schlecht"
-}
-
-Wenn das Bild keine Zündkerze zeigt oder zu unscharf/dunkel ist: zustand="unklar", bildqualitaet="schlecht".`;
-
   try {
-    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+    var resp = await fetch('/api/analyse', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: kerzenMimeType, data: kerzenImageB64 } },
-            { type: 'text', text: prompt }
-          ]
-        }]
-      })
+      body: JSON.stringify({ imageB64: kerzenImageB64, mimeType: kerzenMimeType })
     });
 
     if(!resp.ok){
       var err = await resp.json().catch(function(){ return {}; });
-      throw new Error((err.error && err.error.message) || 'API Fehler ' + resp.status);
+      throw new Error(err.error || 'Server Fehler ' + resp.status);
     }
 
-    var data = await resp.json();
-    var raw = (data.content[0] && data.content[0].text || '').trim();
-    var jsonStr = raw.replace(/```json|```/g, '').trim();
-    var result = JSON.parse(jsonStr);
+    var result = await resp.json();
 
     if(result.bildqualitaet === 'schlecht' && result.zustand !== 'unklar'){
       result.diagnose += ' (Hinweis: Bildqualität eingeschränkt — Ergebnis mit Vorsicht interpretieren.)';
