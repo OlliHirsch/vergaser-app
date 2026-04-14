@@ -827,7 +827,7 @@ html.app-locked{ overflow:hidden !important; }
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
-    <div class="hbadge">v7.1a</div>
+    <div class="hbadge" id="versionBadge">v7.1c</div>
     <button id="logoutBtn" onclick="doLogout()" title="Ausloggen">🔒 Sperren</button>
   </div>
 </div>
@@ -4609,24 +4609,11 @@ function updateDots(){
 }
 
 function checkPin(){
-  var expired = false;
-  try { expired = sessionStorage.getItem('guest_expired') === '1'; } catch(e){}
-
   if(pinBuffer === MAIN_PIN){
-    // Haupt-PIN: dauerhaft entsperren
     unlockApp(false);
-    try {
-      sessionStorage.removeItem('guest_expired');
-      sessionStorage.setItem('sg_auth_v51', '1');
-    } catch(e){}
-
-  } else if(pinBuffer === GUEST_PIN && !expired){
-    // Test-PIN: 5-Minuten-Zugang (nur wenn nicht abgelaufen)
+  } else if(pinBuffer === GUEST_PIN){
     unlockApp(true);
-    try { sessionStorage.setItem('sg_guest_v51', String(Date.now())); } catch(e){}
-
   } else {
-    // Falsch
     shakeDots(); showErr();
     pinLocked = true;
     setTimeout(function(){
@@ -4640,8 +4627,13 @@ function unlockApp(isGuest){
   document.documentElement.classList.remove('app-locked');
   document.body.style.overflow = '';
   document.documentElement.style.overflow = '';
-  // iOS Safari: nach overflow-Änderung zum Anfang scrollen
   try { window.scrollTo(0,0); document.body.scrollTop=0; document.documentElement.scrollTop=0; } catch(e){}
+  // Badge je nach Modus setzen
+  var badge = document.getElementById('versionBadge');
+  if(badge){
+    badge.textContent = isGuest ? 'Testversion' : 'v7.1c Pro';
+    badge.style.background = isGuest ? '#888' : '';
+  }
   var ls = document.getElementById('lockScreen');
   if(ls){
     ls.classList.add('unlocking');
@@ -4680,16 +4672,19 @@ document.addEventListener('keydown', function(e){
   if(e.key === 'Backspace') pinDel();
 });
 
-// Session prüfen beim Laden
+// Session prüfen beim Laden — PIN immer erforderlich
 (function(){
   try {
-    // Alle alten Keys löschen → erzwingt Neu-Login
+    // Alle alten Session-Keys löschen → immer frischer Login
     sessionStorage.removeItem('sg_auth');
     sessionStorage.removeItem('sg_auth_v31');
     sessionStorage.removeItem('sg_auth_v41');
+    sessionStorage.removeItem('sg_auth_v51');
     sessionStorage.removeItem('sg_guest_v41');
+    sessionStorage.removeItem('sg_guest_v51');
+    sessionStorage.removeItem('guest_expired');
 
-    // LockScreen per JS direkt stylen — CSS-cascade-sicher
+    // LockScreen immer anzeigen
     var ls = document.getElementById('lockScreen');
     if(ls){
       ls.style.cssText = ['position:fixed',
@@ -4711,25 +4706,9 @@ document.addEventListener('keydown', function(e){
       'box-sizing:border-box'
     ].join(';');
     }
-    // Scroll sperren
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
-
     document.body.classList.add('app-locked');
-    var expired = sessionStorage.getItem('guest_expired') === '1';
-    if(!expired && sessionStorage.getItem('sg_auth_v51') === '1'){
-      document.getElementById('lockScreen').style.display = 'none';
-      document.body.classList.remove('app-locked');
-      return;
-    }
-    if(!expired){
-      var guestStart = parseInt(sessionStorage.getItem('sg_guest_v51') || '0');
-      if(guestStart && (Date.now() - guestStart) < GUEST_TIMEOUT_MS){
-        document.getElementById('lockScreen').style.display = 'none';
-        startGuestCountdown();
-        return;
-      }
-    }
   } catch(e){}
 })();
 
