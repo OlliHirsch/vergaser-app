@@ -1032,23 +1032,30 @@ html.app-locked{ overflow:hidden !important; }
   </div>
 
   <!-- Upload-Bereich -->
-  <div class="kerzen-upload-area" id="kerzenDropArea"
-       ondragover="kDragOver(event)" ondragleave="kDragLeave(event)" ondrop="kDrop(event)">
-    <img id="kerzenPreview" class="kerzen-preview" alt="Kerzenvorschau">
-    <div id="kerzenPlaceholder">
-      <div style="font-size:36px;margin-bottom:10px;">🔍</div>
-      <div style="font-weight:600;font-size:14px;color:var(--text);margin-bottom:12px;">Kerzenfoto auswählen</div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-        <button onclick="document.getElementById('kerzenCamera').click()"
-                style="padding:9px 16px;background:var(--ac);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:6px;">
-          📷 Kamera
-        </button>
-        <button onclick="document.getElementById('kerzenGallery').click()"
-                style="padding:9px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--line2);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:6px;">
-          🖼 Mediathek
-        </button>
+  <div style="position:relative;">
+    <div class="kerzen-upload-area" id="kerzenDropArea"
+         ondragover="kDragOver(event)" ondragleave="kDragLeave(event)" ondrop="kDrop(event)">
+      <img id="kerzenPreview" class="kerzen-preview" alt="Kerzenvorschau">
+      <div id="kerzenPlaceholder">
+        <div style="font-size:36px;margin-bottom:10px;">🔍</div>
+        <div style="font-weight:600;font-size:14px;color:var(--text);margin-bottom:12px;">Kerzenfoto auswählen</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button onclick="document.getElementById('kerzenCamera').click()"
+                  style="padding:9px 16px;background:var(--ac);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:6px;">
+            📷 Kamera
+          </button>
+          <button onclick="document.getElementById('kerzenGallery').click()"
+                  style="padding:9px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--line2);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;gap:6px;">
+            🖼 Mediathek
+          </button>
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px;">Auch per Drag & Drop</div>
       </div>
-      <div style="font-size:11px;color:var(--text3);margin-top:8px;">Auch per Drag & Drop</div>
+    </div>
+    <div id="kerzenNewBtn" style="display:none;position:absolute;bottom:10px;right:10px;">
+      <button onclick="kReset()" style="padding:7px 13px;background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;touch-action:manipulation;backdrop-filter:blur(4px);">
+        🔄 Neues Foto
+      </button>
     </div>
   </div>
   <!-- Kamera-Input (capture=environment → direkt Kamera) -->
@@ -4767,6 +4774,7 @@ function kLoadFile(file){
     prev.classList.add('visible');
     ph.style.display = 'none';
     area.classList.add('has-image');
+    document.getElementById('kerzenNewBtn').style.display = 'block';
     // Button aktivieren
     var btn = document.getElementById('kerzenBtn');
     btn.disabled = false;
@@ -4774,6 +4782,24 @@ function kLoadFile(file){
     document.getElementById('kerzenResult').style.display = 'none';
   };
   reader.readAsDataURL(file);
+}
+
+function kReset(){
+  kerzenImageB64 = null;
+  kerzenMimeType = 'image/jpeg';
+  var prev = document.getElementById('kerzenPreview');
+  var ph   = document.getElementById('kerzenPlaceholder');
+  var area = document.getElementById('kerzenDropArea');
+  prev.src = '';
+  prev.classList.remove('visible');
+  ph.style.display = '';
+  area.classList.remove('has-image');
+  document.getElementById('kerzenNewBtn').style.display = 'none';
+  document.getElementById('kerzenBtn').disabled = true;
+  document.getElementById('kerzenResult').style.display = 'none';
+  // File-Inputs zurücksetzen damit dasselbe Bild nochmal gewählt werden kann
+  document.getElementById('kerzenCamera').value = '';
+  document.getElementById('kerzenGallery').value = '';
 }
 
 function analyseKerze(){
