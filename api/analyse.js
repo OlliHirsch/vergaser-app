@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'API key nicht konfiguriert' });
 
   const { imageB64, mimeType } = req.body || {};
@@ -29,69 +29,48 @@ Antworte NUR mit einem JSON-Objekt, kein Text davor oder danach:
 
 Wenn das Bild keine Zündkerze zeigt oder zu unscharf/dunkel ist: zustand="unklar", bildqualitaet="schlecht".`;
 
-  const requestBody = {
-    contents: [{
-      parts: [
-        { inline_data: { mime_type: mimeType, data: imageB64 } },
-        { text: prompt }
-      ]
-    }],
-    generationConfig: { temperature: 0.1, maxOutputTokens: 1000 }
-  };
-
-  // Erst verfügbare Modelle abfragen, dann passenden wählen
-  let availableModels = [];
-  try {
-    const listResp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
-    );
-    if (listResp.ok) {
-      const listData = await listResp.json();
-      availableModels = (listData.models || [])
-        .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
-        .map(m => m.name.replace('models/', ''));
-    }
-  } catch (_) {}
-
-  // Bevorzugte Reihenfolge
-  const preferred = [
-    'gemini-1.5-flash',
-    'gemini-2.0-flash',
-    'gemini-2.0-flash-lite',
-    'gemini-1.5-pro',
-    'gemini-pro-vision',
-    'gemini-1.0-pro-vision-latest',
+  const models = [
+    'google/gemini-2.0-flash-exp:free',
+    'meta-llama/llama-3.2-11b-vision-instruct:free',
+    'qwen/qwen2.5-vl-72b-instruct:free',
   ];
-
-  // Verfügbare aus bevorzugter Liste wählen, sonst alle verfügbaren durchprobieren
-  const candidates = preferred.filter(m => availableModels.includes(m));
-  if (candidates.length === 0) candidates.push(...preferred); // fallback wenn ListModels scheiterte
 
   let lastError = 'Kein Modell verfügbar';
 
-  for (const model of candidates) {
+  for (const model of models) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-      const response = await fetch(url, {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': 'https://scooter-garage.vercel.app',
+          'X-Title': 'Scooter Garage'
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: 1000,
+          temperature: 0.1,
+          messages: [{
+            role: 'user',
+            content: [
+              { type: 'image_url', image_url: { url: `data:${mimeType};base64,${imageB64}` } },
+              { type: 'text', text: prompt }
+            ]
+          }]
+        })
       });
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        lastError = (err.error && err.error.message) || `Fehler ${response.status}`;
-        continue; // nächstes Modell versuchen
+        lastError = (err.error && (err.error.message || JSON.stringify(err.error))) || 'Fehler ' + response.status;
+        continue;
       }
 
       const data = await response.json();
-      const raw = (
-        data.candidates?.[0]?.content?.parts?.[0]?.text || ''
-      ).trim();
-
+      const raw = ((data.choices || [])[0]?.message?.content || '').trim();
       const jsonStr = raw.replace(/```json|```/g, '').trim();
       const result = JSON.parse(jsonStr);
-      result._model = model; // für Debugging
       return res.status(200).json(result);
 
     } catch (e) {
